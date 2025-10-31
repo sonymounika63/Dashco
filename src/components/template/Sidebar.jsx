@@ -438,7 +438,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         style={{
-          backgroundColor: '#fafafa',
+          backgroundColor: '#f4f7f6',
           width: '260px',
         }}
       >
@@ -459,7 +459,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       <aside
         className="hidden md:block fixed top-[67px] left-[5px] h-[calc(100vh-67px)] w-[260px] z-[9] overflow-y-auto overflow-x-hidden"
         style={{
-          backgroundColor: '#fafafa',
+          backgroundColor: '#f4f7f6',
         }}
       >
         {sidebarContent}
