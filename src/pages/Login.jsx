@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Input, Checkbox } from '../components/ui'
+import Button from '../components/ui/Button'
+import Input from '../components/ui/Input'
+import Checkbox from '../components/ui/Checkbox'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,11 +21,8 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log('Login attempt:', {
-      ...formData,
-      rememberMe,
-    })
     // Add your login logic here
+    // Login attempt: { ...formData, rememberMe }
   }
 
   return (

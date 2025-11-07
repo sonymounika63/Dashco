@@ -1,0 +1,93 @@
+/* Profile Components CSS */
+
+/* Profile Icon Card */
+.profile-icon-card-list {
+  margin: 0;
+  padding: 0;
+}
+
+.profile-icon-card-item {
+  list-style: none;
+}
+
+.profile-icon-card-body {
+  text-align: center;
+  padding: 20px;
+}
+
+.profile-icon-card-icon {
+  font-size: 24px;
+  color: #5b7dfa;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.profile-icon-card-value {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.profile-icon-card-label {
+  color: #8892a0;
+  font-size: 13px;
+}
+
+/* Profile Slider Card */
+.profile-slider-card {
+  margin-bottom: 24px;
+}
+
+.profile-slider-chart-container {
+  position: relative;
+  height: 120px;
+  margin-bottom: 16px;
+}
+
+.profile-slider-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 100%;
+  gap: 8px;
+}
+
+.profile-slider-bar-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-slider-bar-label {
+  font-size: 11px;
+  color: #8892a0;
+  margin-top: 4px;
+}
+
+.profile-slider-total {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.profile-slider-header {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4f5d75;
+}
+
+.profile-slider-subtitle {
+  font-size: 12px;
+  color: #8892a0;
+}
+
+/* Followers Card */
+.followers-status-badge {
+  margin-top: 4px;
+}
+

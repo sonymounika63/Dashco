@@ -1,31 +1,39 @@
+import { useState } from 'react'
+import userImage from '../../assets/images/user.png'
+
 const ProfileHeaderCard = () => {
+  const [imageError, setImageError] = useState(false)
+
+  const handleImageError = () => {
+    setImageError(true)
+  }
+
   return (
     <div className="card profile-header">
       <div className="body">
         <div className="profile-image">
-          <img
-            alt="Profile"
-            className="rounded-circle"
-            src="/static/media/user.ce8ac6aa15a5c0276fee.png"
-            onError={(e) => {
-              e.target.style.display = 'none'
-              const fallback = document.createElement('div')
-              fallback.style.cssText = 'width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;align-items:center;justify-content:center;color:white;font-size:48px;font-weight:bold;margin:0 auto 20px'
-              fallback.textContent = 'AT'
-              e.target.parentNode.insertBefore(fallback, e.target)
-            }}
-            style={{ width: '120px', height: '120px', objectFit: 'cover', display: 'block', margin: '0 auto 20px' }}
-          />
+          {imageError ? (
+            <div className="rounded-full w-[120px] h-[120px] bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white text-5xl font-bold mx-auto mb-5">
+              AT
+            </div>
+          ) : (
+            <img
+              alt="Profile"
+              className="rounded-circle w-[120px] h-[120px] object-cover block mx-auto mb-5"
+              src={userImage}
+              onError={handleImageError}
+            />
+          )}
         </div>
-        <div style={{ textAlign: 'center' }}>
+        <div className="text-center">
           <h4 className="m-b-0">
             <strong>Alizee</strong> Thomas
           </h4>
-          <span style={{ color: '#8892a0', fontSize: '14px' }}>Washington, d.c.</span>
+          <span className="text-[#8892a0] text-sm">Washington, d.c.</span>
         </div>
-        <div className="m-t-15" style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '15px' }}>
-          <button className="btn btn-primary">Follow</button>
-          <button className="btn btn-default">Message</button>
+        <div className="flex gap-3 justify-center mt-[15px]">
+          <button className="btn btn-primary mr-1">Follow</button>
+          <button className="btn btn-outline-secondary">Message</button>
         </div>
       </div>
     </div>

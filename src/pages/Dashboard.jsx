@@ -1,40 +1,103 @@
-import { useState } from 'react'
-import Navbar from '../components/template/Navbar.jsx'
-import Sidebar from '../components/template/Sidebar.jsx'
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import Navbar from "../components/template/Navbar.jsx";
+import Sidebar from "../components/template/Sidebar.jsx";
+import PageHeader from "../components/template/PageHeader.jsx";
+import StatCard from "../components/dashboard/StatCard.jsx";
+import RecentUpdatesCard from "../components/dashboard/RecentUpdatesCard.jsx";
+import FinanceSummaryCard from "../components/dashboard/FinanceSummaryCard.jsx";
+import RenewalsCard from "../components/dashboard/RenewalsCard.jsx";
 
 const Dashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll to top on mount (matching Lucid behavior)
+    window.scrollTo(0, 0);
+  }, [location]);
 
   const handleToggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev)
-  }
+    setIsSidebarOpen((prev) => !prev);
+  };
 
   const handleCloseSidebar = () => {
-    setIsSidebarOpen(false)
-  }
+    setIsSidebarOpen(false);
+  };
+
+  const statCards = [
+    {
+      heading: "Total Companies",
+      value: "156",
+      perText: "12 new this month",
+      chartColor: "#3b82f6",
+    },
+    {
+      heading: "Active Companies",
+      value: "142",
+      perText: "98% active rate",
+      chartColor: "#22c55e",
+    },
+    {
+      heading: "Total Revenue",
+      value: "$125,450",
+      perText: "+15% from last month",
+      chartColor: "#9333ea",
+    },
+    {
+      heading: "Pending Renewals",
+      value: "8",
+      perText: "Next 30 days",
+      chartColor: "#f97316",
+    },
+  ];
 
   return (
-    <div className="min-h-screen" style={{ paddingTop: '73px', paddingLeft: '0' }}>
+    <div id="wrapper">
       <Navbar onToggleSidebar={handleToggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} onClose={handleCloseSidebar} />
-      {/* Overlay for mobile */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-[8] md:hidden"
-          onClick={handleCloseSidebar}
-          aria-hidden="true"
-        />
-      )}
-      {/* Main content area */}
-      <main style={{ marginLeft: '265px', padding: '24px 32px' }} className="md:block hidden">
-        {/* Dashboard content goes here */}
-      </main>
-      {/* Mobile content */}
-      <main className="p-4 md:hidden">
-        {/* Dashboard content goes here */}
-      </main>
-    </div>
-  )
-}
 
-export default Dashboard
+      <div id="main-content">
+        <div
+          onClick={() => {
+            document.body.classList.remove("offcanvas-active");
+          }}
+        >
+          <div className="w-full px-3 mx-auto">
+            <PageHeader
+              HeaderText="Product Owner Dashboard"
+              Breadcrumb={[{ name: "Dashboard" }]}
+            />
+
+            {/* Stat Cards Row */}
+            <div className="flex flex-wrap -mx-3 clearfix">
+              {statCards.map((card, index) => (
+                <StatCard
+                  key={index}
+                  index={index}
+                  heading={card.heading}
+                  value={card.value}
+                  perText={card.perText}
+                  chartColor={card.chartColor}
+                />
+              ))}
+            </div>
+
+            {/* Recent Updates and Finance Summary Row */}
+            <div className="flex flex-wrap -mx-3 clearfix">
+              <RecentUpdatesCard />
+              <FinanceSummaryCard />
+            </div>
+
+            {/* Renewals Row */}
+            <div className="flex flex-wrap -mx-3 clearfix">
+              <RenewalsCard />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

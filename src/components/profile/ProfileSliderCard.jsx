@@ -1,3 +1,5 @@
+import '../../assets/css/profile.css'
+
 const ProfileSliderCard = ({ headerText, subTitle, data, color = 'blue' }) => {
   const colorMap = {
     blue: '#3b82f6',
@@ -14,48 +16,40 @@ const ProfileSliderCard = ({ headerText, subTitle, data, color = 'blue' }) => {
   const maxValue = Math.max(...data.map((item) => item.value))
 
   return (
-    <div className="col-12" style={{ marginBottom: '24px' }}>
+    <div className="col-12 profile-slider-card">
       <div className="card">
         <div className="body">
-          <div style={{ position: 'relative', height: '120px', marginBottom: '16px' }}>
+          <div className="profile-slider-chart-container">
             {/* Simple bar chart representation */}
-            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', height: '100%', gap: '8px' }}>
+            <div className="profile-slider-chart">
               {data.map((item, idx) => {
                 const height = (item.value / maxValue) * 100
                 return (
-                  <div key={idx} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div key={idx} className="profile-slider-bar-container">
                     <div
+                      className="profile-slider-bar w-full rounded-t min-h-[20px] transition-all duration-300 ease-in-out"
                       style={{
-                        width: '100%',
                         height: `${height}%`,
                         backgroundColor: selectedColor,
-                        borderRadius: '4px 4px 0 0',
-                        minHeight: '20px',
-                        transition: 'height 0.3s ease',
                       }}
                     />
-                    <span style={{ fontSize: '11px', color: '#8892a0', marginTop: '4px' }}>{item.label}</span>
+                    <span className="profile-slider-bar-label">{item.label}</span>
                   </div>
                 )
               })}
             </div>
             {/* Center total value */}
             <div
+              className="profile-slider-total"
               style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                fontSize: '24px',
-                fontWeight: 'bold',
                 color: selectedColor,
               }}
             >
               {total}
             </div>
           </div>
-          <h6 style={{ marginBottom: '4px', fontSize: '14px', fontWeight: 600, color: '#4f5d75' }}>{headerText}</h6>
-          <span style={{ fontSize: '12px', color: '#8892a0' }}>{subTitle}</span>
+          <h6 className="profile-slider-header">{headerText}</h6>
+          <span className="profile-slider-subtitle">{subTitle}</span>
         </div>
       </div>
     </div>

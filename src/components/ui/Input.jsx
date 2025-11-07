@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { cn } from '../../lib/utils'
+import { cn } from '../../assets/js/utils'
 
 const Input = forwardRef(
   (

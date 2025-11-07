@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const ProfileV2Tabs = () => {
   const [activeTab, setActiveTab] = useState('overview')
@@ -22,22 +23,18 @@ const ProfileV2Tabs = () => {
     <div>
       <div className="card">
         <div className="body">
-          <ul className="nav nav-tabs-new" style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', borderBottom: '1px solid #e4e7eb' }}>
+          <ul className="nav nav-tabs-new list-none p-0 m-0 flex border-b border-[#e4e7eb]">
             <li className="nav-item mr-1">
               <a
                 href="#!"
-                className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`}
+                className={`nav-link inline-block px-5 py-3 cursor-pointer no-underline ${
+                  activeTab === 'overview'
+                    ? 'text-[#5b7dfa] border-b-2 border-[#5b7dfa]'
+                    : 'text-[#8892a0] border-b-2 border-transparent'
+                }`}
                 onClick={(e) => {
                   e.preventDefault()
                   setActiveTab('overview')
-                }}
-                style={{
-                  padding: '12px 20px',
-                  color: activeTab === 'overview' ? '#5b7dfa' : '#8892a0',
-                  textDecoration: 'none',
-                  borderBottom: activeTab === 'overview' ? '2px solid #5b7dfa' : '2px solid transparent',
-                  display: 'inline-block',
-                  cursor: 'pointer',
                 }}
               >
                 Overview
@@ -46,18 +43,14 @@ const ProfileV2Tabs = () => {
             <li className="nav-item">
               <a
                 href="#!"
-                className={`nav-link ${activeTab === 'settings' ? 'active' : ''}`}
+                className={`nav-link inline-block px-5 py-3 cursor-pointer no-underline ${
+                  activeTab === 'settings'
+                    ? 'text-[#5b7dfa] border-b-2 border-[#5b7dfa]'
+                    : 'text-[#8892a0] border-b-2 border-transparent'
+                }`}
                 onClick={(e) => {
                   e.preventDefault()
                   setActiveTab('settings')
-                }}
-                style={{
-                  padding: '12px 20px',
-                  color: activeTab === 'settings' ? '#5b7dfa' : '#8892a0',
-                  textDecoration: 'none',
-                  borderBottom: activeTab === 'settings' ? '2px solid #5b7dfa' : '2px solid transparent',
-                  display: 'inline-block',
-                  cursor: 'pointer',
                 }}
               >
                 Settings
@@ -67,7 +60,7 @@ const ProfileV2Tabs = () => {
         </div>
       </div>
 
-      <div className="tab-content" style={{ padding: 0 }}>
+      <div className="tab-content p-0">
         {/* Overview Tab */}
         <div className={`tab-pane ${activeTab === 'overview' ? 'active show' : ''}`} id="Overview">
           {/* New Post Card */}
@@ -77,29 +70,18 @@ const ProfileV2Tabs = () => {
                 <div className="form-group">
                   <textarea
                     rows="4"
-                    className="form-control no-resize"
+                    className="form-control no-resize w-full p-3 border border-[#e4e7eb] rounded-md resize-none font-inherit text-sm"
                     placeholder="Please type what you want..."
-                    style={{
-                      width: '100%',
-                      padding: '12px',
-                      border: '1px solid #e4e7eb',
-                      borderRadius: '6px',
-                      resize: 'none',
-                      fontFamily: 'inherit',
-                      fontSize: '14px',
-                    }}
                   ></textarea>
                 </div>
-                <div className="post-toolbar-b" style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
-                  <button className="btn btn-warning" style={{ padding: '8px 16px', fontSize: '14px' }}>
-                    <i className="icon-link"></i>
+                <div className="post-toolbar-b flex gap-2 mt-3">
+                  <button className="btn btn-warning px-4 py-2 text-sm">
+                    <i className="fa-solid fa-link" aria-hidden="true"></i>
                   </button>
-                  <button className="btn btn-warning" style={{ padding: '8px 16px', fontSize: '14px' }}>
-                    <i className="icon-camera"></i>
+                  <button className="btn btn-warning px-4 py-2 text-sm">
+                    <i className="fa-solid fa-camera" aria-hidden="true"></i>
                   </button>
-                  <button className="btn btn-primary" style={{ padding: '8px 20px', fontSize: '14px' }}>
-                    Post
-                  </button>
+                  <button className="btn btn-primary px-5 py-2 text-sm">Post</button>
                 </div>
               </div>
             </div>
@@ -107,47 +89,48 @@ const ProfileV2Tabs = () => {
 
           {/* Blog Posts */}
           {posts.map((post) => (
-            <div key={post.id} className="card single_post" style={{ marginTop: '24px' }}>
+            <div key={post.id} className="card single_post mt-6">
               <div className="body">
                 <div className="img-post">
                   <img
-                    className="d-block img-fluid"
+                    className="d-block img-fluid w-full h-auto rounded-lg"
                     src={post.image}
                     alt={post.title}
-                    style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
                     onError={(e) => {
                       e.target.style.display = 'none'
                     }}
                   />
                 </div>
-                <h3 style={{ marginTop: '16px', marginBottom: '12px' }}>
-                  <a href="/blogdetails" style={{ color: '#4f5d75', textDecoration: 'none', fontSize: '20px', fontWeight: 600 }}>
+                <h3 className="mt-4 mb-3">
+                  <Link to="/blogdetails" className="text-[#4f5d75] no-underline text-xl font-semibold">
                     {post.title}
-                  </a>
+                  </Link>
                 </h3>
-                <p style={{ color: '#8892a0', lineHeight: '1.6', marginBottom: '16px' }}>{post.content}</p>
+                <p className="text-[#8892a0] leading-relaxed mb-4">{post.content}</p>
               </div>
-              <div className="footer" style={{ padding: '16px 24px', borderTop: '1px solid #e4e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="footer p-4 border-t border-[#e4e7eb] flex justify-between items-center">
                 <div className="actions">
-                  <a href="#!" className="btn btn-default" style={{ padding: '8px 16px', fontSize: '14px' }}>
+                  <Link to="#" className="btn btn-outline-secondary px-4 py-2 text-sm no-underline">
                     Continue Reading
-                  </a>
+                  </Link>
                 </div>
-                <ul className="stats" style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', gap: '16px' }}>
+                <ul className="stats list-none p-0 m-0 flex gap-4">
                   <li>
-                    <a href="#!" style={{ color: '#8892a0', textDecoration: 'none', fontSize: '14px' }}>
+                    <Link to="#" className="text-[#8892a0] no-underline text-sm">
                       General
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#!" className="icon-heart" style={{ color: '#8892a0', textDecoration: 'none', fontSize: '14px' }}>
+                    <Link to="#" className="text-[#8892a0] no-underline text-sm flex items-center gap-1">
+                      <i className="fa-regular fa-heart" aria-hidden="true"></i>
                       28
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#!" className="icon-bubbles" style={{ color: '#8892a0', textDecoration: 'none', fontSize: '14px' }}>
+                    <Link to="#" className="text-[#8892a0] no-underline text-sm flex items-center gap-1">
+                      <i className="fa-regular fa-comment" aria-hidden="true"></i>
                       128
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -159,138 +142,79 @@ const ProfileV2Tabs = () => {
         <div className={`tab-pane ${activeTab === 'settings' ? 'active show' : ''}`} id="Settings">
           <div className="card">
             <div className="body">
-              <h6 style={{ marginBottom: '20px', fontSize: '16px', fontWeight: 600 }}>Basic Information</h6>
+              <h6 className="mb-5 text-base font-semibold">Basic Information</h6>
               <div className="row clearfix">
                 <div className="col-lg-12 col-md-12">
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
+                  <div className="form-group mb-4">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control w-full px-3 py-2.5 border border-[#e4e7eb] rounded-md text-sm"
                       placeholder="First Name"
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        border: '1px solid #e4e7eb',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                      }}
                     />
                   </div>
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
+                  <div className="form-group mb-4">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control w-full px-3 py-2.5 border border-[#e4e7eb] rounded-md text-sm"
                       placeholder="Last Name"
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        border: '1px solid #e4e7eb',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                      }}
                     />
                   </div>
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
-                    <div style={{ display: 'flex', gap: '16px' }}>
-                      <label className="fancy-radio" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                        <input name="gender2" value="male" type="radio" style={{ marginRight: '8px' }} />
+                  <div className="form-group mb-4">
+                    <div className="flex gap-4">
+                      <label className="fancy-radio flex items-center cursor-pointer">
+                        <input name="gender2" value="male" type="radio" className="mr-2" />
                         <span>Male</span>
                       </label>
-                      <label className="fancy-radio" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                        <input name="gender2" value="female" type="radio" style={{ marginRight: '8px' }} />
+                      <label className="fancy-radio flex items-center cursor-pointer">
+                        <input name="gender2" value="female" type="radio" className="mr-2" />
                         <span>Female</span>
                       </label>
                     </div>
                   </div>
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
-                    <div className="input-group">
+                  <div className="form-group mb-4">
+                    <div className="input-group flex">
                       <div className="input-group-prepend">
                         <span className="input-group-text">
-                          <i className="icon-calendar"></i>
+                          <i className="fa-regular fa-calendar" aria-hidden="true"></i>
                         </span>
                       </div>
                       <input
                         type="date"
-                        className="form-control"
+                        className="form-control flex-1 px-3 py-2.5 border border-[#e4e7eb] border-l-0 rounded-r-md text-sm"
                         placeholder="Birthdate"
-                        style={{
-                          flex: 1,
-                          padding: '10px 12px',
-                          border: '1px solid #e4e7eb',
-                          borderLeft: 'none',
-                          borderRadius: '0 6px 6px 0',
-                          fontSize: '14px',
-                        }}
                       />
                     </div>
                   </div>
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
+                  <div className="form-group mb-4">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control w-full px-3 py-2.5 border border-[#e4e7eb] rounded-md text-sm"
                       placeholder="Address Line 1"
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        border: '1px solid #e4e7eb',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                      }}
                     />
                   </div>
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
+                  <div className="form-group mb-4">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control w-full px-3 py-2.5 border border-[#e4e7eb] rounded-md text-sm"
                       placeholder="Address Line 2"
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        border: '1px solid #e4e7eb',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                      }}
                     />
                   </div>
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
+                  <div className="form-group mb-4">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control w-full px-3 py-2.5 border border-[#e4e7eb] rounded-md text-sm"
                       placeholder="City"
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        border: '1px solid #e4e7eb',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                      }}
                     />
                   </div>
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
+                  <div className="form-group mb-4">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control w-full px-3 py-2.5 border border-[#e4e7eb] rounded-md text-sm"
                       placeholder="State/Province"
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        border: '1px solid #e4e7eb',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                      }}
                     />
                   </div>
-                  <div className="form-group" style={{ marginBottom: '16px' }}>
-                    <select
-                      className="form-control"
-                      style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        border: '1px solid #e4e7eb',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                      }}
-                    >
+                  <div className="form-group mb-4">
+                    <select className="form-control w-full px-3 py-2.5 border border-[#e4e7eb] rounded-md text-sm">
                       <option value="">-- Select Country --</option>
                       <option value="US">United States</option>
                       <option value="UK">United Kingdom</option>
@@ -299,9 +223,7 @@ const ProfileV2Tabs = () => {
                     </select>
                   </div>
                   <div className="form-group">
-                    <button className="btn btn-primary" style={{ padding: '10px 24px', fontSize: '14px' }}>
-                      Update Profile
-                    </button>
+                    <button className="btn btn-primary px-6 py-2.5 text-sm">Update Profile</button>
                   </div>
                 </div>
               </div>
@@ -314,4 +236,3 @@ const ProfileV2Tabs = () => {
 }
 
 export default ProfileV2Tabs
-

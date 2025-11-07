@@ -27,7 +27,6 @@
 [data-icon]::before {
   font-family: 'simple-Line-Icons';
   content: attr(data-icon);
-  speak: none;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
@@ -68,7 +67,6 @@
 .icon-question,
 .icon-user {
   font-family: 'simple-Line-Icons';
-  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -81,7 +79,6 @@
 [class^="icon-"],
 [class*=" icon-"] {
   font-family: 'simple-Line-Icons' !important;
-  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -94,7 +91,6 @@
 /* Override for icon-menu when containing Font Awesome icons */
 .icon-menu i[class*="fa-"] {
   font-family: "Font Awesome 7 Free" !important;
-  speak: none !important;
   font-style: normal !important;
   font-weight: normal !important;
   font-variant: normal !important;
@@ -102,6 +98,12 @@
   line-height: 1 !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* FontAwesome solid icons need fontWeight 900 in ::before */
+.icon-menu i[class*="fa-solid"]::before,
+.icon-menu i.fa-solid::before {
+  font-weight: 900 !important;
 }
 
 .icon-bubbles::before { content: "\e04a"; }
@@ -159,20 +161,20 @@
   --lucid-border: #e4e7eb;
   --lucid-text: #4f5d75;
   --lucid-muted: #8892a0;
-  --lucid-accent: #5b7dfa;
+  --lucid-accent: #88BDF2;
   --sidebar-bg: #f4f7f6;
   --sidebar-width: 260px;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #999999;
+  --color-gray-800: #444444;
 }
 
-* {
-  box-sizing: border-box;
-}
+/* * { box-sizing: border-box; } - Removed (already in Tailwind base layer) */
 
 body {
-  margin: 0;
+  /* margin: 0; - Removed (already in Tailwind base layer via * selector) */
   background-color: var(--lucid-background);
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  color: var(--lucid-text);
+  font-family: "Ubuntu", sans-serif;
 }
 
 a {
@@ -186,13 +188,19 @@ a:focus {
   text-decoration: none;
 }
 
+.dropdown-menu.user-menu.menu-icon li a:hover,
+.dropdown-menu.user-menu.menu-icon li a:focus {
+  color: inherit !important;
+  text-decoration: none;
+}
+
 button {
   font-family: inherit;
 }
 
 .navbar.navbar-fixed-top {
   position: fixed;
-  top: 6px;
+  top: 5px;
   left: 0;
   width: 100%;
   z-index: 9;
@@ -202,105 +210,202 @@ button {
   border-bottom: 1px solid var(--lucid-border);
 }
 
-.navbar .container-fluid {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 32px;
+@media (min-width: 1024px) {
+  .navbar.navbar-fixed-top {
+    top: 4px;
+  }
 }
+
+@media (max-width: 768px) {
+  .navbar.navbar-fixed-top {
+    top: 2px;
+  }
+}
+
+/* .navbar .container-fluid - Removed (use Bootstrap default or Tailwind classes) */
 
 .navbar-btn {
   display: none;
+  float: left;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+  margin-right: 15px;
+}
+
+.navbar-btn > div {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1200px) {
+  .navbar-btn {
+    display: block;
+  }
 }
 
 .navbar-btn .btn-toggle-offcanvas {
   border: none;
   background: none;
   font-size: 20px;
+  line-height: 0.7;
   color: var(--lucid-text);
   cursor: pointer;
+  outline: none;
+  padding: 15px;
+  padding-left: 0;
+}
+
+@media (max-width: 768px) {
+  .navbar-btn {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .navbar-brand {
-  padding: 16px 0;
+  padding: 15px 0;
+}
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    padding: 15px 10px;
+    margin-right: 0;
+    float: left;
+    width: auto;
+    max-width: calc(100% - 180px);
+    padding-left: 1.5px;
+  }
 }
 
 .navbar-brand img {
-  width: 90px;
-  display: block;
+  width: 85px;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 2px;
 }
 
 .navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  width: 100%;
-  justify-content: flex-end;
+  float: right;
+  width: calc(100% - 250px);
 }
 
-.navbar-form.search-form {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.navbar-right > div {
+  display: block;
 }
 
-.navbar-form.search-form .form-control {
-  height: 40px;
-  border: 1px solid var(--lucid-border);
-  border-radius: 20px;
-  padding: 0 16px;
-  background-color: #f9fafb;
-  font-size: 14px;
+@media (max-width: 1024px) {
+  .navbar-right {
+    width: calc(100% - 150px);
+  }
 }
 
-.navbar-form.search-form .btn {
-  height: 36px;
-  width: 36px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  background-color: var(--lucid-accent);
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+@media (max-width: 768px) {
+  .navbar-right {
+    width: calc(100% - 160px);
+  }
 }
 
-.navbar-form.search-form .btn:hover {
-  background-color: #415de4;
+@media (max-width: 640px) {
+  .navbar-right {
+    display: block;
+    width: calc(100% - 160px);
+  }
+}
+
+/* Navbar search form - Using Bootstrap and Tailwind classes */
+@media (max-width: 768px) {
+  #navbar-search {
+    display: none;
+  }
+}
+
+#navbar-menu {
+  float: right;
+  margin-right: 15px;
 }
 
 #navbar-menu .nav.navbar-nav {
   list-style: none;
-  display: flex;
-  align-items: center;
+  display: inline-block;
   margin: 0;
+  margin-right: 15px;
   padding: 0;
 }
 
 #navbar-menu .nav.navbar-nav > li {
+  display: inline-block;
   position: relative;
+  vertical-align: top;
+}
+
+@media (max-width: 640px) {
+  #navbar-menu .nav.navbar-nav {
+    margin-right: 0;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    position: relative;
+  }
+
+  #navbar-menu .nav.navbar-nav > li {
+    display: table-cell;
+    position: static;
+    text-align: center;
+    vertical-align: top;
+    width: auto;
+  }
+  
+  #navbar-menu .nav.navbar-nav > li.dropdown {
+    position: relative;
+  }
+  
+  #navbar-menu .nav.navbar-nav > li .dropdown-menu.notifications {
+    position: fixed !important;
+    top: 60px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    margin: 0;
+    text-align: left;
+  }
+  
+  #navbar-menu .nav.navbar-nav > li .dropdown-menu.notifications li {
+    text-align: left;
+  }
+  
+  #navbar-menu .nav.navbar-nav > li .dropdown-menu.user-menu {
+    position: fixed !important;
+    top: 60px;
+    right: 20px;
+    left: auto;
+    width: 200px;
+    margin: 0;
+    text-align: left;
+  }
+  
+  #navbar-menu .nav.navbar-nav > li .dropdown-menu.user-menu li {
+    text-align: left;
+  }
 }
 
 .icon-menu {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 16px;
+  display: inline-block;
+  padding: 15px;
   position: relative;
   color: #52607d;
   transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.icon-menu::after {
+  display: none;
 }
 
 .icon-menu i {
   font-size: 18px;
 }
 
-.icon-menu:hover,
-.icon-menu:focus {
-  color: var(--lucid-accent);
-}
+/* Hover effects removed */
 
 .notification-dot {
   position: absolute;
@@ -312,29 +417,125 @@ button {
   background-color: #1e293b;
 }
 
+/* Bootstrap Display Utilities - Removed (already in bootstrap.min.css) */
+
 .dropdown-menu {
-  min-width: 240px;
-  background-color: #ffffff;
-  border: 1px solid var(--lucid-border);
-  border-radius: 12px;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
-  padding: 20px;
-  margin-top: 12px;
+  position: absolute !important;
+  right: 0;
+  top: 100%;
+  left: auto;
+  transform: none !important;
+  border: none;
+  box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  background: #17191c;
+  border-radius: 0.55rem;
+  z-index: 1000;
   display: none;
 }
+
+/* User account dropdown menu specific styles */
+.user-account .dropdown-menu {
+  background: #17191c;
+  padding: 15px;
+  border-radius: 0.55rem;
+  box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.5);
+}
+
+.user-account .dropdown-menu .dropdown-item {
+  color: var(--color-gray-500);
+  padding: 10px;
+  font-size: 14px;
+  display: block;
+  margin: 0;
+}
+
+.user-account .dropdown-menu .dropdown-item:hover,
+.user-account .dropdown-menu .dropdown-item:focus {
+  color: #ffffff;
+  background-color: transparent;
+}
+
+.user-account .dropdown-menu .dropdown-item:hover i,
+.user-account .dropdown-menu .dropdown-item:focus i {
+  color: #ffffff;
+}
+
+.user-account .dropdown-menu .dropdown-item i {
+  margin-right: 10px;
+  font-size: 14px;
+  color: var(--color-gray-500);
+}
+
+.user-account .dropdown-menu li.divider {
+  border-bottom: 1px solid var(--color-gray-800);
+  margin: 10px 0;
+  list-style: none;
+}
+
+.dropdown.show .dropdown-menu,
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-menu.user-menu {
+  width: 250px;
+}
+
+.dropdown-menu.user-menu.menu-icon {
+  background-color: #88bdf2;
+  color: #ffffff;
+}
+
+.dropdown-menu.user-menu > li.menu-heading {
+  padding: 25px 20px 5px 0px;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dropdown-menu.user-menu > li.menu-heading-spacing {
+  padding-top: 25px;
+}
+
+.dropdown-menu.user-menu > li:first-child.menu-heading {
+  padding-top: 0;
+}
+
+.dropdown-menu.user-menu.menu-icon > li > a {
+  padding: 5px 0;
+  padding-bottom: 5px;
+  color: #ffffff;
+  display: block;
+}
+
+.dropdown-menu.user-menu.menu-icon > li > a span {
+  margin-left: 10px;
+}
+
+.dropdown-menu.user-menu.menu-icon > li > a i {
+  margin-right: 10px;
+}
+
+/* Hover effects removed */
+
+/* Mobile dropdown positioning now handled by Tailwind classes */
 
 .dropdown-menu.notifications {
   background: #1f2937;
   color: #e2e8f0;
-  width: 420px;
+  width: 500px;
 }
+
+/* Mobile notifications dropdown width now handled by Tailwind classes */
 
 .dropdown-menu.notifications .header {
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #94a3b8;
-  margin-bottom: 12px;
+  padding-bottom: 20px;
 }
 
 .dropdown-menu.notifications li {
@@ -345,26 +546,40 @@ button {
   border-bottom: none;
 }
 
+.dropdown-menu.notifications li > a {
+  padding: 15px 0;
+  color: #94a3b8;
+  display: block;
+}
+
+.dropdown-menu.notifications li > a:hover,
+.dropdown-menu.notifications li > a:focus {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
 .dropdown-menu.notifications .media {
   display: flex;
-  gap: 16px;
   align-items: flex-start;
-  margin: 0;
+  margin-bottom: 0;
+}
+
+.dropdown-menu.notifications li p.text,
+.dropdown-menu li p.text {
+  font-size: 14px;
+}
+
+.dropdown-menu.notifications .media-left {
+  margin-right: 20px;
+  flex-shrink: 0;
 }
 
 .dropdown-menu.notifications .media-left i {
-  font-size: 20px;
+  font-size: 24px;
 }
 
-.dropdown-menu.notifications .text {
-  margin: 0 0 6px;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.dropdown-menu.notifications .timestamp {
-  font-size: 12px;
-  color: #cbd5f5;
+.dropdown-menu.notifications .media-body {
+  flex: 1;
+  min-width: 0;
 }
 
 .dropdown-menu.notifications .more {
@@ -372,36 +587,6 @@ button {
   align-items: center;
   gap: 6px;
   color: #60a5fa;
-}
-
-.dropdown-menu.user-menu {
-  min-width: 220px;
-  padding: 16px 0;
-}
-
-.dropdown-menu.user-menu .menu-heading {
-  padding: 6px 20px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: #94a3b8;
-}
-
-.dropdown-menu.user-menu li a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 20px;
-  color: var(--lucid-text);
-  font-size: 14px;
-}
-
-.dropdown-menu.user-menu li a:hover {
-  background-color: rgba(99, 102, 241, 0.08);
-}
-
-.dropdown.show > .dropdown-menu,
-.dropdown-menu.show {
-  display: block;
 }
 
 /* Sidebar Styles */
@@ -476,7 +661,7 @@ button {
 .user-account hr {
   margin: 16px 0;
   border: 0;
-  border-top: 1px solid #e4e7eb;
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .user-account .row {
@@ -510,23 +695,27 @@ button {
 }
 
 /* Nav Tabs */
+#left-sidebar .nav-tabs,
 .sidebar .nav-tabs {
   display: flex;
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid #dee2e6;
   list-style: none;
 }
 
+#left-sidebar .nav-tabs .nav-item,
 .sidebar .nav-tabs .nav-item {
   flex: 1;
 }
 
-.sidebar .nav-tabs .nav-link {
+#left-sidebar .nav-tabs .nav-link,
+.sidebar .nav-tabs .nav-link,
+#left-sidebar .nav-tabs button.nav-link,
+.sidebar .nav-tabs button.nav-link {
   display: block;
   padding: 12px 16px;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 1px solid #dee2e6;
   background-color: transparent;
   color: #8892a0;
   text-align: center;
@@ -534,27 +723,39 @@ button {
   transition: all 0.3s ease;
   font-size: 14px;
   text-decoration: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  width: 100%;
 }
 
+#left-sidebar .nav-tabs .nav-link i,
 .sidebar .nav-tabs .nav-link i {
   font-size: 16px;
 }
 
+#left-sidebar .nav-tabs .nav-link.active,
 .sidebar .nav-tabs .nav-link.active {
   background-color: #f4f7f6;
-  border-bottom-color: #5b7dfa;
-  color: #5b7dfa;
+  border-color: #dee2e6 #dee2e6 #f4f7f6 !important;
+  border-top: 1px solid #dee2e6;
+  border-left: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+  border-bottom: 1px solid #f4f7f6;
+  color: #88BDF2;
 }
 
+#left-sidebar .nav-tabs .nav-link:hover,
 .sidebar .nav-tabs .nav-link:hover {
   background-color: #f8fafc;
-  color: #5b7dfa;
+  color: #88BDF2;
 }
 
 /* Tab Content */
-.tab-content {
-  padding: 0;
-}
 
 .tab-pane {
   display: none;
@@ -591,27 +792,34 @@ button {
   position: relative;
 }
 
-.sidebar-nav .metismenu > li > a i {
+.sidebar-nav .metismenu > li > a i,
+.sidebar-nav .metismenu > li > button i {
   margin-right: 20px;
   font-size: 17px;
   width: 20px;
   text-align: center;
   position: relative;
   top: 2px;
+  color: #88BDF2;
 }
 
 .sidebar-nav .metismenu > li > a:hover,
-.sidebar-nav .metismenu > li > a:focus {
+.sidebar-nav .metismenu > li > a:focus,
+.sidebar-nav .metismenu > li > button:hover,
+.sidebar-nav .metismenu > li > button:focus {
   background-color: #f1f1f1;
   text-decoration: none;
 }
 
+/* Prevent icon color from changing on hover */
+
 .sidebar-nav .metismenu > li.active > a {
   background-color: #f1f1f1;
-  border-left-color: #5b7dfa;
+  border-left-color: #88BDF2;
 }
 
-.sidebar-nav .metismenu ul {
+.sidebar-nav .metismenu ul,
+.sidebar-nav .metismenu > li > ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -619,11 +827,15 @@ button {
   display: none;
 }
 
-.sidebar-nav .metismenu ul.collapse.in {
-  display: block;
+.sidebar-nav .metismenu ul.collapse.in,
+.sidebar-nav .metismenu > li > ul.collapse.in,
+.sidebar-nav .metismenu > li > ul.in {
+  display: block !important;
+  visibility: visible !important;
 }
 
-.sidebar-nav .metismenu ul > li > a {
+.sidebar-nav .metismenu ul > li > a,
+.sidebar-nav .metismenu > li > ul > li > a {
   display: block;
   padding: 10px 15px 10px 57px;
   color: #8892a0;
@@ -633,7 +845,8 @@ button {
   transition: all 0.2s ease;
 }
 
-.sidebar-nav .metismenu ul > li > a::before {
+.sidebar-nav .metismenu ul > li > a::before,
+.sidebar-nav .metismenu > li > ul > li > a::before {
   content: '--';
   position: absolute;
   left: 39px;
@@ -641,12 +854,15 @@ button {
 }
 
 .sidebar-nav .metismenu ul > li > a:hover,
-.sidebar-nav .metismenu ul > li > a:focus {
+.sidebar-nav .metismenu ul > li > a:focus,
+.sidebar-nav .metismenu > li > ul > li > a:hover,
+.sidebar-nav .metismenu > li > ul > li > a:focus {
   background-color: #f1f1f1;
   text-decoration: none;
 }
 
-.sidebar-nav .metismenu ul > li.active > a {
+.sidebar-nav .metismenu ul > li.active > a,
+.sidebar-nav .metismenu > li > ul > li.active > a {
   font-weight: 700;
   color: #4f5d75;
 }
@@ -670,142 +886,15 @@ button {
 }
 
 /* Badge */
-.badge {
-  display: inline-block;
-  padding: 4px 8px;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  border-radius: 4px;
-}
-
-.badge-default {
-  background-color: rgba(148, 163, 184, 0.2);
-  color: #64748b;
-}
-
-.badge-warning {
-  background-color: rgba(251, 191, 36, 0.2);
-  color: #a16207;
-}
+/* .badge - Using Bootstrap default */
 
 .float-right {
   float: right;
 }
 
-/* Chat Tab */
-.right_chat {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.right_chat li {
-  margin-bottom: 12px;
-}
-
-.right_chat .media {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.right_chat .media-object {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.right_chat .media-body {
-  flex: 1;
-}
-
-.right_chat .name {
-  display: block;
-  font-size: 14px;
-  font-weight: 500;
-  color: #4f5d75;
-  margin-bottom: 2px;
-}
-
-.right_chat .message {
-  display: block;
-  font-size: 12px;
-  color: #8892a0;
-}
-
-.right_chat .status {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-top: 4px;
-}
-
-.right_chat li.online .status {
-  background-color: #22c55e;
-}
-
-.right_chat li.offline .status {
-  background-color: #94a3b8;
-}
-
-/* Settings Tab */
-.choose-skin {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 24px 0;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.choose-skin li {
-  cursor: pointer;
-  text-align: center;
-}
-
-.choose-skin li div {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  border: 2px solid #e4e7eb;
-  margin-bottom: 4px;
-}
-
+/* Settings Tab - Active state border color (can't be done with Tailwind easily) */
 .choose-skin li.active div {
-  border-color: #5b7dfa;
-}
-
-.choose-skin li span {
-  display: block;
-  font-size: 12px;
-  color: #4f5d75;
-  text-transform: capitalize;
-}
-
-.setting-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.setting-list li {
-  margin-bottom: 12px;
-}
-
-.fancy-checkbox {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.fancy-checkbox input {
-  margin-right: 8px;
+  border-color: #88BDF2 !important;
 }
 
 .fancy-checkbox span {
@@ -845,71 +934,32 @@ button {
 }
 
 .question li a:hover {
-  color: #5b7dfa;
+  color: #88BDF2;
 }
 
 .menu-button {
   margin-top: 30px;
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* .btn-primary - Removed (use Bootstrap default or Tailwind classes) */
+
+.btn-toggle-fullwidth {
+  z-index: 99;
+  margin-top: -6px;
+  padding-left: 0 !important;
 }
 
-.btn-primary {
-  background-color: #5b7dfa;
-  color: #ffffff;
+.btn-toggle-fullwidth i {
+  margin: 0 !important;
 }
 
-.btn-primary:hover {
-  background-color: #415de4;
-  color: #ffffff;
+@media (max-width: 1024px) {
+  .btn-toggle-fullwidth {
+    display: none;
+  }
 }
 
-/* Input Group */
-.input-group {
-  display: flex;
-  margin-bottom: 20px;
-}
-
-.input-group-prepend {
-  display: flex;
-}
-
-.input-group-text {
-  padding: 8px 12px;
-  background-color: #f8fafc;
-  border: 1px solid #e4e7eb;
-  border-right: none;
-  border-radius: 4px 0 0 4px;
-  display: flex;
-  align-items: center;
-  color: #8892a0;
-}
-
-.input-group .form-control {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #e4e7eb;
-  border-left: none;
-  border-radius: 0 4px 4px 0;
-  outline: none;
-  font-size: 14px;
-}
-
-.input-group .form-control:focus {
-  border-color: #5b7dfa;
-  box-shadow: 0 0 0 3px rgba(91, 125, 250, 0.1);
-}
+/* .input-group, .input-group-prepend, .input-group-text, .form-control - Removed (use Bootstrap default) */
 
 /* Dashboard layout */
 
@@ -917,14 +967,53 @@ button {
   min-height: 100vh;
 }
 
+/* Layout */
+#wrapper::before,
+#wrapper::after {
+  height: 100vh;
+  width: 5px;
+  position: fixed;
+  content: '';
+  z-index: 999;
+  top: 0;
+}
+
+#wrapper::before {
+  left: 0;
+}
+
+#wrapper::after {
+  right: 0;
+}
+
+@media (max-width: 992px) {
+  #wrapper::before,
+  #wrapper::after {
+    width: 2px;
+  }
+}
+
+#main-content {
+  transition: all 0.3s ease-in-out;
+  width: calc(100% - 260px);
+  float: right;
+  position: relative;
+  margin-top: 65px;
+  padding: 0 10px;
+}
+
+@media (max-width: 992px) {
+  #main-content {
+    width: 100%;
+    padding: 0;
+  }
+}
+
 .main-content {
   padding: 120px 0 48px;
 }
 
-.container-fluid {
-  width: 100%;
-  padding: 0 32px;
-}
+/* #main-content .container-fluid - Removed (use Bootstrap default or Tailwind classes) */
 
 .page-header {
   display: flex;
@@ -940,31 +1029,9 @@ button {
   color: var(--lucid-text);
 }
 
-.breadcrumb {
-  display: flex;
-  gap: 8px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 13px;
-  color: var(--lucid-muted);
-}
+/* .breadcrumb - Using Bootstrap default */
 
-.breadcrumb li::after {
-  content: "/";
-  margin-left: 8px;
-  color: rgba(148, 163, 184, 0.7);
-}
-
-.breadcrumb li:last-child::after {
-  display: none;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: -12px;
-}
+/* .row - Removed (use Bootstrap default) */
 
 .row.clearfix::after {
   content: "";
@@ -972,58 +1039,9 @@ button {
   clear: both;
 }
 
-[class*='col-'] {
-  padding: 12px;
-  flex: 1 1 100%;
-}
-
-.col-lg-3 {
-  flex: 0 0 25%;
-  max-width: 25%;
-}
-
-.col-lg-4 {
-  flex: 0 0 33.3333%;
-  max-width: 33.3333%;
-}
-
-.col-lg-6 {
-  flex: 0 0 50%;
-  max-width: 50%;
-}
-
-.col-lg-8 {
-  flex: 0 0 66.6667%;
-  max-width: 66.6667%;
-}
-
-.col-lg-12 {
-  flex: 0 0 100%;
-  max-width: 100%;
-}
-
-.col-md-6 {
-  flex: 0 0 50%;
-  max-width: 50%;
-}
-
-.col-md-12,
-.col-sm-12 {
-  flex: 0 0 100%;
-  max-width: 100%;
-}
 
 
-.card {
-  background-color: #ffffff;
-  border-radius: 18px;
-  border: 1px solid rgba(226, 232, 240, 0.7);
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 24px;
-}
+/* .card - Removed (use Bootstrap default or Tailwind classes) */
 
 .card .header {
   padding: 20px 24px;
@@ -1099,78 +1117,46 @@ button {
   border-radius: 999px;
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
+/* .table - Using Bootstrap default */
 
-.table tbody tr {
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-}
+/* .badge - Using Bootstrap default */
 
-.table tbody tr:last-child {
-  border-bottom: none;
-}
+/* .list-group - Using Bootstrap default */
 
-.table th,
-.table td {
-  padding: 12px;
-  text-align: left;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-}
-
-.badge-success { background: rgba(34, 197, 94, 0.12); color: #15803d; }
-.badge-info { background: rgba(59, 130, 246, 0.12); color: #1d4ed8; }
-.badge-warning { background: rgba(251, 191, 36, 0.2); color: #a16207; }
-.badge-danger { background: rgba(248, 113, 113, 0.16); color: #b91c1c; }
-
-.list-group {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.list-group-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  font-size: 14px;
-}
-
-.list-group-item:last-child {
-  border-bottom: none;
-}
-
-.list-group-item i {
-  margin-right: 12px;
-  color: var(--lucid-muted);
-}
-
-.text-muted {
-  color: var(--lucid-muted);
-}
-
-.text-success { color: #16a34a; }
-.text-info { color: #2563eb; }
-.text-warning { color: #f59e0b; }
-.text-danger { color: #dc2626; }
+/* .text-muted, .text-success, .text-info, .text-warning, .text-danger - Removed (use Bootstrap default) */
 
 .muted-label {
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--lucid-muted);
+}
+
+/* Number Chart Styles */
+.number-chart {
+  overflow: hidden;
+}
+
+.number-chart .body {
+  padding-bottom: 0;
+}
+
+.number-chart .number {
+  font-weight: 600;
+}
+
+.number-chart .number > span {
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.number-chart canvas {
+  width: 100% !important;
+}
+
+/* Sparkline Styles */
+.sparkline {
+  text-align: center;
 }
 
 .top-counter {
@@ -1195,37 +1181,10 @@ button {
   gap: 4px;
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: inherit;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-}
+/* .btn-default - Removed (use Bootstrap default or Tailwind classes) */
 
-.btn-default {
-  padding: 6px 16px;
-  border-radius: 20px;
-  background-color: rgba(91, 125, 250, 0.12);
-  border: 1px solid rgba(91, 125, 250, 0.2);
-  color: #5b7dfa;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.btn-default:hover,
-.btn-default:focus {
-  background-color: rgba(91, 125, 250, 0.22);
-  color: #415de4;
-}
-
-/* Utility */
-.mt-0 { margin-top: 0; }
-.mb-0 { margin-bottom: 0; }
-.mt-3 { margin-top: 12px; }
-.mt-4 { margin-top: 16px; }
-.mt-5 { margin-top: 20px; }
+/* Utility - Removed Bootstrap utilities (mt-0, mb-0, mt-3, mt-4, mt-5 already in bootstrap.min.css) */
+/* Custom margin utilities */
 .m-t-30 { margin-top: 30px; }
 .m-b-20 { margin-bottom: 20px; }
 
@@ -1323,12 +1282,12 @@ button {
 }
 
 .nav-tabs-new .nav-link:hover {
-  color: #5b7dfa;
+  color: #88BDF2;
 }
 
 .nav-tabs-new .nav-link.active {
-  color: #5b7dfa;
-  border-bottom-color: #5b7dfa;
+  color: #88BDF2;
+  border-bottom-color: #88BDF2;
 }
 
 .single_post {
@@ -1389,24 +1348,19 @@ button {
   margin-top: 12px;
 }
 
-.btn-warning {
-  background-color: rgba(251, 191, 36, 0.2);
-  color: #a16207;
-  border: 1px solid rgba(251, 191, 36, 0.3);
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+/* .btn-warning - Removed (use Bootstrap default or Tailwind classes) */
 
-.btn-warning:hover {
-  background-color: rgba(251, 191, 36, 0.3);
-}
-
+/* Custom margin utilities */
 .m-r-5 {
   margin-right: 5px;
 }
 
 .mr-1 {
   margin-right: 8px;
+}
+
+/* Navbar Account Menu */
+.navbar-account-menu {
+  background-color: #88BDF2;
+  border: 1px solid #fff;
 }

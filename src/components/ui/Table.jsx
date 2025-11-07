@@ -1,4 +1,4 @@
-import { cn } from '../../lib/utils'
+import { cn } from '../../assets/js/utils'
 
 const getCellValue = (row, column, rowIndex) => {
   if (typeof column.render === 'function') {

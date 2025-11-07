@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Navbar from '../components/template/Navbar.jsx'
 import Sidebar from '../components/template/Sidebar.jsx'
+import PageHeader from '../components/template/PageHeader.jsx'
 import ProfileHeaderCard from '../components/profile/ProfileHeaderCard'
 import ProfileInfoCard from '../components/profile/ProfileInfoCard'
 import FollowersCard from '../components/profile/FollowersCard'
@@ -49,92 +50,53 @@ const ProfileV2 = () => {
   ]
 
   return (
-    <div className="min-h-screen" style={{ paddingTop: '73px', paddingLeft: '0' }}>
+    <div id="wrapper">
       <Navbar onToggleSidebar={handleToggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} onClose={handleCloseSidebar} />
-      {/* Overlay for mobile */}
-      {isSidebarOpen && (
+      
+      <div id="main-content">
         <div
-          className="fixed inset-0 bg-black/50 z-[8] md:hidden"
-          onClick={handleCloseSidebar}
-          aria-hidden="true"
-        />
-      )}
-      {/* Main content area */}
-      <main style={{ marginLeft: '265px', padding: '24px 32px' }} className="md:block hidden">
-        <div className="container-fluid">
-          {/* Page Header */}
-          <div className="page-header">
-            <h3>User Profile v2</h3>
-            <nav>
-              <ol className="breadcrumb">
-                <li>Page</li>
-                <li>Profile V2</li>
-              </ol>
-            </nav>
-          </div>
+          className="flex-1"
+          onClick={() => {
+            document.body.classList.remove('offcanvas-active')
+          }}
+        >
+          <div>
+            <div className="container-fluid">
+              <PageHeader
+                HeaderText="User Profile v2"
+                Breadcrumb={[
+                  { name: 'Page', navigate: '' },
+                  { name: 'Profile V2', navigate: '' },
+                ]}
+              />
 
-          <div className="row clearfix">
-            <div className="col-lg-4 col-md-12">
-              <ProfileHeaderCard />
-              <ProfileInfoCard />
-              <FollowersCard headerText="Who to follow" />
-            </div>
-            <div className="col-lg-5 col-md-12">
-              <ProfileV2Tabs />
-            </div>
-            <div className="col-lg-3 col-md-12">
-              <ProfileIconCard />
-              {profileSliderData.map((data, i) => (
-                <ProfileSliderCard
-                  key={i}
-                  color={data.color}
-                  data={data.data}
-                  headerText={data.headerText}
-                  subTitle={data.subTitle}
-                />
-              ))}
+              <div className="row clearfix">
+                <div className="col-lg-4 col-md-12">
+                  <ProfileHeaderCard />
+                  <ProfileInfoCard />
+                  <FollowersCard headerText="Who to follow" />
+                </div>
+                <div className="col-lg-5 col-md-12">
+                  <ProfileV2Tabs />
+                </div>
+                <div className="col-lg-3 col-md-12">
+                  <ProfileIconCard />
+                  {profileSliderData.map((data, i) => (
+                    <ProfileSliderCard
+                      key={i}
+                      color={data.color}
+                      data={data.data}
+                      headerText={data.headerText}
+                      subTitle={data.subTitle}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </main>
-      {/* Mobile content */}
-      <main className="p-4 md:hidden">
-        <div className="container-fluid">
-          <div className="page-header">
-            <h3>User Profile v2</h3>
-            <nav>
-              <ol className="breadcrumb">
-                <li>Page</li>
-                <li>Profile V2</li>
-              </ol>
-            </nav>
-          </div>
-
-          <div className="row clearfix">
-            <div className="col-lg-4 col-md-12">
-              <ProfileHeaderCard />
-              <ProfileInfoCard />
-              <FollowersCard headerText="Who to follow" />
-            </div>
-            <div className="col-lg-5 col-md-12">
-              <ProfileV2Tabs />
-            </div>
-            <div className="col-lg-3 col-md-12">
-              <ProfileIconCard />
-              {profileSliderData.map((data, i) => (
-                <ProfileSliderCard
-                  key={i}
-                  color={data.color}
-                  data={data.data}
-                  headerText={data.headerText}
-                  subTitle={data.subTitle}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
   )
 }

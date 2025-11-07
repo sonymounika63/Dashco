@@ -1,24 +1,26 @@
+import '../../assets/css/profile.css'
+
 const ProfileIconCard = () => {
   const stats = [
-    { icon: 'fa-camera', value: '2365', label: 'Shots View' },
-    { icon: 'fa-thumbs-up', value: '1203', label: 'Likes' },
-    { icon: 'fa-comments', value: '324', label: 'Comments' },
-    { icon: 'fa-user', value: '1980', label: 'Profile Views' },
-    { icon: 'fa-desktop', value: '251', label: 'Website View' },
-    { icon: 'fa-file-text', value: '52', label: 'Attachment', iconColor: 'text-warning' },
+    { icon: 'fa-solid fa-camera', value: '2365', label: 'Shots View' },
+    { icon: 'fa-regular fa-thumbs-up', value: '1203', label: 'Likes' },
+    { icon: 'fa-regular fa-comments', value: '324', label: 'Comments' },
+    { icon: 'fa-solid fa-user', value: '1980', label: 'Profile Views' },
+    { icon: 'fa-solid fa-desktop', value: '251', label: 'Website View' },
+    { icon: 'fa-regular fa-file-lines', value: '52', label: 'Attachment', iconColor: 'text-warning' },
   ]
 
   return (
     <div className="card">
-      <ul className="row profile_state list-unstyled" style={{ margin: 0, padding: 0 }}>
+      <ul className="row profile_state list-unstyled profile-icon-card-list">
         {stats.map((stat, idx) => (
-          <li key={idx} className="col-lg-6 col-6" style={{ listStyle: 'none' }}>
-            <div className="body" style={{ textAlign: 'center', padding: '20px' }}>
-              <i className={`fa ${stat.icon} ${stat.iconColor || ''}`} style={{ fontSize: '24px', color: '#5b7dfa', marginBottom: '10px', display: 'block' }}></i>
-              <h5 className="m-b-0" style={{ fontSize: '20px', fontWeight: 600, marginBottom: '5px' }}>
+          <li key={idx} className="col-lg-6 col-6 profile-icon-card-item">
+            <div className="body profile-icon-card-body">
+              <i className={`${stat.icon} ${stat.iconColor || ''} profile-icon-card-icon`}></i>
+              <h5 className="m-b-0 profile-icon-card-value">
                 {stat.value}
               </h5>
-              <small style={{ color: '#8892a0', fontSize: '13px' }}>{stat.label}</small>
+              <small className="profile-icon-card-label">{stat.label}</small>
             </div>
           </li>
         ))}
