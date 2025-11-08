@@ -16,7 +16,7 @@ const ProfileSliderCard = ({ headerText, subTitle, data, color = 'blue' }) => {
   const maxValue = Math.max(...data.map((item) => item.value))
 
   return (
-    <div className="col-12 profile-slider-card">
+    <div className="profile-slider-card">
       <div className="card">
         <div className="body">
           <div className="profile-slider-chart-container">

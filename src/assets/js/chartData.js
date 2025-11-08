@@ -379,7 +379,7 @@ export const saleGaugeOption = {
   },
   tooltip: {
     show: true,
-    formatter: function (params, ticket, callback) {
+    formatter: function () {
       return '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#212121;"></span>63'
     },
   },

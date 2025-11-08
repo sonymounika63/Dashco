@@ -1,29 +1,33 @@
 const RecentUpdatesCard = () => {
   const updates = [
     {
+      id: 'update-1',
       icon: 'fa-solid fa-building',
-      iconColor: 'text-blue-600',
+      iconColor: 'text-primary dark:text-blue-400',
       title: 'New Company Onboarded',
       description: 'TechCorp Inc. has been successfully onboarded',
       time: '2 hours ago',
     },
     {
+      id: 'update-2',
       icon: 'fa-solid fa-file-invoice',
-      iconColor: 'text-green-600',
+      iconColor: 'text-success dark:text-green-400',
       title: 'Invoice Generated',
       description: 'Invoice #INV-2024-001 has been generated',
       time: '5 hours ago',
     },
     {
+      id: 'update-3',
       icon: 'fa-solid fa-user-plus',
-      iconColor: 'text-cyan-600',
+      iconColor: 'text-info dark:text-cyan-400',
       title: 'New User Added',
       description: 'John Doe has been added to Company ABC',
       time: '1 day ago',
     },
     {
+      id: 'update-4',
       icon: 'fa-solid fa-certificate',
-      iconColor: 'text-yellow-600',
+      iconColor: 'text-warning dark:text-yellow-400',
       title: 'Certificate Updated',
       description: 'ISO 27001:2022 certificate has been updated',
       time: '2 days ago',
@@ -31,23 +35,23 @@ const RecentUpdatesCard = () => {
   ]
 
   return (
-    <div className="w-full lg:w-1/2 md:w-full px-3 mb-4">
-      <div className="bg-white rounded-lg shadow-sm">
-        <div className="p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-800 m-0">Recent Updates</h2>
+    <div className="col-lg-6 col-md-12">
+      <div className="card dark:bg-gray-800 dark:border-gray-700 transition-colors duration-200">
+        <div className="header">
+          <h2 className="dark:text-white/90 transition-colors duration-200">Recent Updates</h2>
         </div>
-        <div className="p-4">
-          <ul className="list-none p-0 m-0">
-            {updates.map((update, index) => (
-              <li key={index} className="mb-3 pb-3 border-b border-gray-200 last:border-b-0 last:pb-0 last:mb-0">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0">
-                    <i className={`${update.icon} ${update.iconColor} text-2xl`}></i>
+        <div className="body">
+          <ul className="list-unstyled">
+            {updates.map((update) => (
+              <li key={update.id} className="mb-3 pb-3 border-bottom dark:border-gray-700 transition-colors duration-200">
+                <div className="d-flex align-items-start">
+                  <div className="flex-shrink-0 me-3">
+                    <i className={`${update.icon} ${update.iconColor} fa-2x transition-colors duration-200`}></i>
                   </div>
-                  <div className="flex-1">
-                    <h6 className="m-0 mb-1 font-semibold text-gray-800">{update.title}</h6>
-                    <p className="m-0 mb-1 text-sm text-gray-600">{update.description}</p>
-                    <small className="text-xs text-gray-500">{update.time}</small>
+                  <div className="flex-grow-1">
+                    <h6 className="m-b-0 dark:text-white/90 transition-colors duration-200">{update.title}</h6>
+                    <p className="m-b-0 text-muted dark:text-gray-400 transition-colors duration-200">{update.description}</p>
+                    <small className="text-muted dark:text-gray-500 transition-colors duration-200">{update.time}</small>
                   </div>
                 </div>
               </li>

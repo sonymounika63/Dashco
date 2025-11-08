@@ -3,27 +3,27 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url('/webfonts/ubuntu-light.ttf') format('truetype');
+  src: url('./ubuntu-light.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/webfonts/ubuntu-regular.ttf') format('truetype');
+  src: url('./ubuntu-regular.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('/webfonts/ubuntu-medium.ttf') format('truetype');
+  src: url('./ubuntu-medium.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/webfonts/ubuntu-bold.ttf') format('truetype');
+  src: url('./ubuntu-bold.ttf') format('truetype');
 }
 

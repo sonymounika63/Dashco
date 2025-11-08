@@ -1,28 +1,43 @@
 /* Sidebar CSS - Only for complex selectors that can't be done with Tailwind */
 
-/* Hide sidebar by default on screens <= 1200px (mobile) */
+/* Hide sidebar by default on screens <= 1200px (mobile) - Only for old sidebar structure */
 @media (max-width: 1200px) {
-  #left-sidebar {
+  #left-sidebar:not(.sidebar) {
     left: -250px !important;
     top: 60px !important;
   }
 
-  /* Show sidebar when offcanvas-active class is on body (mobile only) */
-  .offcanvas-active #left-sidebar {
+  /* Show sidebar when offcanvas-active class is on body (mobile only) - Only for old sidebar */
+  .offcanvas-active #left-sidebar:not(.sidebar) {
     left: 5px !important;
     top: 60px !important;
   }
+  
+  /* New TailAdmin sidebar - hide by default on mobile, controlled by isOpen state */
+  #left-sidebar.sidebar,
+  aside#left-sidebar.sidebar {
+    left: 0 !important;
+    top: 0 !important;
+  }
 }
 
-/* On desktop (>1200px), sidebar should always be visible */
+/* On desktop (>1200px), sidebar should always be visible - Only for old sidebar structure */
 @media (min-width: 1201px) {
-  #left-sidebar {
+  #left-sidebar:not(.sidebar) {
     left: 5px !important;
   }
   
-  /* Prevent offcanvas-active from affecting desktop */
-  .offcanvas-active #left-sidebar {
+  /* Prevent offcanvas-active from affecting desktop - Only for old sidebar */
+  .offcanvas-active #left-sidebar:not(.sidebar) {
     left: 5px !important;
+  }
+  
+  /* New TailAdmin sidebar - always visible on desktop */
+  #left-sidebar.sidebar,
+  aside#left-sidebar.sidebar {
+    left: auto !important;
+    top: 0 !important;
+    position: static !important;
   }
 }
 
@@ -135,92 +150,7 @@
   color: #17191c;
 }
 
-/* Badge styles */
-.badge {
-  display: inline-block;
-  padding: 0.25em 0.6em;
-  font-size: 75%;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  border-radius: 0.25rem;
-}
-
-.badge-default {
-  background-color: #6c757d;
-  color: #fff;
-}
-
-.badge-warning {
-  background-color: #ffc107;
-  color: #212529;
-}
-
-.float-right {
-  float: right;
-}
-
-/* Input group styles */
-.input-group {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  width: 100%;
-}
-
-.input-group-prepend {
-  display: flex;
-}
-
-.input-group-text {
-  display: flex;
-  align-items: center;
-  padding: 0.375rem 0.75rem;
-  margin-bottom: 0;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  text-align: center;
-  white-space: nowrap;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem 0 0 0.25rem;
-}
-
-.input-group .form-control {
-  position: relative;
-  flex: 1 1 auto;
-  width: 1%;
-  min-width: 0;
-  margin-bottom: 0;
-}
-
-.form-control {
-  display: block;
-  width: 100%;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0 0.25rem 0.25rem 0;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.form-control:focus {
-  color: #495057;
-  background-color: #fff;
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
+/* Badge, form-control, and input-group styles are now handled by Bootstrap */
 
 /* Right chat styles */
 .right_chat li.online .media-object::after,

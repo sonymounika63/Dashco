@@ -18,7 +18,4 @@ export default defineConfig({
   build: {
     sourcemap: false,
   },
-  esbuild: {
-    jsxInject: `import React from 'react'`,
-  },
 })

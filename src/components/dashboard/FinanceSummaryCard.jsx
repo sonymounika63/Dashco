@@ -7,35 +7,35 @@ const FinanceSummaryCard = () => {
   }
 
   return (
-    <div className="w-full lg:w-1/2 md:w-full px-3 mb-4">
-      <div className="bg-white rounded-lg shadow-sm">
-        <div className="p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-800 m-0">Finance Summary</h2>
+    <div className="col-lg-6 col-md-12">
+      <div className="card dark:bg-gray-800 dark:border-gray-700 transition-colors duration-200">
+        <div className="header">
+          <h2 className="dark:text-white/90 transition-colors duration-200">Finance Summary</h2>
         </div>
-        <div className="p-4">
-          <div className="flex flex-wrap -mx-2">
-            <div className="w-full md:w-1/2 px-2 mb-3">
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <h6 className="text-gray-500 m-0 text-sm font-medium">Total Revenue</h6>
-                <h3 className="m-0 mt-1 text-blue-600 text-xl font-bold">{financeData.totalRevenue}</h3>
+        <div className="body">
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <div className="text-center p-3 bg-light dark:bg-gray-700 rounded transition-colors duration-200">
+                <h6 className="text-muted dark:text-gray-400 m-b-0 transition-colors duration-200">Total Revenue</h6>
+                <h3 className="m-t-0 text-primary dark:text-blue-400 transition-colors duration-200">{financeData.totalRevenue}</h3>
               </div>
             </div>
-            <div className="w-full md:w-1/2 px-2 mb-3">
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <h6 className="text-gray-500 m-0 text-sm font-medium">Monthly Revenue</h6>
-                <h3 className="m-0 mt-1 text-green-600 text-xl font-bold">{financeData.monthlyRevenue}</h3>
+            <div className="col-md-6 mb-3">
+              <div className="text-center p-3 bg-light dark:bg-gray-700 rounded transition-colors duration-200">
+                <h6 className="text-muted dark:text-gray-400 m-b-0 transition-colors duration-200">Monthly Revenue</h6>
+                <h3 className="m-t-0 text-success dark:text-green-400 transition-colors duration-200">{financeData.monthlyRevenue}</h3>
               </div>
             </div>
-            <div className="w-full md:w-1/2 px-2 mb-3">
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <h6 className="text-gray-500 m-0 text-sm font-medium">Pending Payments</h6>
-                <h3 className="m-0 mt-1 text-yellow-600 text-xl font-bold">{financeData.pendingPayments}</h3>
+            <div className="col-md-6 mb-3">
+              <div className="text-center p-3 bg-light dark:bg-gray-700 rounded transition-colors duration-200">
+                <h6 className="text-muted dark:text-gray-400 m-b-0 transition-colors duration-200">Pending Payments</h6>
+                <h3 className="m-t-0 text-warning dark:text-yellow-400 transition-colors duration-200">{financeData.pendingPayments}</h3>
               </div>
             </div>
-            <div className="w-full md:w-1/2 px-2 mb-3">
-              <div className="text-center p-3 bg-gray-50 rounded-lg">
-                <h6 className="text-gray-500 m-0 text-sm font-medium">Total Invoices</h6>
-                <h3 className="m-0 mt-1 text-cyan-600 text-xl font-bold">{financeData.totalInvoices}</h3>
+            <div className="col-md-6 mb-3">
+              <div className="text-center p-3 bg-light dark:bg-gray-700 rounded transition-colors duration-200">
+                <h6 className="text-muted dark:text-gray-400 m-b-0 transition-colors duration-200">Total Invoices</h6>
+                <h3 className="m-t-0 text-info dark:text-cyan-400 transition-colors duration-200">{financeData.totalInvoices}</h3>
               </div>
             </div>
           </div>

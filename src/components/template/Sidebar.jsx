@@ -1,150 +1,42 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { Link } from "react-router-dom";
+/**
+ * Sidebar Component - Tailadmin Style
+ * Updated to use FontAwesome icons instead of SVG, matching Tailadmin demo structure
+ * Modified to sync main content shift with sidebar collapse — 2024
+ */
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "../../assets/css/Sidebar.css";
-import userImage from "../../assets/images/user.png";
 
-const Sidebar = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const [imageError, setImageError] = useState(false);
-  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-  const [expandedMenus, setExpandedMenus] = useState({
-    dashboard: true,
-    companies: false,
-    packages: false,
-    certificates: false,
-    items: false,
-    finance: false,
-    users: false,
-    settings: false,
+const Sidebar = ({ isOpen, onClose, sidebarToggle = false }) => {
+  const location = useLocation();
+  const [selectedMenu, setSelectedMenu] = useState(() => {
+    const saved = localStorage.getItem("selectedMenu");
+    return saved || "Dashboard";
   });
+  const sidebarRef = useRef(null);
 
-  const dropdownRef = useRef(null);
-
-  const toggleMenu = useCallback((menu) => {
-    setExpandedMenus((prev) => ({
-      ...prev,
-      [menu]: !prev[menu],
-    }));
-  }, []);
-
-  const handleImageError = useCallback(() => {
-    setImageError(true);
-  }, []);
-
-  const handleToggleDropdown = useCallback((e) => {
-    e.preventDefault();
-    setIsUserDropdownOpen((prev) => !prev);
-  }, []);
-
-  const handleCloseDropdown = useCallback(() => {
-    setIsUserDropdownOpen(false);
-  }, []);
-
-  const handleTabChange = useCallback((tabIndex) => {
-    return (e) => {
-      e.preventDefault();
-      setActiveTab(tabIndex);
-    };
-  }, []);
-
-  const userStats = [
-    { label: "Sales", value: "456" },
-    { label: "Order", value: "1350" },
-    { label: "Revenue", value: "$2.13B" },
-  ];
-
-  const menuItems = [
-    {
-      id: "dashboard",
-      icon: "fa-regular fa-house",
-      label: "Dashboard",
-      children: [
-        { href: "/dashboard", label: "Product Owner Dashboard", active: true },
-        { href: "/pricing", label: "Pricing" },
-      ],
-    },
-    {
-      id: "companies",
-      icon: "fa-solid fa-building",
-      label: "Companies",
-      children: [
-        { href: "/companies", label: "List Companies" },
-        { href: "/companies/create", label: "Create Company" },
-      ],
-    },
-    {
-      id: "packages",
-      icon: "fa-solid fa-box",
-      label: "Packages",
-      children: [
-        { href: "/packages", label: "List Packages" },
-        { href: "/packages/create", label: "Create Package" },
-      ],
-    },
-    {
-      id: "certificates",
-      icon: "fa-solid fa-certificate",
-      label: "Certificates",
-      children: [
-        { href: "/certificates", label: "List Certificates" },
-        { href: "/certificates/create", label: "Create Certificate" },
-      ],
-    },
-    {
-      id: "items",
-      icon: "fa-regular fa-folder",
-      label: "Items (Repository)",
-      children: [
-        { href: "/items", label: "List Items" },
-        { href: "/items/create", label: "Create Item" },
-      ],
-    },
-    {
-      id: "finance",
-      icon: "fa-solid fa-dollar-sign",
-      label: "Finance",
-      children: [
-        { href: "/finance/reports", label: "Payment Reports" },
-        { href: "/finance/invoices", label: "Invoices" },
-      ],
-    },
-    {
-      id: "users",
-      icon: "fa-solid fa-users",
-      label: "Users",
-      children: [
-        { href: "/users", label: "List Users" },
-        { href: "/users/create", label: "Create User" },
-      ],
-    },
-    {
-      id: "settings",
-      icon: "fa-solid fa-gear",
-      label: "Settings",
-      children: [
-        { href: "/settings/branding", label: "Product Branding" },
-        { href: "/settings/contact", label: "Contact Information" },
-        { href: "/settings/tax", label: "GST & Tax" },
-        { href: "/settings/limits", label: "Limits Configuration" },
-      ],
-    },
-  ];
-
-  const chatContacts = [
-    { name: "Chris Fox", role: "Designer, Blogger", status: "online" },
-    { name: "Joge Lucky", role: "Java Developer", status: "online" },
-    { name: "Isabella", role: "CEO, Thememakker", status: "offline" },
-    {
-      name: "Folisise Chosielie",
-      role: "Art director, Movie Cut",
-      status: "offline",
-    },
-    { name: "Alexander", role: "Writter, Mag Editor", status: "online" },
-  ];
-
-  // Update body class when sidebar opens/closes
+  // Update selected menu based on current route
   useEffect(() => {
-    if (isOpen) {
+    if (location.pathname === "/dashboard") {
+      setSelectedMenu("Dashboard");
+    } else if (location.pathname === "/profilev2page") {
+      setSelectedMenu("Profile");
+    } else if (location.pathname === "/pricing") {
+      setSelectedMenu("Pages");
+    }
+  }, [location]);
+
+  // Save selected menu to localStorage
+  useEffect(() => {
+    localStorage.setItem("selectedMenu", selectedMenu);
+  }, [selectedMenu]);
+
+  // Note: Click outside handling is done via overlay in Dashboard.jsx
+  // No need for separate click outside handler here
+
+  // Update body class when sidebar opens/closes on mobile
+  useEffect(() => {
+    if (isOpen && window.innerWidth < 1280) {
       document.body.classList.add("offcanvas-active");
     } else {
       document.body.classList.remove("offcanvas-active");
@@ -155,523 +47,1496 @@ const Sidebar = ({ isOpen, onClose }) => {
     };
   }, [isOpen]);
 
-  // Close user dropdown when clicking outside using useRef
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        isUserDropdownOpen &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
-        setIsUserDropdownOpen(false);
-      }
-    };
+  const toggleMenu = (menuId) => {
+    setSelectedMenu((prev) => (prev === menuId ? "" : menuId));
+  };
 
-    if (isUserDropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+  // Menu Group Icon (three dots)
+  const MenuGroupIcon = () => (
+    <svg
+      className="menu-group-icon mx-auto fill-current"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M5.99915 10.2451C6.96564 10.2451 7.74915 11.0286 7.74915 11.9951V12.0051C7.74915 12.9716 6.96564 13.7551 5.99915 13.7551C5.03265 13.7551 4.24915 12.9716 4.24915 12.0051V11.9951C4.24915 11.0286 5.03265 10.2451 5.99915 10.2451ZM17.9991 10.2451C18.9656 10.2451 19.7491 11.0286 19.7491 11.9951V12.0051C19.7491 12.9716 18.9656 13.7551 17.9991 13.7551C17.0326 13.7551 16.2491 12.9716 16.2491 12.0051V11.9951C16.2491 11.0286 17.0326 10.2451 17.9991 10.2451ZM13.7491 11.9951C13.7491 11.0286 12.9656 10.2451 11.9991 10.2451C11.0326 10.2451 10.2491 11.0286 10.2491 11.9951V12.0051C10.2491 12.9716 11.0326 13.7551 11.9991 13.7551C12.9656 13.7551 13.7491 12.9716 13.7491 12.0051V11.9951Z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  );
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isUserDropdownOpen]);
+  // Arrow Icon
+  const ArrowIcon = ({ isActive }) => (
+    <svg
+      className={`menu-item-arrow ${
+        isActive ? "menu-item-arrow-active" : "menu-item-arrow-inactive"
+      } ${sidebarToggle ? "xl:hidden" : ""}`}
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></path>
+    </svg>
+  );
 
   return (
     <>
-      {/* Sidebar Overlay for Mobile */}
-      <div
-        className="sidebar-overlay xl:hidden"
-        onClick={onClose}
-        onKeyDown={(e) => e.key === "Escape" && onClose()}
-        aria-hidden="true"
-        role="button"
-        tabIndex={-1}
-      />
-
       {/* Sidebar */}
-      <aside id="left-sidebar" className="sidebar" aria-label="Main navigation">
-        <div className="sidebar-scroll">
-          {/* User Account Section */}
-          <div className="user-account">
-            <div className="flex items-start">
-              {imageError ? (
-                <div className="user-photo rounded-full w-[50px] h-[50px] border-2 border-gray-300 mr-2.5 flex-shrink-0 bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white text-xl font-bold">
-                  AT
-                </div>
-              ) : (
-                <img
-                  src={userImage}
-                  className="user-photo rounded-full w-[50px] h-[50px] border-2 border-gray-300 mr-2.5 flex-shrink-0 object-cover"
-                  alt="User Profile"
-                  onError={handleImageError}
-                />
-              )}
-              <div
-                className="dropdown text-left mt-1.5 inline-block relative"
-                ref={dropdownRef}
-              >
-                <span className="text-sm text-gray-600 block">Welcome,</span>
-                <button
-                  type="button"
-                  className="user-name dropdown-toggle block text-inherit hover:no-underline focus:no-underline cursor-pointer flex items-center gap-1 bg-transparent border-0 p-0 w-full text-left"
-                  aria-haspopup="true"
-                  aria-expanded={isUserDropdownOpen}
-                  id="dropdown-basic"
-                  onClick={handleToggleDropdown}
+      <aside
+        ref={sidebarRef}
+        className={`sidebar fixed top-0 left-0 z-9999 flex h-screen flex-col overflow-y-auto border-r border-gray-200 bg-white px-5 xl:static xl:translate-x-0 dark:border-gray-800 dark:bg-black ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } ${sidebarToggle ? "!w-[90px] xl:!w-[90px]" : "!w-[290px] xl:!w-[290px]"}`}
+        aria-label="Main navigation"
+        aria-expanded={sidebarToggle ? "false" : "true"}
+      >
+        {/* SIDEBAR HEADER */}
+        <div className="sidebar-header flex items-center gap-2 pt-8 pb-7 justify-between px-0">
+          <Link to="/dashboard" onClick={onClose}>
+            <span className={`logo ${sidebarToggle ? "xl:hidden" : ""}`}>
+              <img
+                className="dark:hidden"
+                src="https://demo.tailadmin.com/src/images/logo/logo.svg"
+                alt="Logo"
+              />
+              <img
+                className="hidden dark:block"
+                src="https://demo.tailadmin.com/src/images/logo/logo-dark.svg"
+                alt="Logo"
+              />
+            </span>
+            <img
+              className={`logo-icon hidden ${
+                sidebarToggle ? "xl:block" : "hidden"
+              }`}
+              src="https://demo.tailadmin.com/src/images/logo/logo-icon.svg"
+              alt="Logo"
+            />
+          </Link>
+        </div>
+        {/* SIDEBAR HEADER */}
+
+        {/* Scrollable Content */}
+        <div className="no-scrollbar flex flex-col overflow-y-auto">
+          {/* Sidebar Menu */}
+          <nav aria-label="Main menu">
+            {/* Menu Group */}
+            <div>
+              <h3 className="mb-4 text-xs font-normal leading-5 text-gray-400 uppercase">
+                <span
+                  className={`menu-group-title ${
+                    sidebarToggle ? "xl:hidden" : ""
+                  }`}
                 >
-                  <strong className="text-sm font-semibold text-gray-700">
-                    Alizee Thomas
-                  </strong>
-                </button>
-                {isUserDropdownOpen && (
-                  <div
-                    className="dropdown-menu dropdown-menu-right account dropdown-menu show absolute top-full mt-2 min-w-[150px] z-[9999]"
-                    aria-labelledby="dropdown-basic"
-                    role="menu"
-                  >
-                    <Link
-                      to="/profilev2page"
-                      className="dropdown-item"
-                      onClick={handleCloseDropdown}
-                      role="menuitem"
-                    >
-                      <i className="fa-solid fa-user" aria-hidden="true" />
-                      My Profile
-                    </Link>
-                    <Link
-                      to="/appinbox"
-                      className="dropdown-item"
-                      onClick={handleCloseDropdown}
-                      role="menuitem"
-                    >
-                      <i
-                        className="fa-regular fa-envelope-open"
-                        aria-hidden="true"
-                      />
-                      Messages
-                    </Link>
-                    <button
-                      type="button"
-                      className="dropdown-item w-full text-left bg-transparent border-0"
-                      onClick={handleCloseDropdown}
-                      role="menuitem"
-                    >
-                      <i className="fa-solid fa-gear" aria-hidden="true" />
-                      Settings
-                    </button>
-                    <li className="divider" role="separator" />
-                    <Link
-                      to="/login"
-                      className="dropdown-item"
-                      onClick={handleCloseDropdown}
-                      role="menuitem"
-                    >
-                      <i className="fa-solid fa-power-off" aria-hidden="true" />
-                      Logout
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
-            <hr className="my-4 border-t border-gray-200" />
-            <ul className="list-unstyled flex justify-between">
-              {userStats.map((stat, idx) => (
-                <li key={`stat-${idx}`} className="text-center">
-                  <small className="text-xs text-gray-500 block">
-                    {stat.label}
-                  </small>
-                  <h6 className="text-sm font-semibold text-gray-700 m-0">
-                    {stat.value}
-                  </h6>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Nav Tabs */}
-          <ul className="nav nav-tabs" role="tablist">
-            <li className="nav-item" role="presentation">
-              <button
-                type="button"
-                className={`nav-link ${activeTab === 0 ? "active" : ""}`}
-                onClick={handleTabChange(0)}
-                role="tab"
-                aria-selected={activeTab === 0}
-                aria-controls="menu-tab"
-                id="menu-tab-button"
-              >
-                Menu
-              </button>
-            </li>
-            <li className="nav-item" role="presentation">
-              <button
-                type="button"
-                className={`nav-link ${activeTab === 1 ? "active" : ""}`}
-                onClick={handleTabChange(1)}
-                role="tab"
-                aria-selected={activeTab === 1}
-                aria-controls="chat-tab"
-                id="chat-tab-button"
-              >
-                <i className="fa-regular fa-address-book" aria-hidden="true" />
-                <span className="sr-only">Chat</span>
-              </button>
-            </li>
-            <li className="nav-item" role="presentation">
-              <button
-                type="button"
-                className={`nav-link ${activeTab === 2 ? "active" : ""}`}
-                onClick={handleTabChange(2)}
-                role="tab"
-                aria-selected={activeTab === 2}
-                aria-controls="setting-tab"
-                id="setting-tab-button"
-              >
-                <i className="fa-solid fa-gear" aria-hidden="true" />
-                <span className="sr-only">Settings</span>
-              </button>
-            </li>
-            <li className="nav-item" role="presentation">
-              <button
-                type="button"
-                className={`nav-link ${activeTab === 3 ? "active" : ""}`}
-                onClick={handleTabChange(3)}
-                role="tab"
-                aria-selected={activeTab === 3}
-                aria-controls="question-tab"
-                id="question-tab-button"
-              >
-                <i
-                  className="fa-regular fa-circle-question"
-                  aria-hidden="true"
-                />
-                <span className="sr-only">Question</span>
-              </button>
-            </li>
-          </ul>
-
-          {/* Tab Content */}
-          <div className="tab-content px-0 pb-0 pt-4">
-            {/* Menu Tab */}
-            <div
-              className={`tab-pane ${activeTab === 0 ? "active show" : ""}`}
-              id="menu"
-              role="tabpanel"
-              aria-labelledby="menu-tab-button"
-            >
-              <nav
-                id="left-sidebar-nav"
-                className="sidebar-nav"
-                aria-label="Main menu"
-              >
-                <ul id="main-menu" className="metismenu p-0 m-0 list-none">
-                  {menuItems.map((item) => (
-                    <li
-                      key={item.id}
-                      className={
-                        expandedMenus[item.id] ? "active pb-1.5" : "pb-1.5"
-                      }
-                      id={`${
-                        item.id.charAt(0).toUpperCase() + item.id.slice(1)
-                      }Container`}
-                    >
-                      <button
-                        type="button"
-                        className={`has-arrow block relative py-3 px-4 text-sm transition-all duration-300 ease-out outline-none hover:bg-gray-100 hover:text-gray-900 w-full text-left bg-transparent border-0 ${
-                          expandedMenus[item.id]
-                            ? "text-gray-900"
-                            : "text-gray-700"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          toggleMenu(item.id);
-                        }}
-                        aria-expanded={expandedMenus[item.id]}
-                        aria-controls={`${item.id}-submenu`}
-                      >
-                        <i
-                          className={`${item.icon} relative top-0.5 mr-5 text-base text-[#4f5d75]`}
-                          aria-hidden="true"
-                        />
-                        <span>{item.label}</span>
-                      </button>
-                      <ul
-                        className={`collapse ${
-                          expandedMenus[item.id] ? "in" : ""
-                        }`}
-                        id={`${item.id}-submenu`}
-                      >
-                        {item.children.map((child, idx) => (
-                          <li
-                            key={`${item.id}-child-${idx}`}
-                            className={child.active ? "active" : ""}
-                          >
-                            <Link
-                              to={child.href}
-                              className="block py-2.5 px-4 pl-14 text-gray-600 text-sm relative hover:bg-gray-100 hover:text-gray-900 hover:no-underline before:content-['--'] before:absolute before:left-4"
-                            >
-                              {child.label}
-                              {child.badge && (
-                                <span
-                                  className={`badge badge-${
-                                    child.badgeType || "default"
-                                  } float-right`}
-                                >
-                                  {child.badge}
-                                </span>
-                              )}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-
-            {/* Chat Tab */}
-            <div
-              className={`tab-pane ${
-                activeTab === 1 ? "active show" : ""
-              } px-[15px] py-0`}
-              id="Chat"
-              role="tabpanel"
-              aria-labelledby="chat-tab-button"
-            >
-              <form onSubmit={(e) => e.preventDefault()}>
-                <div className="input-group mb-5">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text bg-white border-r-0">
-                      <i
-                        className="fa-solid fa-magnifying-glass"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control border-l-0"
-                    placeholder="Search..."
-                    aria-label="Search contacts"
-                  />
-                </div>
-              </form>
-              <ul className="list-none p-0 m-0">
-                {chatContacts.map((contact, idx) => (
-                  <li
-                    key={`contact-${idx}`}
-                    className={`${contact.status} mb-3 relative`}
-                  >
-                    <Link to="/dashboard" className="block hover:no-underline">
-                      <div className="flex items-start">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white font-bold mr-2.5 flex-shrink-0 border-2 border-transparent transition-all duration-300">
-                          {contact.name.charAt(0)}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <span className="block text-[15px] text-[#4f5d75] m-0">
-                            {contact.name}
-                          </span>
-                          <span className="inline-block text-[13px] text-[#9ca3af]">
-                            {contact.role}
-                          </span>
-                          <span
-                            className={`absolute left-[23px] top-[30px] w-[11px] h-[11px] min-w-[11px] rounded-full border-2 border-white p-0 inline-block ${
-                              contact.status === "online"
-                                ? "bg-[#22c55e]"
-                                : "bg-[#94a3b8]"
-                            }`}
-                            aria-label={
-                              contact.status === "online" ? "Online" : "Offline"
-                            }
-                          />
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Settings Tab */}
-            <div
-              className={`tab-pane ${
-                activeTab === 2 ? "active show" : ""
-              } px-[15px] py-0`}
-              id="setting"
-              role="tabpanel"
-              aria-labelledby="setting-tab-button"
-            >
-              <h6 className="text-sm font-semibold text-gray-700 mb-3">
-                Choose Mode
-              </h6>
-              <ul className="list-none p-0 m-0 mb-6">
-                <li
-                  data-theme="white"
-                  className="active block mb-1 cursor-pointer"
-                >
-                  <div className="white w-[22px] h-[22px] rounded-[22px] inline-block relative bg-white border-2 border-gray-300" />
-                  <span className="inline-block leading-[22px] align-top ml-1.5 text-sm text-gray-700">
-                    Light
+                  MENU
+                </span>
+                {sidebarToggle && (
+                  <span className="xl:block hidden">
+                    <MenuGroupIcon />
                   </span>
-                </li>
-                <li data-theme="black" className="block mb-1 cursor-pointer">
-                  <div className="black w-[22px] h-[22px] rounded-[22px] inline-block relative bg-gray-900 border-2 border-transparent" />
-                  <span className="inline-block leading-[22px] align-top ml-1.5 text-sm text-gray-700">
-                    Dark
-                  </span>
-                </li>
-              </ul>
-              <hr className="my-4 border-t border-gray-200" />
-              <h6 className="text-sm font-semibold text-gray-700 mb-3">
-                Choose Skin
-              </h6>
-              <ul className="list-none p-0 m-0 mb-6">
-                {["purple", "blue", "cyan", "green", "orange", "blush"].map(
-                  (color) => (
-                    <li
-                      key={color}
-                      data-theme={color}
-                      className={`${
-                        color === "cyan" ? "active " : ""
-                      }block mb-1 cursor-pointer`}
-                    >
-                      <div
-                        className={`${color} w-[22px] h-[22px] rounded-[22px] inline-block relative border-2 ${
-                          color === "purple"
-                            ? "bg-purple-500 border-gray-300"
-                            : color === "blue"
-                            ? "bg-blue-500 border-gray-300"
-                            : color === "cyan"
-                            ? "bg-cyan-500 border-[#88BDF2]"
-                            : color === "green"
-                            ? "bg-green-500 border-gray-300"
-                            : color === "orange"
-                            ? "bg-orange-500 border-gray-300"
-                            : "bg-pink-500 border-gray-300"
-                        }`}
-                      />
-                      <span className="inline-block leading-[22px] align-top ml-1.5 text-sm text-gray-700 capitalize">
-                        {color}
-                      </span>
-                    </li>
-                  )
                 )}
-              </ul>
-              <hr className="my-4 border-t border-gray-200" />
-              <h6 className="text-sm font-semibold text-gray-700 mb-3">
-                General Settings
-              </h6>
-              <ul className="list-none p-0 m-0">
-                {[
-                  "Report Panel Usage",
-                  "Email Redirect",
-                  "Notifications",
-                  "Auto Updates",
-                  "Offline",
-                  "Location Permission",
-                ].map((setting) => (
-                  <li key={setting} className="mt-[5px]">
-                    <label className="flex items-center cursor-pointer">
-                      <input type="checkbox" name="checkbox" className="mr-2" />
-                      <span className="text-sm text-gray-700">{setting}</span>
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              </h3>
 
-            {/* Question Tab */}
-            <div
-              className={`tab-pane ${
-                activeTab === 3 ? "active show" : ""
-              } px-[15px] py-0`}
-              id="question"
-              role="tabpanel"
-              aria-labelledby="question-tab-button"
-            >
-              <form onSubmit={(e) => e.preventDefault()}>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text bg-white border-r-0">
-                      <i
-                        className="fa-solid fa-magnifying-glass"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control border-l-0"
-                    placeholder="Search..."
-                    aria-label="Search help"
-                  />
-                </div>
-              </form>
-              <ul className="list-unstyled question">
-                <li className="menu-heading mt-4 mb-2 text-xs font-semibold text-gray-500 uppercase">
-                  HOW-TO
-                </li>
-                {[
-                  "How to Create Campaign",
-                  "Boost Your Sales",
-                  "Website Analytics",
-                ].map((item) => (
-                  <li key={item} className="py-0.5">
-                    <a
-                      href="#!"
-                      className="pl-4 relative text-sm text-gray-700 hover:text-gray-900 hover:no-underline before:content-['--'] before:absolute before:left-0"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-                <li className="menu-heading mt-4 mb-2 text-xs font-semibold text-gray-500 uppercase">
-                  ACCOUNT
-                </li>
-                {[
-                  { label: "Create New Account", href: "/registration" },
-                  { label: "Change Password?", href: "/forgotpassword" },
-                  { label: "Privacy & Policy", href: "#!" },
-                ].map((item, idx) => (
-                  <li key={`account-${idx}`} className="py-0.5">
-                    <Link
-                      to={item.href}
-                      className="pl-4 relative text-sm text-gray-700 hover:text-gray-900 hover:no-underline before:content-['--'] before:absolute before:left-0"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-                <li className="menu-heading mt-4 mb-2 text-xs font-semibold text-gray-500 uppercase">
-                  BILLING
-                </li>
-                {["Payment info", "Auto-Renewal"].map((item) => (
-                  <li key={item} className="py-0.5">
-                    <a
-                      href="#!"
-                      className="pl-4 relative text-sm text-gray-700 hover:text-gray-900 hover:no-underline before:content-['--'] before:absolute before:left-0"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-                <li className="menu-button mt-8">
+              <ul className="mb-6 flex flex-col gap-1">
+                {/* Menu Item Dashboard */}
+                <li>
                   <a
-                    href="#!"
-                    className="btn btn-primary inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:no-underline"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Dashboard");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Dashboard"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
                   >
                     <i
-                      className="fa-solid fa-circle-question"
-                      aria-hidden="true"
-                    />
-                    Need Help?
+                      className={`fa-solid fa-th-large w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Dashboard"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Dashboard
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "Dashboard"} />
+                    )}
                   </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Dashboard" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            eCommerce
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Analytics
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Marketing
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            CRM
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Stocks
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive relative"
+                          >
+                            SaaS
+                            <span className="absolute right-3 flex items-center gap-1">
+                              <span className="menu-dropdown-badge menu-dropdown-badge-inactive">
+                                New
+                              </span>
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive relative"
+                          >
+                            Logistics
+                            <span className="absolute right-3 flex items-center gap-1">
+                              <span className="menu-dropdown-badge menu-dropdown-badge-inactive">
+                                New
+                              </span>
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 </li>
+                {/* Menu Item Dashboard */}
+
+                {/* Menu Item AI */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("AI");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "AI"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-robot w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "AI"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      AI Assistant
+                    </span>
+                    {!sidebarToggle && (
+                      <>
+                        <span className="absolute right-10 flex items-center gap-1">
+                          <span className="menu-dropdown-badge menu-dropdown-badge-inactive">
+                            New
+                          </span>
+                        </span>
+                        <ArrowIcon isActive={selectedMenu === "AI"} />
+                      </>
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "AI" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Text Generator
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Image Generator
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Code Generator
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Video Generator
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item AI */}
+
+                {/* Menu Item E-commerce */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("E-commerce");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "E-commerce"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-cart-shopping w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "E-commerce"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      E-commerce
+                    </span>
+                    {!sidebarToggle && (
+                      <>
+                        <span className="absolute right-10 flex items-center gap-1">
+                          <span className="menu-dropdown-badge menu-dropdown-badge-inactive">
+                            New
+                          </span>
+                        </span>
+                        <ArrowIcon isActive={selectedMenu === "E-commerce"} />
+                      </>
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "E-commerce" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Products
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Add Product
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Billing
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Invoices
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Single Invoice
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Create Invoice
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Transactions
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Single Transaction
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item E-commerce */}
+
+                {/* Menu Item Calendar */}
+                <li>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => {
+                      toggleMenu("Calendar");
+                      onClose();
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Calendar"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-calendar w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Calendar"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Calendar
+                    </span>
+                  </Link>
+                </li>
+                {/* Menu Item Calendar */}
+
+                {/* Menu Item Profile */}
+                <li>
+                  <Link
+                    to="/profilev2page"
+                    onClick={() => {
+                      setSelectedMenu("Profile");
+                      onClose();
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Profile" || location.pathname === "/profilev2page"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-user w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Profile" || location.pathname === "/profilev2page"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      User Profile
+                    </span>
+                  </Link>
+                </li>
+                {/* Menu Item Profile */}
+
+                {/* Menu Item Task */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Task");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Task"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-tasks w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Task"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Task
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "Task"} />
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Task" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            List
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Kanban
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item Task */}
+
+                {/* Menu Item Forms */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Forms");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Forms"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-file-lines w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Forms"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Forms
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "Forms"} />
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Forms" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Form Elements
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Form Layout
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item Forms */}
+
+                {/* Menu Item Tables */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Tables");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Tables"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-table w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Tables"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Tables
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "Tables"} />
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Tables" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Basic Tables
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Data Tables
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item Tables */}
+
+                {/* Menu Item Pages */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Pages");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Pages" || location.pathname === "/pricing"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-file w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Pages" || location.pathname === "/pricing"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Pages
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "Pages" || location.pathname === "/pricing"} />
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Pages" || location.pathname === "/pricing" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            File Manager
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/pricing"
+                            onClick={() => {
+                              setSelectedMenu("Pages");
+                              onClose();
+                            }}
+                            className={`menu-dropdown-item group ${
+                              location.pathname === "/pricing"
+                                ? "bg-gray-100 dark:bg-gray-700 text-primary"
+                                : "menu-dropdown-item-inactive"
+                            }`}
+                          >
+                            Pricing Tables
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            FAQ
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive relative"
+                          >
+                            API Keys
+                            <span className="absolute right-3 flex items-center gap-1">
+                              <span className="menu-dropdown-badge menu-dropdown-badge-inactive">
+                                New
+                              </span>
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive relative"
+                          >
+                            Integrations
+                            <span className="absolute right-3 flex items-center gap-1">
+                              <span className="menu-dropdown-badge menu-dropdown-badge-inactive">
+                                New
+                              </span>
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Blank Page
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            404 Error
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            500 Error
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            503 Error
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Coming Soon
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Maintenance
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Success
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item Pages */}
               </ul>
             </div>
-          </div>
+            {/* Menu Group */}
+
+            {/* Support Group */}
+            <div>
+              <h3 className="mb-4 text-xs font-normal leading-5 text-gray-400 uppercase">
+                <span
+                  className={`menu-group-title ${
+                    sidebarToggle ? "xl:hidden" : ""
+                  }`}
+                >
+                  Support
+                </span>
+                {sidebarToggle && (
+                  <span className="xl:block hidden">
+                    <MenuGroupIcon />
+                  </span>
+                )}
+              </h3>
+
+              <ul className="mb-6 flex flex-col gap-1">
+                {/* Menu Item Chat */}
+                <li>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => {
+                      toggleMenu("Chat");
+                      onClose();
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Chat"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-comments w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Chat"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Chat
+                    </span>
+                  </Link>
+                </li>
+                {/* Menu Item Chat */}
+
+                {/* Menu Item Support Ticket */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Support");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Support"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-headset w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Support"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Support Ticket
+                    </span>
+                    {!sidebarToggle && (
+                      <>
+                        <span className="absolute right-10 flex items-center gap-1">
+                          <span className="menu-dropdown-badge menu-dropdown-badge-inactive">
+                            New
+                          </span>
+                        </span>
+                        <ArrowIcon isActive={selectedMenu === "Support"} />
+                      </>
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Support" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Ticket List
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Ticket Reply
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item Support Ticket */}
+
+                {/* Menu Item Email */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Email");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Email"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-envelope w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Email"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Email
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "Email"} />
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Email" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Inbox
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Details
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item Email */}
+              </ul>
+            </div>
+            {/* Support Group */}
+
+            {/* Others Group */}
+            <div>
+              <h3 className="mb-4 text-xs font-normal leading-5 text-gray-400 uppercase">
+                <span
+                  className={`menu-group-title ${
+                    sidebarToggle ? "xl:hidden" : ""
+                  }`}
+                >
+                  others
+                </span>
+                {sidebarToggle && (
+                  <span className="xl:block hidden">
+                    <MenuGroupIcon />
+                  </span>
+                )}
+              </h3>
+
+              <ul className="mb-6 flex flex-col gap-1">
+                {/* Menu Item Charts */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Charts");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Charts"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-chart-line w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Charts"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Charts
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "Charts"} />
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Charts" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Line Chart
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Bar Chart
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Pie Chart
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item Charts */}
+
+                {/* Menu Item UI Elements */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("UiElements");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "UiElements"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-cube w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "UiElements"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      UI Elements
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "UiElements"} />
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "UiElements" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Alerts
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Avatars
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Badge
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Breadcrumb
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Buttons
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Buttons Group
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Cards
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Carousel
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Dropdowns
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Images
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Links
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            List
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Modals
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Notifications
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Pagination
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Popovers
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Progress Bars
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Ribbons
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Spinners
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Tabs
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Tooltips
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Videos
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item UI Elements */}
+
+                {/* Menu Item Authentication */}
+                <li>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleMenu("Authentication");
+                    }}
+                    className={`menu-item group relative flex items-center rounded-lg w-full text-left transition-colors duration-200 ${
+                      selectedMenu === "Authentication"
+                        ? "menu-item-active"
+                        : "menu-item-inactive"
+                    }`}
+                  >
+                    <i
+                      className={`fa-solid fa-lock w-6 h-6 flex items-center justify-center ${
+                        selectedMenu === "Authentication"
+                          ? "menu-item-icon-active"
+                          : "menu-item-icon-inactive"
+                      }`}
+                    ></i>
+                    <span
+                      className={`menu-item-text ${
+                        sidebarToggle ? "xl:hidden" : ""
+                      }`}
+                    >
+                      Authentication
+                    </span>
+                    {!sidebarToggle && (
+                      <ArrowIcon isActive={selectedMenu === "Authentication"} />
+                    )}
+                  </a>
+
+                  {/* Dropdown Menu */}
+                  {!sidebarToggle && (
+                    <div
+                      className={`translate transform overflow-hidden transition-all duration-300 ${
+                        selectedMenu === "Authentication" ? "block" : "hidden"
+                      }`}
+                    >
+                      <ul className="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Sign In
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Sign Up
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Reset Password
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/dashboard"
+                            onClick={onClose}
+                            className="menu-dropdown-item group menu-dropdown-item-inactive"
+                          >
+                            Two Step Verification
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+                {/* Menu Item Authentication */}
+              </ul>
+            </div>
+            {/* Others Group */}
+          </nav>
+          {/* Sidebar Menu */}
         </div>
+        {/* Scrollable Content */}
       </aside>
     </>
   );

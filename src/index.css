@@ -1,43 +1,2365 @@
 @import "tailwindcss";
 
-body::before,
-body::after,
-#root::before,
-#root::after {
+@layer utilities {
+  .duration-300 {
+    --tw-duration: 300ms;
+    -webkit-transition-duration: 300ms;
+    transition-duration: 300ms;
+  }
+}
+
+/* Custom z-index utilities for Tailadmin compatibility */
+.z-99999 {
+  z-index: 99999 !important;
+}
+
+.z-9999 {
+  z-index: 9999 !important;
+}
+
+/* Tailwind CSS takes precedence over Bootstrap */
+/* CSS Loading Order: Bootstrap (index.html) → Tailwind (this file) → lucid.css (main.jsx) */
+/* Tailwind utilities automatically override Bootstrap due to load order */
+/* Specific overrides below handle edge cases where Bootstrap has higher specificity */
+
+/* Dark mode overrides - ensure dark: classes work when .dark is on html */
+.dark input[class*="dark:bg-gray-900"],
+.dark input.dark\:bg-gray-900 { background-color: rgb(17, 24, 39) !important; }
+.dark input[class*="dark:border-gray-700"],
+.dark input.dark\:border-gray-700 { border-color: rgb(55, 65, 81) !important; }
+.dark input[class*="dark:text-white"],
+.dark input.dark\:text-white { color: rgba(255, 255, 255, 0.9) !important; }
+.dark input[class*="dark:placeholder"]::placeholder,
+.dark input.dark\:placeholder\:text-white\/30::placeholder { color: rgba(255, 255, 255, 0.3) !important; }
+.dark button[class*="dark:bg-white"],
+.dark button.dark\:bg-white\/5 { background-color: rgba(255, 255, 255, 0.05) !important; }
+.dark button[class*="dark:text-white"],
+.dark button.dark\:text-white\/90 { color: rgba(255, 255, 255, 0.9) !important; }
+.dark button[class*="dark:hover"]:hover,
+.dark button.dark\:hover\:bg-white\/10:hover { background-color: rgba(255, 255, 255, 0.1) !important; }
+.dark [class*="dark:bg-gray-900"],
+.dark .dark\:bg-gray-900 { background-color: rgb(17, 24, 39) !important; }
+.dark [class*="dark:text-white"],
+.dark .dark\:text-white\/90 { color: rgba(255, 255, 255, 0.9) !important; }
+.dark [class*="dark:text-gray-400"],
+.dark .dark\:text-gray-400 { color: rgb(156, 163, 175) !important; }
+.dark [class*="dark:hover"]:hover,
+.dark .dark\:hover\:text-gray-300:hover { color: rgb(209, 213, 219) !important; }
+.dark [class*="dark:border-gray-800"],
+.dark .dark\:border-gray-800 { border-color: rgb(31, 41, 55) !important; }
+.dark [class*="before:border"]::before,
+.dark [class*="dark:before:border-gray-800"]::before { border-color: rgb(31, 41, 55) !important; }
+.dark [class*="dark:border-gray-700"],
+.dark .dark\:border-gray-700 { border-color: rgb(55, 65, 81) !important; }
+.dark [class*="dark:bg-white"],
+.dark .dark\:bg-white\/5 { background-color: rgba(255, 255, 255, 0.05) !important; }
+.dark [class*="dark:text-white/60"],
+.dark .dark\:text-white\/60 { color: rgba(255, 255, 255, 0.6) !important; }
+
+/* Dark mode overrides for Dashboard components */
+.dark .card[class*="dark:bg-gray-800"] { background-color: rgb(22, 30, 46) !important; } /* Derived from #101828 */
+.dark .card[class*="dark:border-gray-700"] { border-color: rgb(37, 47, 63) !important; } /* Border derived from #101828 */
+.dark .card .header[class*="dark:bg-gray-800"] { background-color: transparent !important; }
+.dark .card .header h2[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .card .body[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .block-header[class*="dark:bg-gray-800"] { background-color: transparent !important; }
+.dark .block-header[class*="dark:border-gray-700"] { border-bottom-color: rgb(55, 65, 81) !important; }
+.dark .block-header h2[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .table[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .table th[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .table td[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .table th[class*="dark:border-gray-700"] { border-color: rgb(55, 65, 81) !important; }
+.dark .table td[class*="dark:border-gray-700"],
+.dark .table tr[class*="dark:border-gray-700"] { border-color: rgb(55, 65, 81) !important; }
+.dark .bg-light[class*="dark:bg-gray-700"] { background-color: rgb(55, 65, 81) !important; }
+.dark .text-muted[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .text-muted[class*="dark:text-gray-500"] { color: rgb(107, 114, 128) !important; }
+.dark .badge[class*="dark:bg-gray-700"] { background-color: rgb(55, 65, 81) !important; }
+.dark .badge[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .progress[class*="dark:bg-gray-700"] { background-color: rgb(55, 65, 81) !important; }
+.dark .border-bottom[class*="dark:border-gray-700"] { border-bottom-color: rgb(55, 65, 81) !important; }
+.dark #wrapper[class*="dark:bg-gray-900"] { background-color: rgb(16, 24, 40) !important; } /* TailAdmin #101828 */
+.dark #main-content[class*="dark:bg-gray-900"] { background-color: rgb(16, 24, 40) !important; } /* TailAdmin #101828 */
+.dark .container-fluid[class*="dark:bg-gray-900"] { background-color: rgb(16, 24, 40) !important; } /* TailAdmin #101828 */
+.dark .text-primary[class*="dark:text-blue-400"] { color: rgb(96, 165, 250) !important; }
+.dark .text-success[class*="dark:text-green-400"] { color: rgb(74, 222, 128) !important; }
+.dark .text-warning[class*="dark:text-yellow-400"] { color: rgb(250, 204, 21) !important; }
+.dark .text-info[class*="dark:text-cyan-400"] { color: rgb(34, 211, 238) !important; }
+.dark .breadcrumb-item a[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .breadcrumb-item span[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .breadcrumb-item a[class*="dark:hover:text-white"]:hover { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .card .body .number h6[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .card .body .number span[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .card .body .content .text[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .card .body .content .number[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .card .body h6[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .card .body p[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .card .body small[class*="dark:text-gray-400"],
+.dark .card .body small[class*="dark:text-gray-500"] { color: rgb(156, 163, 175) !important; }
+.dark .card .body h3[class*="dark:text-blue-400"] { color: rgb(96, 165, 250) !important; }
+.dark .card .body h3[class*="dark:text-green-400"] { color: rgb(74, 222, 128) !important; }
+.dark .card .body h3[class*="dark:text-yellow-400"] { color: rgb(250, 204, 21) !important; }
+.dark .card .body h3[class*="dark:text-cyan-400"] { color: rgb(34, 211, 238) !important; }
+.dark .card .body h6[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark span[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark span[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .btn-toggle-fullwidth[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .btn-toggle-fullwidth[class*="dark:hover:text-white"]:hover { color: rgba(255, 255, 255, 1) !important; }
+
+/* Navbar Button - Ensure visible on desktop for toggle button */
+/* Override lucid.css which hides navbar-btn on desktop */
+.navbar-btn {
+  display: block !important; /* Always show navbar-btn */
+  float: left !important;
+  padding: 0 !important;
+  margin-right: 15px !important;
+}
+
+@media (min-width: 1280px) {
+  .navbar-btn {
+    display: block !important; /* Ensure visible on xl screens */
+  }
+}
+
+/* Ensure toggle button is visible and properly styled on desktop */
+.navbar-btn .btn-toggle-fullwidth {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Override lucid.css - ensure btn-toggle-fullwidth is visible on desktop (xl screens) */
+@media (min-width: 1280px) {
+  .btn-toggle-fullwidth {
+    display: inline-block !important; /* Override lucid.css max-width: 1024px rule */
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Ensure navbar-brand and navbar-right are properly aligned */
+.navbar-brand {
+  flex-shrink: 0 !important;
+}
+
+.navbar-right {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex: 1 1 auto !important;
+}
+
+@media (min-width: 1280px) {
+  .navbar-right {
+    width: auto !important; /* Override lucid.css calc width on desktop */
+  }
+}
+
+/* Navbar structure - ensure proper flex layout */
+.navbar .container-fluid {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+}
+
+@media (min-width: 1280px) {
+  .navbar .container-fluid {
+    flex-wrap: nowrap !important;
+  }
+}
+
+/* Dark mode overrides for Navbar - TailAdmin #101828 colors */
+.dark .navbar[class*="dark:bg-gray-800"] { background-color: rgb(22, 30, 46) !important; } /* Derived from #101828 */
+.dark .navbar[class*="dark:border-gray-700"] { border-color: rgb(37, 47, 63) !important; } /* Border derived from #101828 */
+/* Navbar container-fluid should match navbar background */
+.dark .navbar .container-fluid,
+.dark .navbar .container-fluid[class*="dark:bg-gray-800"],
+.dark nav .container-fluid,
+.dark nav.navbar-fixed-top .container-fluid {
+  background-color: rgb(22, 30, 46) !important; /* Matches navbar - derived from #101828 */
+}
+.dark .navbar .icon-menu[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .navbar .icon-menu[class*="dark:hover:text-white"]:hover { color: rgba(255, 255, 255, 1) !important; }
+
+/* Navbar search input dark mode */
+.dark .navbar input[type="text"][class*="dark:bg-gray-700"] {
+  background-color: rgb(55, 65, 81) !important;
+  border-color: rgb(55, 65, 81) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .navbar input[type="text"][class*="dark:placeholder"]::placeholder {
+  color: rgb(156, 163, 175) !important;
+}
+
+/* Notification icons dark mode */
+.dark .navbar .dropdown-menu .media-left .text-warning,
+.dark .navbar .dropdown-menu .media-left [class*="text-warning"] {
+  color: rgb(250, 204, 21) !important;
+}
+
+.dark .navbar .dropdown-menu .media-left .text-success,
+.dark .navbar .dropdown-menu .media-left [class*="text-success"] {
+  color: rgb(34, 197, 94) !important;
+}
+
+.dark .navbar .dropdown-menu .media-left .text-info,
+.dark .navbar .dropdown-menu .media-left [class*="text-info"] {
+  color: rgb(34, 211, 238) !important;
+}
+
+.dark .navbar .dropdown-menu .media-left .text-danger,
+.dark .navbar .dropdown-menu .media-left [class*="text-danger"] {
+  color: rgb(239, 68, 68) !important;
+}
+.dark .dropdown-menu[class*="dark:bg-gray-800"],
+.dark .dropdown-menu[class*="dark:bg-gray-700"] { 
+  background-color: rgb(26, 34, 49) !important; /* #1a2231 */
+}
+.dark .dropdown-menu[class*="dark:border-gray-700"],
+.dark .dropdown-menu[class*="dark:border-gray-600"] { 
+  border-color: rgb(37, 47, 63) !important; /* Border derived from #101828 */
+}
+.dark .dropdown-menu .header[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .dropdown-menu li[class*="dark:hover:bg-gray-700"]:hover { 
+  background-color: rgb(37, 47, 63) !important; /* Derived from #101828 */
+  border-radius: 0.375rem !important; /* 6px - rounded corners on hover */
+}
+.dark .dropdown-menu .media-body .text[class*="dark:text-gray-300"] { color: rgb(209, 213, 219) !important; }
+.dark .dropdown-menu .timestamp[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .dropdown-menu .more[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .dropdown-menu .more[class*="dark:hover:text-white"]:hover { color: rgba(255, 255, 255, 1) !important; }
+.dark .dropdown-menu .menu-heading[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .dropdown-menu .menu-heading[class*="dark:border-gray-700"] { border-color: rgb(55, 65, 81) !important; }
+.dark .dropdown-menu .dropdown-item[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .dropdown-menu .dropdown-item[class*="dark:hover:bg-gray-700"]:hover { 
+  background-color: rgb(37, 47, 63) !important; /* Derived from #101828 */
+  border-radius: 0.375rem !important; /* 6px - rounded corners on hover */
+}
+.dark .dropdown-menu .dropdown-item[class*="dark:hover:text-white"]:hover { color: rgba(255, 255, 255, 1) !important; }
+
+/* Dark mode overrides for Sidebar */
+.dark .sidebar[class*="dark:bg-gray-800"] { background-color: rgb(31, 41, 55) !important; }
+.dark .sidebar[class*="dark:border-gray-700"] { border-color: rgb(55, 65, 81) !important; }
+.dark .sidebar-overlay[class*="dark:bg-black"] { background-color: rgba(0, 0, 0, 0.5) !important; }
+.dark .user-account[class*="dark:bg-gray-800"] { background-color: rgb(31, 41, 55) !important; }
+.dark .user-account span[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .user-account strong[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .user-account hr[class*="dark:border-gray-700"] { border-color: rgb(55, 65, 81) !important; }
+.dark .user-account small[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .user-account h6[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .nav-tabs[class*="dark:border-gray-700"] { border-color: rgb(55, 65, 81) !important; }
+.dark .nav-link[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .nav-link[class*="dark:hover:text-white"]:hover { color: rgba(255, 255, 255, 1) !important; }
+.dark .nav-link[class*="dark:border-gray-700"] { border-color: rgb(55, 65, 81) !important; }
+.dark .nav-link[class*="dark:active:bg-gray-700"].active { background-color: rgb(55, 65, 81) !important; }
+.dark .nav-link[class*="dark:active:text-white"].active { color: rgba(255, 255, 255, 1) !important; }
+.dark .has-arrow[class*="dark:hover:bg-gray-700"]:hover { background-color: rgb(55, 65, 81) !important; }
+.dark .has-arrow[class*="dark:hover:text-white"]:hover { color: rgba(255, 255, 255, 1) !important; }
+.dark .has-arrow[class*="dark:text-white"] { color: rgba(255, 255, 255, 1) !important; }
+.dark .has-arrow[class*="dark:text-gray-300"] { color: rgb(209, 213, 219) !important; }
+.dark .input-group-text[class*="dark:bg-gray-700"] { background-color: rgb(55, 65, 81) !important; }
+.dark .input-group-text[class*="dark:border-gray-600"] { border-color: rgb(75, 85, 99) !important; }
+.dark .form-control[class*="dark:bg-gray-700"] { background-color: rgb(55, 65, 81) !important; }
+.dark .form-control[class*="dark:border-gray-600"] { border-color: rgb(75, 85, 99) !important; }
+.dark .form-control[class*="dark:text-white"] { color: rgba(255, 255, 255, 0.9) !important; }
+.dark .form-control[class*="dark:placeholder"]::placeholder { color: rgb(156, 163, 175) !important; }
+.dark .menu-heading[class*="dark:text-gray-400"] { color: rgb(156, 163, 175) !important; }
+.dark .question a[class*="dark:text-gray-300"] { color: rgb(209, 213, 219) !important; }
+.dark .question a[class*="dark:hover:text-white"]:hover { color: rgba(255, 255, 255, 1) !important; }
+.dark .btn-primary[class*="dark:bg-blue-600"] { background-color: rgb(37, 99, 235) !important; }
+.dark .btn-primary[class*="dark:hover:bg-blue-700"]:hover { background-color: rgb(29, 78, 216) !important; }
+
+/* Override CSS variables for dark mode - TailAdmin color scheme */
+.dark {
+  /* Primary background: #101828 (rgb(16, 24, 40)) */
+  --lucid-background: rgb(16, 24, 40); /* TailAdmin #101828 */
+  --lucid-nav-bg: rgb(22, 30, 46); /* Slightly lighter than #101828 for navbar */
+  --lucid-border: rgb(37, 47, 63); /* Border color based on #101828 */
+  --lucid-text: rgba(255, 255, 255, 0.9);
+  --lucid-muted: rgb(156, 163, 175); /* TailAdmin gray-400 */
+  --sidebar-bg: rgb(22, 30, 46); /* Sidebar matches navbar */
+  --color-gray-400: rgb(156, 163, 175);
+  --color-gray-500: rgb(107, 114, 128);
+  --color-gray-800: rgb(22, 30, 46);
+  /* TailAdmin specific colors - using #101828 */
+  --tailadmin-bg: rgb(16, 24, 40); /* #101828 */
+  --tailadmin-sidebar: rgb(22, 30, 46); /* Derived from #101828 */
+  --tailadmin-navbar: rgb(22, 30, 46); /* Derived from #101828 */
+  --tailadmin-border: rgb(37, 47, 63); /* Border derived from #101828 */
+  --tailadmin-text: rgba(255, 255, 255, 0.9);
+  --tailadmin-muted: rgb(156, 163, 175);
+  /* Bootstrap overrides for #101828 */
+  --bs-body-bg: rgb(16, 24, 40);
+  --bs-body-bg-rgb: 16, 24, 40;
+  --bs-secondary-bg: rgb(22, 30, 46);
+  --bs-secondary-bg-rgb: 22, 30, 46;
+}
+
+/* Force dark mode styles for body, navbar, and sidebar - TailAdmin #101828 color scheme */
+.dark body {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Navbar dark mode - Derived from #101828 */
+.dark .navbar,
+.dark nav.navbar-fixed-top,
+.dark .navbar.navbar-fixed-top,
+.dark nav[class*="navbar"],
+.dark .navbar[class*="fixed-top"],
+.dark nav {
+  background-color: rgb(22, 30, 46) !important; /* Slightly lighter than #101828 */
+  border-bottom-color: rgb(37, 47, 63) !important; /* Border color */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Sidebar dark mode - Derived from #101828 */
+.dark .sidebar,
+.dark #left-sidebar,
+.dark aside,
+.dark [role="complementary"] {
+  background-color: rgb(22, 30, 46) !important; /* Matches navbar */
+  border-color: rgb(37, 47, 63) !important; /* Border color */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Tailadmin exact match - sidebar uses dark:bg-black */
+.dark .sidebar[class*="dark:bg-black"],
+.dark #left-sidebar[class*="dark:bg-black"],
+.dark aside[class*="dark:bg-black"] {
+  background-color: rgb(0, 0, 0) !important; /* Pure black to match Tailadmin */
+}
+
+/* Navbar Header - Match TailAdmin height and spacing exactly */
+header.sticky {
+  height: auto !important;
+}
+
+/* Navbar container - single row on desktop, ensures 77px total height (76px + 1px border) */
+@media (min-width: 1280px) {
+  header.sticky > div {
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+  }
+}
+
+/* Navbar first row - Match TailAdmin spacing - Override Tailwind padding */
+header.sticky > div > div:first-child {
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+  min-height: 76px !important;
+  gap: 16px !important;
+}
+
+/* On desktop, ensure single row layout with proper alignment */
+@media (min-width: 1280px) {
+  header.sticky > div > div:first-child {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+    height: 76px !important;
+    min-height: 76px !important;
+    gap: 16px !important;
+    align-items: center !important;
+  }
+}
+
+/* Icon menu styling - Match TailAdmin exactly */
+.icon-menu {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  font-size: 18px !important;
+  color: rgb(107, 114, 128) !important; /* gray-500 */
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out !important;
+  border-radius: 0.5rem !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+}
+
+.icon-menu:hover {
+  color: rgb(55, 65, 81) !important; /* gray-700 */
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+.icon-menu i {
+  font-size: 18px !important;
+}
+
+.dark .icon-menu {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .icon-menu:hover {
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Navbar menu list items - ensure proper spacing */
+#navbar-menu ul.nav.navbar-nav {
+  display: contents;
+  align-items: center !important;
+  gap: 8px !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+#navbar-menu ul.nav.navbar-nav > li {
+  display: flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* Account menu - allow it to expand, don't force width */
+#navbar-menu ul.nav.navbar-nav > li:last-child > a.dropdown-toggle {
+  width: auto !important;
+  min-width: auto !important;
+  height: 44px !important;
+  padding: 8px !important;
+  white-space: nowrap !important;
+}
+
+/* Account dropdown styling - Match TailAdmin exactly */
+.navbar-account-menu {
+  position: absolute !important;
+  right: 0 !important;
+  top: calc(100% + 17px) !important;
+  width: 224px !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  border: 1px solid rgb(228, 231, 236) !important;
+  background-color: rgb(136, 189, 242) !important; /* #88BDF2 - Blue background */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  z-index: 50 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.dark .navbar-account-menu {
+  border-color: rgb(55, 65, 81) !important;
+  background-color: rgb(136, 189, 242) !important; /* #88BDF2 - Blue background */
+}
+
+/* Account dropdown header */
+.navbar-account-header {
+  display: flex !important;
+  flex-direction: column !important;
+  padding-bottom: 12px !important;
+  margin-bottom: 12px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important; /* White border with opacity */
+  gap: 4px !important;
+}
+
+.dark .navbar-account-header {
+  border-bottom-color: rgba(255, 255, 255, 0.2) !important; /* White border with opacity */
+}
+
+.navbar-account-name {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  color: rgb(255, 255, 255) !important; /* White text */
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.dark .navbar-account-name {
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.navbar-account-email {
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  color: rgb(255, 255, 255) !important; /* White text */
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.dark .navbar-account-email {
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+/* Account dropdown list */
+.navbar-account-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.navbar-account-list > li {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* Account dropdown menu items */
+.navbar-account-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: rgb(255, 255, 255) !important; /* White text */
+  transition: background-color 0.2s ease-in-out !important;
+  cursor: pointer !important;
+}
+
+.navbar-account-item:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important; /* White with opacity on hover */
+}
+
+.dark .navbar-account-item {
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.dark .navbar-account-item:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important; /* White with opacity on hover */
+}
+
+.navbar-account-item i {
+  width: 16px !important;
+  height: 16px !important;
+  font-size: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  color: rgb(255, 255, 255) !important; /* White icon */
+}
+
+.dark .navbar-account-item i {
+  color: rgb(255, 255, 255) !important; /* White icon */
+}
+
+.navbar-account-item span {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+/* Sign out button */
+.navbar-account-signout {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  padding: 10px 12px !important;
+  margin-top: 8px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important; /* White border with opacity */
+  background-color: rgba(255, 255, 255, 0.2) !important; /* White background with opacity */
+  color: rgb(255, 255, 255) !important; /* White text */
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.navbar-account-signout:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important; /* White with more opacity on hover */
+  border-color: rgba(255, 255, 255, 0.4) !important; /* White border with more opacity */
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.dark .navbar-account-signout {
+  border-color: rgba(255, 255, 255, 0.3) !important; /* White border with opacity */
+  background-color: rgba(255, 255, 255, 0.2) !important; /* White background with opacity */
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.dark .navbar-account-signout:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important; /* White with more opacity on hover */
+  border-color: rgba(255, 255, 255, 0.4) !important; /* White border with more opacity */
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.navbar-account-signout i {
+  width: 16px !important;
+  height: 16px !important;
+  font-size: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  color: rgb(255, 255, 255) !important; /* White icon */
+}
+
+.dark .navbar-account-signout i {
+  color: rgb(255, 255, 255) !important; /* White icon */
+}
+
+/* Mobile account dropdown positioning */
+@media (max-width: 1279px) {
+  .navbar-account-menu {
+    position: absolute !important;
+    right: 0 !important;
+    top: calc(100% + 8px) !important;
+    width: calc(100vw - 2rem) !important;
+    max-width: 224px !important;
+  }
+}
+
+/* Search bar styling - Match TailAdmin exactly */
+#search-input {
+  height: 44px !important;
+  width: 430px !important;
+  padding: 10px 56px 10px 48px !important;
+  border: 1px solid rgb(228, 231, 236) !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  color: rgb(29, 41, 57) !important;
+  background-color: transparent !important;
+}
+
+.dark #search-input {
+  border-color: rgb(55, 65, 81) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+#search-input:focus {
+  border-color: rgb(147, 197, 253) !important; /* blue-300 */
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important; /* blue-500/10 */
+}
+
+.dark #search-input:focus {
+  border-color: rgb(30, 64, 175) !important; /* blue-800 */
+}
+
+#search-button {
+  height: 27px !important;
+  padding: 4.5px 7px !important;
+  border: 1px solid rgb(228, 231, 236) !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+  letter-spacing: -0.2px !important;
+  background-color: rgb(249, 250, 251) !important; /* gray-50 */
+  color: rgb(102, 112, 133) !important; /* gray-600 */
+}
+
+.dark #search-button {
+  border-color: rgb(55, 65, 81) !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  color: rgb(156, 163, 175) !important; /* gray-400 */
+}
+
+/* Search icon positioning - Match TailAdmin exactly */
+form .relative > svg:first-child {
+  position: absolute !important;
+  left: 16px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  color: rgb(0, 0, 0) !important;
+  pointer-events: none !important;
+}
+
+.dark form .relative > svg:first-child {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Notification dropdown styling - Match Lucid template exactly */
+.dropdown-menu.notifications {
+  position: absolute !important;
+  right: 0 !important;
+  top: calc(100% + 17px) !important;
+  width: 500px !important;
+  height: 360px !important; /* Fixed height */
+  max-height: 360px !important;
+  padding: 15px !important; /* Reduced from 20px */
+  border-radius: 8px !important;
+  border: 1px solid rgb(255, 255, 255) !important;
+  background-color: rgb(23, 25, 28) !important; /* #17191c - Lucid dark background */
+  box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2) !important;
+  z-index: 50 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important; /* Hide overflow on container - only inner items scroll */
+  list-style: none !important;
+  margin: 0 !important;
+  box-sizing: border-box !important; /* Include padding in height calculation */
+}
+
+.dark .dropdown-menu.notifications {
+  border-color: rgb(255, 255, 255) !important;
+  background-color: rgb(23, 25, 28) !important;
+}
+
+/* Notification dropdown header - Fixed at top, does not scroll */
+.dropdown-menu.notifications > li.header {
+  padding: 0 !important;
+  padding-bottom: 12px !important; /* Reduced from 20px */
+  margin-bottom: 0 !important;
+  border-bottom: none !important;
+  background-color: rgb(23, 25, 28) !important; /* Match dropdown background */
+  list-style: none !important;
+  flex: 0 0 auto !important; /* Fixed size, no shrinking or growing */
+  flex-shrink: 0 !important; /* Prevent header from shrinking */
+  position: sticky !important; /* Sticky positioning to keep header visible */
+  top: 0 !important;
+  z-index: 2 !important; /* Above scrolled content */
+}
+
+.dropdown-menu.notifications > li.header strong {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: rgb(153, 153, 153) !important; /* #999999 - Lucid grey-500 */
+  line-height: 1.5 !important;
+}
+
+/* Scrollable container for notification items */
+.dropdown-menu.notifications .notifications-scroll-container {
+  flex: 1 1 auto !important; /* Take remaining space and grow/shrink */
+  overflow-y: auto !important; /* Enable scrolling */
+  overflow-x: hidden !important;
+  min-height: 0 !important; /* Allow shrinking below content size */
+  max-height: 100% !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Notification list items inside scrollable container */
+.dropdown-menu.notifications .notifications-scroll-container > li {
+  flex: 0 0 auto !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-bottom: 1px solid rgb(31, 33, 37) !important; /* #1f2125 - Lucid dark-line-color */
+}
+
+/* Legacy support for direct li children (if any) */
+.dropdown-menu.notifications > li:not(.header):not(.footer) {
+  flex: 0 0 auto !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-bottom: 1px solid rgb(31, 33, 37) !important; /* #1f2125 - Lucid dark-line-color */
+}
+
+/* Notification item links - both in scrollable container and direct children */
+.dropdown-menu.notifications .notifications-scroll-container > li > a,
+.dropdown-menu.notifications > li:not(.header):not(.footer) > a {
+  display: block !important;
+  padding: 12px 0 !important; /* Reduced from 15px */
+  border-radius: 0 !important;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease-in-out !important;
+  border-bottom: none !important;
+  color: rgb(119, 119, 119) !important; /* #777777 - Lucid grey-600 */
+}
+
+.dropdown-menu.notifications .notifications-scroll-container > li > a:hover,
+.dropdown-menu.notifications > li:not(.header):not(.footer) > a:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Media layout */
+.dropdown-menu.notifications .media {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.dropdown-menu.notifications .media-left {
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  margin-right: 15px !important; /* Reduced from 20px */
+}
+
+.dropdown-menu.notifications .media-left i {
+  font-size: 24px !important; /* Lucid icon size */
+  line-height: 1 !important;
+}
+
+/* Icon colors - Match Lucid exactly */
+.dropdown-menu.notifications .media-left .text-warning {
+  color: rgb(243, 173, 6) !important; /* #f3ad06 - Lucid warning */
+}
+
+.dropdown-menu.notifications .media-left .text-success {
+  color: rgb(34, 175, 70) !important; /* #22af46 - Lucid success */
+}
+
+.dropdown-menu.notifications .media-left .text-info {
+  color: rgb(60, 137, 218) !important; /* #3C89DA - Lucid info */
+}
+
+.dropdown-menu.notifications .media-left .text-danger {
+  color: rgb(222, 72, 72) !important; /* #de4848 - Lucid danger */
+}
+
+.dropdown-menu.notifications .media-body {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.dropdown-menu.notifications .media-body .text {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: rgb(119, 119, 119) !important; /* #777777 - Lucid grey-600 */
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  width: 88% !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  display: block !important;
+}
+
+.dropdown-menu.notifications .media-body .text strong {
+  font-weight: 600 !important;
+}
+
+.dropdown-menu.notifications .media-body .timestamp {
+  font-size: 13px !important; /* Lucid timestamp size */
+  line-height: 1.5 !important;
+  color: rgb(102, 102, 102) !important; /* #666666 - Lucid grey-700 */
+  margin-top: 3px !important; /* Reduced from 4px */
+}
+
+/* Scrollable notification items container - Keep scrollbar design */
+/* Note: This is consolidated with the main .dropdown-menu.notifications rule above */
+
+/* Custom scrollbar for scrollable notification container - Match Lucid dark theme - Visible on desktop */
+.dropdown-menu.notifications .notifications-scroll-container {
+  scrollbar-width: thin !important; /* Firefox */
+  scrollbar-color: rgba(153, 153, 153, 0.6) transparent !important; /* Firefox - thumb and track - More visible */
+  -ms-overflow-style: scrollbar !important; /* IE 10+ - Always show scrollbar */
+}
+
+/* WebKit scrollbar - Always visible on desktop */
+.dropdown-menu.notifications .notifications-scroll-container::-webkit-scrollbar {
+  width: 5px !important;
+  background-color: transparent !important;
+  display: block !important; /* Ensure scrollbar is always displayed */
+}
+
+.dropdown-menu.notifications .notifications-scroll-container::-webkit-scrollbar-track {
+  background: transparent !important;
+  border-radius: 5px !important;
+  margin: 5px 0 !important;
+}
+
+.dropdown-menu.notifications .notifications-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(153, 153, 153, 0.6) !important; /* #999999 with opacity - More visible by default */
+  border-radius: 5px !important;
+  transition: background-color 0.2s ease-in-out !important;
+  min-height: 30px !important; /* Ensure minimum thumb height for visibility */
+}
+
+/* More visible on dropdown hover */
+.dropdown-menu.notifications:hover .notifications-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(153, 153, 153, 0.8) !important;
+}
+
+/* Even more visible on thumb hover */
+.dropdown-menu.notifications .notifications-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(153, 153, 153, 1) !important; /* Fully opaque on hover */
+}
+
+/* Ensure scrollbar is visible on desktop view */
+@media (min-width: 1280px) {
+  .dropdown-menu.notifications .notifications-scroll-container {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(153, 153, 153, 0.7) transparent !important; /* Even more visible on desktop */
+  }
+
+  .dropdown-menu.notifications .notifications-scroll-container::-webkit-scrollbar {
+    width: 5px !important;
+    display: block !important;
+  }
+
+  .dropdown-menu.notifications .notifications-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(153, 153, 153, 0.7) !important; /* More visible on desktop */
+  }
+
+  .dropdown-menu.notifications:hover .notifications-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(153, 153, 153, 0.9) !important;
+  }
+}
+
+/* Footer - Fixed at bottom, does not scroll */
+.dropdown-menu.notifications > li.footer {
+  padding: 0 !important;
+  padding-top: 12px !important; /* Reduced from 20px */
+  padding-bottom: 0 !important; /* Remove bottom padding since container has padding */
+  margin-top: 0 !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  background-color: rgb(23, 25, 28) !important; /* Match dropdown background */
+  list-style: none !important;
+  flex: 0 0 auto !important; /* Fixed size, no shrinking or growing */
+  flex-shrink: 0 !important; /* Prevent footer from shrinking */
+  position: sticky !important; /* Sticky positioning to keep footer visible */
+  bottom: 0 !important;
+  z-index: 2 !important; /* Above scrolled content */
+}
+
+.dropdown-menu.notifications > li.footer .more {
+  display: block !important;
+  padding: 0 !important;
+  padding-top: 0 !important; /* Removed padding-top since footer already has padding-top */
+  padding-bottom: 0 !important;
+  border: none !important;
+  background-color: transparent !important;
+  color: rgb(92, 142, 212) !important; /* #5c8ed4 - Lucid color-accent */
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out !important;
+  box-shadow: none !important;
+  width: auto !important;
+}
+
+.dropdown-menu.notifications > li.footer .more:hover,
+.dropdown-menu.notifications > li.footer .more:focus {
+  background-color: transparent !important;
+  color: rgb(92, 142, 212) !important;
+}
+
+/* Mobile notification dropdown - Full width like Lucid */
+@media (max-width: 1279px) {
+  .dropdown-menu.notifications {
+    position: fixed !important;
+    top: 17% !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 12px 15px !important;
+    height: auto !important;
+    max-height: calc(100vh - 150px) !important;
+    z-index: 99999 !important;
+  }
+
+  .dropdown-menu.notifications .media {
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .dropdown-menu.notifications .media-left {
+    margin-right: 12px !important;
+    flex-shrink: 0 !important;
+    width: auto !important;
+  }
+
+  .dropdown-menu.notifications .media-left i {
+    font-size: 20px !important;
+    line-height: 1 !important;
+  }
+
+  .dropdown-menu.notifications .media-body {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    width: auto !important;
+  }
+
+  .dropdown-menu.notifications .media-body .text {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    width: 100% !important;
+    line-height: 1.5 !important;
+    display: block !important;
+  }
+
+  .dropdown-menu.notifications .media-body .text strong {
+    font-weight: 600 !important;
+  }
+
+  .dropdown-menu.notifications .media-body .timestamp {
+    margin-top: 4px !important;
+    font-size: 12px !important;
+    display: block !important;
+  }
+}
+
+.dark .navbar-btn .btn-toggle-offcanvas {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .navbar-btn .btn-toggle-offcanvas:hover {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+.dark .user-account strong {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .user-account span {
+  color: rgb(156, 163, 175) !important;
+}
+
+.dark .user-account small {
+  color: rgb(156, 163, 175) !important;
+}
+
+.dark .user-account h6 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .user-account hr {
+  border-top-color: rgb(55, 65, 81) !important;
+}
+
+.dark .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .nav-link:hover,
+.dark .nav-link.active {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+.dark .has-arrow {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .has-arrow:hover {
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgb(55, 65, 81) !important;
+}
+
+.dark .metismenu a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .metismenu a:hover {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+.dark .metismenu .active > a {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+/* Dark mode overrides for dropdown menus - #1a2231 background */
+.dark .dropdown-menu,
+.dark .dropdown-menu.show,
+.dark [class*="dropdown-menu"],
+.dark .sidebar .dropdown-menu,
+.dark #left-sidebar .dropdown-menu,
+.dark .navbar .dropdown-menu,
+.dark nav .dropdown-menu {
+  background-color: rgb(26, 34, 49) !important; /* #1a2231 */
+  border-color: rgb(37, 47, 63) !important; /* Border derived from #101828 */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Sidebar user account dropdown styling */
+.sidebar .user-account .dropdown-menu {
+  background-color: rgb(26, 34, 49) !important; /* #1a2231 */
+  border: 1px solid rgb(37, 47, 63) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 8px 0;
+  min-width: 200px;
+}
+
+.dark .sidebar .user-account .dropdown-menu {
+  background-color: rgb(26, 34, 49) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar .user-account .dropdown-menu .dropdown-item {
+  padding: 10px 16px;
+  color: rgb(107, 114, 128);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.dark .sidebar .user-account .dropdown-menu .dropdown-item {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sidebar .user-account .dropdown-menu .dropdown-item:hover {
+  background-color: rgb(243, 244, 246);
+  color: rgb(17, 24, 39);
+}
+
+.dark .sidebar .user-account .dropdown-menu .dropdown-item:hover {
+  background-color: rgb(37, 47, 63);
+  color: rgba(255, 255, 255, 1);
+}
+
+.sidebar .user-account .dropdown-menu .dropdown-item i {
+  width: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.sidebar .user-account .dropdown-menu .divider {
+  height: 1px;
+  background-color: rgb(229, 231, 235);
+  margin: 8px 0;
+  border: none;
+}
+
+.dark .sidebar .user-account .dropdown-menu .divider {
+  background-color: rgb(55, 65, 81);
+}
+
+.dark .dropdown-menu.notifications {
+  background-color: rgb(26, 34, 49) !important; /* #1a2231 */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .dropdown-menu.user-menu.menu-icon,
+.dark .dropdown-menu.account,
+.dark .dropdown-menu.dropdown-menu-right,
+.dark .sidebar .dropdown-menu.account,
+.dark #left-sidebar .dropdown-menu.account {
+  background-color: rgb(26, 34, 49) !important; /* #1a2231 */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .dropdown-menu.user-menu .menu-heading {
+  color: rgb(156, 163, 175) !important;
+}
+
+.dark .dropdown-menu.user-menu > li {
+  border-radius: 0 !important; /* No border radius by default */
+}
+
+.dark .dropdown-menu.user-menu > li:hover {
+  border-radius: 0.375rem !important; /* 6px - rounded corners on hover */
+}
+
+.dark .dropdown-menu.user-menu > li > a {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .dropdown-menu.user-menu > li > a:hover {
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgb(37, 47, 63) !important; /* Derived from #101828 */
+  border-radius: 0.375rem !important; /* 6px - rounded corners on hover */
+}
+
+.dark .dropdown-menu.notifications .header {
+  color: rgb(156, 163, 175) !important;
+}
+
+.dark .dropdown-menu.notifications li {
+  border-bottom-color: rgba(148, 163, 184, 0.25) !important;
+  border-radius: 0 !important; /* No border radius by default */
+}
+
+.dark .dropdown-menu.notifications li:hover {
+  border-radius: 0.375rem !important; /* 6px - rounded corners on hover */
+}
+
+.dark .dropdown-menu.notifications li > a {
+  color: rgb(148, 163, 184) !important;
+}
+
+.dark .dropdown-menu.notifications li > a:hover {
+  background-color: rgb(37, 47, 63) !important; /* Derived from #101828 */
+  border-radius: 0.375rem !important; /* 6px - rounded corners on hover */
+}
+
+.dark .dropdown-menu.notifications .media-body {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .dropdown-menu.notifications .more {
+  color: rgb(96, 165, 250) !important;
+}
+
+/* Dark mode overrides for nav-tabs in sidebar - TailAdmin colors */
+.dark .sidebar .nav-tabs .nav-link,
+.dark #left-sidebar .nav-tabs .nav-link,
+.dark aside .nav-tabs .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-bottom-color: rgb(55, 65, 81) !important; /* TailAdmin gray-700 */
+}
+
+.dark .sidebar .nav-tabs .nav-link:hover,
+.dark #left-sidebar .nav-tabs .nav-link:hover,
+.dark aside .nav-tabs .nav-link:hover {
+  background-color: rgb(55, 65, 81) !important; /* TailAdmin gray-700 */
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+.dark .sidebar .nav-tabs .nav-link.active,
+.dark #left-sidebar .nav-tabs .nav-link.active,
+.dark aside .nav-tabs .nav-link.active {
+  background-color: rgb(55, 65, 81) !important; /* TailAdmin gray-700 */
+  border-color: rgb(55, 65, 81) rgb(55, 65, 81) rgb(55, 65, 81) !important;
+  color: rgb(96, 165, 250) !important; /* TailAdmin blue-400 */
+}
+
+/* Dark mode overrides for metismenu - TailAdmin colors */
+.dark .sidebar-nav .metismenu > li > a,
+.dark #left-sidebar .metismenu > li > a,
+.dark aside .metismenu > li > a,
+.dark .metismenu > li > a {
+  color: rgba(255, 255, 255, 0.9) !important; /* TailAdmin text */
+}
+
+.dark .sidebar-nav .metismenu > li > a:hover,
+.dark #left-sidebar .metismenu > li > a:hover,
+.dark aside .metismenu > li > a:hover,
+.dark .metismenu > li > a:hover {
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgb(55, 65, 81) !important; /* TailAdmin gray-700 */
+}
+
+.dark .sidebar-nav .metismenu > li.active > a,
+.dark #left-sidebar .metismenu > li.active > a,
+.dark aside .metismenu > li.active > a,
+.dark .metismenu > li.active > a {
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(55, 65, 81, 0.5) !important; /* TailAdmin gray-700 with opacity */
+}
+
+/* Submenu items dark mode - TailAdmin colors */
+.dark .sidebar-nav .metismenu > li > ul > li > a,
+.dark #left-sidebar .metismenu > li > ul > li > a,
+.dark aside .metismenu > li > ul > li > a,
+.dark .metismenu > li > ul > li > a {
+  color: rgb(156, 163, 175) !important; /* TailAdmin gray-400 */
+  font-weight: 400 !important; /* Normal weight for non-active items */
+}
+
+.dark .sidebar-nav .metismenu > li > ul > li > a:hover,
+.dark #left-sidebar .metismenu > li > ul > li > a:hover,
+.dark aside .metismenu > li > ul > li > a:hover,
+.dark .metismenu > li > ul > li > a:hover {
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgb(55, 65, 81) !important; /* TailAdmin gray-700 */
+  font-weight: 400 !important;
+}
+
+.dark .sidebar-nav .metismenu > li > ul > li.active > a,
+.dark #left-sidebar .metismenu > li > ul > li.active > a,
+.dark aside .metismenu > li > ul > li.active > a,
+.dark .metismenu > li > ul > li.active > a {
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(55, 65, 81, 0.6) !important; /* TailAdmin gray-700 with opacity */
+  font-weight: 600 !important; /* Bold for active items only */
+}
+
+/* Override any font-weight from Sidebar.css for non-active submenu items - TailAdmin colors */
+.dark .sidebar-nav .metismenu > li > ul > li:not(.active) > a,
+.dark #left-sidebar .sidebar-nav .metismenu > li > ul > li:not(.active) > a,
+.dark .sidebar .sidebar-nav .metismenu > li > ul > li:not(.active) > a,
+.dark aside .metismenu > li > ul > li:not(.active) > a,
+.dark .metismenu > li > ul > li:not(.active) > a {
+  font-weight: 400 !important; /* Normal weight for non-active submenu items */
+  color: rgb(156, 163, 175) !important; /* TailAdmin gray-400 */
+}
+
+.dark .sidebar-nav .metismenu > li > ul > li.active,
+.dark #left-sidebar .metismenu > li > ul > li.active,
+.dark aside .metismenu > li > ul > li.active,
+.dark .metismenu > li > ul > li.active {
+  background-color: rgba(55, 65, 81, 0.3) !important; /* TailAdmin gray-700 with opacity */
+}
+
+/* Additional dark mode overrides for status colors */
+.dark .text-warning[class*="dark:text-yellow-400"] {
+  color: rgb(250, 204, 21) !important;
+}
+
+.dark .text-info[class*="dark:text-cyan-400"] {
+  color: rgb(34, 211, 238) !important;
+}
+
+.dark .text-success[class*="dark:text-green-400"] {
+  color: rgb(34, 197, 94) !important;
+}
+
+.dark .text-danger[class*="dark:text-red-400"] {
+  color: rgb(239, 68, 68) !important;
+}
+
+.dark .text-primary[class*="dark:text-blue-400"] {
+  color: rgb(96, 165, 250) !important;
+}
+
+/* Notification dot dark mode */
+.dark .notification-dot {
+  background-color: rgb(239, 68, 68) !important;
+  border-color: rgb(31, 41, 55) !important;
+}
+
+/* Progress bar background in dark mode */
+.dark .progress {
+  background-color: rgb(55, 65, 81) !important;
+}
+
+/* Badge dark mode */
+.dark .badge {
+  background-color: rgb(55, 65, 81) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .badge.badge-default {
+  background-color: rgb(55, 65, 81) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Search input dark mode - TailAdmin colors */
+.dark input[type="text"],
+.dark input[type="search"],
+.dark input[placeholder*="Search"],
+.dark input[placeholder*="search"],
+.dark .form-control,
+.dark input.form-control {
+  background-color: rgb(55, 65, 81) !important; /* TailAdmin gray-700 */
+  border-color: rgb(75, 85, 99) !important; /* TailAdmin gray-600 */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark input[type="text"]::placeholder,
+.dark input[type="search"]::placeholder,
+.dark input[placeholder*="Search"]::placeholder,
+.dark input[placeholder*="search"]::placeholder,
+.dark .form-control::placeholder {
+  color: rgb(156, 163, 175) !important; /* TailAdmin gray-400 */
+}
+
+.dark input[type="text"]:focus,
+.dark input[type="search"]:focus,
+.dark .form-control:focus {
+  background-color: rgb(55, 65, 81) !important; /* TailAdmin gray-700 */
+  border-color: rgb(96, 165, 250) !important; /* TailAdmin blue-400 */
+  color: rgba(255, 255, 255, 0.9) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1) !important;
+}
+
+/* Container fluid and main content dark mode - TailAdmin #101828 colors */
+/* Note: Navbar container-fluid is handled separately above (lines 95-101) */
+.dark #main-content,
+.dark [id*="main-content"],
+.dark #wrapper {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Container-fluid in main content area only (navbar container-fluid handled separately) */
+.dark #main-content .container-fluid,
+.dark #wrapper .container-fluid,
+.dark #main-content > div > .container-fluid,
+.dark #wrapper > div > .container-fluid,
+.dark #main-content .container-fluid[class*="dark:bg-gray-900"],
+.dark #wrapper .container-fluid[class*="dark:bg-gray-900"] {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Cards dark mode - Derived from #101828 */
+.dark .card {
+  background-color: rgb(22, 30, 46) !important; /* Slightly lighter than #101828 for card distinction */
+  border-color: rgb(37, 47, 63) !important; /* Border derived from #101828 */
+}
+
+/* Custom scrollbar for notification dropdown - TailAdmin style */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(203, 213, 225) transparent; /* gray-300 */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(203, 213, 225); /* gray-300 */
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(148, 163, 184); /* gray-400 */
+}
+
+/* Dark mode scrollbar */
+.dark .custom-scrollbar {
+  scrollbar-color: rgb(75, 85, 99) transparent; /* gray-600 */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(75, 85, 99); /* gray-600 */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(107, 114, 128); /* gray-500 */
+}
+
+/* Notification dropdown styling */
+.notification-dropdown {
+  z-index: 1000;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .notification-dropdown {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  background-color: rgb(26, 34, 49) !important; /* #1a2231 */
+}
+
+/* Notification dropdown list items styling */
+.notification-dropdown .custom-scrollbar li {
+  border-radius: 0 !important;
+  margin-bottom: 0;
+}
+
+.notification-dropdown .custom-scrollbar li a {
+  padding: 12px 15px;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark .notification-dropdown .custom-scrollbar li a {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.notification-dropdown .custom-scrollbar li:last-child a {
+  border-bottom: none;
+}
+
+.notification-dropdown .custom-scrollbar li:hover {
+  border-radius: 0.375rem !important;
+}
+
+.dark .notification-dropdown .custom-scrollbar li:hover {
+  background-color: rgb(37, 47, 63) !important;
+}
+
+.notification-dropdown .custom-scrollbar .media {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.notification-dropdown .custom-scrollbar .media-left {
+  flex-shrink: 0;
+}
+
+.notification-dropdown .custom-scrollbar .media-left i {
+  font-size: 18px;
+}
+
+.notification-dropdown .custom-scrollbar .media-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-dropdown .custom-scrollbar .media-body .text {
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.notification-dropdown .custom-scrollbar .media-body .timestamp {
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+}
+
+/* Remove padding-left for lists in notification dropdown */
+.notification-dropdown ul,
+.notification-dropdown ol {
+  padding-left: 0 !important;
+}
+
+.notification-dropdown .custom-scrollbar {
+  padding-left: 0 !important;
+}
+
+/* View All Notification button styling in dark mode */
+.dark .notification-dropdown a[href="dashboard"]:last-child {
+  background-color: rgb(31, 41, 55) !important; /* gray-800 */
+  border-color: rgb(55, 65, 81) !important; /* gray-700 */
+  color: rgb(156, 163, 175) !important; /* gray-400 */
+}
+
+.dark .notification-dropdown a[href="dashboard"]:last-child:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  color: rgb(229, 231, 235) !important; /* gray-200 */
+}
+
+/* Dark mode toggle button - ensure it's always visible above all other elements */
+.dark-mode-toggle-container {
+  z-index: 9999 !important;
+  position: fixed !important;
+  right: 1.5rem !important;
+  bottom: 1.5rem !important;
+  pointer-events: auto !important;
+  transform: translateZ(0) !important; /* Force hardware acceleration and create stacking context */
+}
+
+.dark-mode-toggle-btn {
+  position: relative !important;
+  z-index: 9999 !important;
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  border-radius: 9999px !important;
+}
+
+/* Fallback selectors for compatibility */
+div[class*="fixed"][class*="right-6"][class*="bottom-6"],
+div[class*="fixed"].right-6.bottom-6 {
+  z-index: 9999 !important;
+  position: fixed !important;
+  pointer-events: auto !important;
+}
+
+button[aria-label*="Switch"][aria-label*="mode"],
+button[aria-label*="Switch to light"],
+button[aria-label*="Switch to dark"] {
+  position: relative !important;
+  z-index: 9999 !important;
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  border-radius: 9999px !important;
+}
+
+/* Specific Bootstrap overrides for Tailwind classes */
+button[aria-label*="Switch"][class*="rounded-full"] {
+  border-radius: 9999px !important;
+}
+
+h1.text-\[36px\] { font-size: 36px !important; }
+h1.leading-\[44px\] { line-height: 44px !important; }
+h1[class*="text-[#1d2939]"] { color: #1d2939 !important; }
+h1.font-semibold { font-weight: 600 !important; }
+
+label.group.flex { display: flex !important; }
+label.group.flex[class*="text-[#667085]"],
+label.group.flex[class*="text-[#667085]"] span.font-medium { color: #667085 !important; }
+
+a[href*="password"][class*="text-[#465FFF]"],
+a[href*="signup"][class*="text-[#465FFF]"] { color: #465FFF !important; }
+a[href*="password"]:hover[class*="hover:text-[#3641F5]"],
+a[href*="signup"]:hover[class*="hover:text-[#3641F5]"] { color: #3641F5 !important; }
+
+a[href*="dashboard"][class*="text-slate-500"] { color: rgb(100, 116, 139) !important; }
+a[href*="dashboard"]:hover[class*="hover:text-slate-600"] { color: rgb(71, 85, 105) !important; }
+
+input[type="email"].text-sm,
+input[type="password"].text-sm,
+input[type="text"].text-sm#password {
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+
+div.py-3.sm\:py-5 {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+@media (min-width: 640px) {
+  div.py-3.sm\:py-5 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
+
+button[type="submit"][class*="bg-[#465FFF]"][class*="px-4"][class*="py-3"] {
+  padding: 12px 16px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* Decorative borders for body and wrapper/root */
+/* These create blue accent borders around the page - matching Lucid template */
+/* z-index: 100000 ensures borders are above navbar (navbar z-index: 99999) and sidebar (sidebar z-index: 9999) */
+body::before, body::after {
   content: "";
   position: fixed;
-  z-index: 50;
+  z-index: 100000 !important;
   pointer-events: none;
-}
-
-body::before,
-body::after {
+  background-color: #88BDF2 !important;
   left: 0;
   width: 100%;
-  height: 4px;
-  background-color: #88BDF2;
+  height: 5px;
 }
 
-body::before {
-  top: 0;
+body::before { 
+  top: 0; 
 }
 
-body::after {
-  bottom: 0;
+body::after { 
+  bottom: 0; 
 }
 
-#root::before,
-#root::after {
+/* Vertical borders (left and right) - using #wrapper if available, fallback to #root */
+#wrapper::before, #wrapper::after, #root::before, #root::after {
+  content: "";
+  position: fixed;
+  z-index: 100000 !important;
+  pointer-events: none;
+  background-color: #88BDF2 !important;
   top: 0;
   height: 100vh;
-  width: 4px;
-  background-color: #88BDF2;
+  width: 5px;
 }
 
-#root::before {
-  left: 0;
+/* Left border - always at left: 0 to match Lucid template */
+#wrapper::before, #root::before { 
+  left: 0 !important;
 }
 
-#root::after {
-  right: 0;
+/* Right border */
+#wrapper::after, #root::after { 
+  right: 0; 
+}
+
+/* On mobile (max-width: 992px), reduce border width to 2px - matching Lucid */
+@media (max-width: 992px) {
+  body::before, body::after {
+    height: 2px;
+  }
+  
+  #wrapper::before, #wrapper::after, #root::before, #root::after {
+    width: 2px;
+  }
+}
+
+
+/* TailAdmin Sidebar Styles */
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 3px;
+}
+
+.sidebar:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(203, 213, 225);
+}
+
+.dark .sidebar:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(75, 85, 99);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Menu Item Styles - Exact TailAdmin spacing */
+.menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  height: 40px;
+  border-radius: 0.5rem;
+  width: 100%;
+  text-align: left;
+  font-size: 0.875rem; /* 14px - TailAdmin exact */
+  line-height: 1.25rem; /* 20px - TailAdmin exact */
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.menu-item-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.menu-item-icon-active {
+  color: rgb(59, 130, 246);
+}
+
+.menu-item-icon-inactive {
+  color: rgb(107, 114, 128);
+}
+
+.dark .menu-item-icon-inactive {
+  color: rgb(156, 163, 175);
+}
+
+.menu-item-text {
+  flex: 1;
+  font-size: 0.875rem; /* 14px - TailAdmin exact */
+  line-height: 1.25rem; /* 20px - TailAdmin exact */
+  margin-left: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-item-arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.menu-item-arrow-active {
+  transform: rotate(180deg);
+}
+
+.menu-item-arrow-inactive {
+  transform: rotate(0deg);
+}
+
+/* Menu Dropdown Styles - Exact TailAdmin spacing */
+.menu-dropdown {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 36px;
+}
+
+.menu-dropdown-item {
+  display: block;
+  padding: 10px 12px;
+  height: 40px;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.menu-dropdown-item-active {
+  color: rgb(17, 24, 39);
+  font-weight: 600;
+  background-color: rgb(243, 244, 246);
+}
+
+.dark .menu-dropdown-item-active {
+  color: rgb(255, 255, 255);
+  background-color: rgba(55, 65, 81, 0.5);
+}
+
+.menu-dropdown-item-inactive {
+  color: rgb(75, 85, 99);
+}
+
+.dark .menu-dropdown-item-inactive {
+  color: rgb(156, 163, 175);
+}
+
+.menu-dropdown-item:hover {
+  background-color: rgb(243, 244, 246);
+}
+
+.dark .menu-dropdown-item:hover {
+  background-color: rgb(55, 65, 81);
+}
+
+/* Menu Dropdown Badge Styles - Exact TailAdmin */
+.menu-dropdown-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.menu-dropdown-badge-active {
+  color: rgb(3, 152, 85);
+  background-color: rgb(209, 250, 223);
+}
+
+.dark .menu-dropdown-badge-active {
+  color: rgb(34, 197, 94);
+  background-color: rgba(34, 197, 94, 0.2);
+}
+
+.menu-dropdown-badge-inactive {
+  color: rgb(3, 152, 85);
+  background-color: rgb(236, 253, 243);
+}
+
+.dark .menu-dropdown-badge-inactive {
+  color: rgb(34, 197, 94);
+  background-color: rgba(34, 197, 94, 0.15);
+}
+
+/* Menu Group Styles - Exact TailAdmin spacing */
+.menu-group-title {
+  display: block;
+  font-size: 0.75rem !important; /* 12px - TailAdmin exact */
+  line-height: 1.25rem !important; /* 20px - TailAdmin exact */
+  font-weight: normal !important;
+  letter-spacing: normal;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-group-icon {
+  display: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1280px) {
+  .sidebar[class*="xl:w-\[90px\]"] .menu-group-icon {
+    display: block;
+  }
+  
+  .sidebar[class*="xl:w-\[90px\]"] .menu-group-title {
+    display: none;
+  }
+}
+
+/* Sidebar Header Toggle Button */
+.sidebar-header button {
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Promo Box Styles */
+.sidebar .rounded-2xl {
+  border-radius: 1rem;
+}
+
+/* Ensure sidebar transitions smoothly - Match TailAdmin exactly */
+/* Note: Transition is now set in the .sidebar rule below with !important */
+
+/* Logo transitions - smooth fade in/out during sidebar collapse */
+.sidebar-header .logo,
+.sidebar-header .logo-icon {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Menu item arrow transitions - smooth hide/show during collapse */
+.menu-item-arrow {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease-in-out;
+}
+
+/* Menu item badge transitions - smooth hide/show during collapse */
+.menu-dropdown-badge {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Override ALL lucid.css sidebar styles - MUST be after lucid.css import */
+#left-sidebar.sidebar,
+aside#left-sidebar,
+aside.sidebar,
+.sidebar {
+  /* Reset all lucid.css properties */
+  /* Override lucid.css width variable - Tailwind classes will control width */
+  /* Set CSS variable to undefined to prevent it from overriding Tailwind */
+  --sidebar-width: unset;
+  /* CRITICAL: Don't set width here at all - let Tailwind !w-[290px] and !w-[90px] classes control it */
+  /* Removing width completely allows Tailwind's !important classes to work and enables smooth transitions */
+  /* The --sidebar-width: unset above prevents lucid.css from applying its width via CSS variable */
+  min-width: 0 !important;
+  max-width: none !important;
+  top: 0 !important;
+  background-color: white !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  /* Override lucid.css position and left - allow Tailwind classes to control */
+  /* position and left are handled by Tailwind classes (fixed/static, left-0) */
+  /* Ensure sidebar padding is exactly 20px (px-5 = 1.25rem = 20px) */
+  padding-left: 1.25rem !important; /* 20px - TailAdmin exact */
+  padding-right: 1.25rem !important; /* 20px - TailAdmin exact */
+  /* Smooth transition for sidebar - Match TailAdmin exactly */
+  /* Transition all properties that change during collapse/expand (width, padding, etc.) */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.dark #left-sidebar.sidebar,
+.dark aside#left-sidebar,
+.dark aside.sidebar,
+.dark .sidebar {
+  background-color: rgb(0, 0, 0) !important;
+}
+
+/* Fix wrapper layout - navbar on top, sidebar and content below */
+/* Apply flex column layout only when wrapper contains dashboard structure */
+#wrapper > .flex.h-screen {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh !important;
+}
+
+/* Dashboard pages with sidebar structure - ensure row layout on desktop */
+@media (min-width: 1280px) {
+  #wrapper > .flex.h-screen {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+  }
+  
+  #wrapper > .flex.h-screen > .flex {
+    display: flex !important;
+    flex: 1 !important;
+    position: relative !important;
+  }
+}
+
+/* Login page - wrapper should not interfere with its layout */
+#wrapper > .min-h-screen.flex {
+  display: flex !important;
+  min-height: 100vh !important;
+}
+
+/* Fix sidebar positioning on desktop - Match Tailadmin demo: static on desktop, fixed on mobile */
+@media (min-width: 1280px) {
+  #wrapper > .flex.h-screen > #left-sidebar.sidebar,
+  #wrapper > .flex.h-screen > aside#left-sidebar,
+  #wrapper > .flex.h-screen > aside.sidebar,
+  #wrapper > .flex.h-screen > .sidebar {
+    /* Allow static positioning on desktop for automatic layout shift */
+    position: static !important;
+    transform: translateX(0) !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: 100vh !important;
+    /* Remove fixed positioning offsets - sidebar should start at left: 0 in flex layout */
+    left: auto !important;
+    top: auto !important;
+    /* Prevent sidebar from flexing - maintain fixed width from Tailwind classes */
+    flex: 0 0 auto !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: auto !important;
+    /* Ensure CSS variable doesn't override Tailwind width classes */
+    --sidebar-width: unset;
+    /* Allow Tailwind width classes to work - xl:w-[290px] or xl:w-[90px] */
+    /* Don't force width: auto - let Tailwind classes control width for smooth transitions */
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+}
+
+/* Mobile sidebar positioning */
+/* Mobile Sidebar Styles - Match TailAdmin mobile behavior */
+@media (max-width: 1279px) {
+  #left-sidebar.sidebar,
+  aside#left-sidebar,
+  aside.sidebar,
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    height: 100vh !important;
+    /* Smooth transition for mobile sidebar slide - only transform for mobile */
+    /* Override the desktop "all" transition with transform-only for mobile */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  /* Sidebar hidden (default on mobile) */
+  aside.sidebar.-translate-x-full,
+  .sidebar.-translate-x-full,
+  #left-sidebar.sidebar.-translate-x-full,
+  aside#left-sidebar.-translate-x-full {
+    transform: translateX(-100%) !important;
+    left: 0 !important;
+  }
+  
+  /* Sidebar visible (when opened on mobile) */
+  aside.sidebar.translate-x-0,
+  .sidebar.translate-x-0,
+  #left-sidebar.sidebar.translate-x-0,
+  aside#left-sidebar.translate-x-0 {
+    transform: translateX(0) !important;
+    left: 0 !important;
+  }
+  
+  /* Default state: sidebar hidden on mobile */
+  aside.sidebar:not(.translate-x-0):not(.-translate-x-full),
+  .sidebar:not(.translate-x-0):not(.-translate-x-full),
+  #left-sidebar.sidebar:not(.translate-x-0):not(.-translate-x-full),
+  aside#left-sidebar:not(.translate-x-0):not(.-translate-x-full) {
+    transform: translateX(-100%) !important;
+    left: 0 !important;
+  }
+  
+  /* Override lucid.css mobile styles */
+  @media (max-width: 1200px) {
+    #left-sidebar.sidebar,
+    aside#left-sidebar {
+      left: 0 !important;
+      top: 0 !important;
+    }
+    
+    .offcanvas-active #left-sidebar.sidebar,
+    .offcanvas-active aside#left-sidebar {
+      left: 0 !important;
+      top: 0 !important;
+      transform: translateX(0) !important;
+    }
+  }
+}
+
+/* Override lucid.css sidebar styles that might conflict */
+#left-sidebar.sidebar,
+aside#left-sidebar,
+aside.sidebar,
+.sidebar[class*="sidebar"] {
+  display: flex !important;
+}
+
+/* Tailadmin Logo Styles - Match exact CSS from Tailadmin demo */
+.sidebar-header {
+  margin-bottom: 0;
+}
+
+.sidebar .logo {
+  display: inline-block;
+}
+
+.sidebar .logo.hidden {
+  display: none !important;
+}
+
+.sidebar .logo.xl\:hidden {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .sidebar .logo.xl\:hidden {
+    display: none !important;
+  }
+}
+
+.sidebar .logo-icon {
+  display: none;
+}
+
+.sidebar .logo-icon.hidden {
+  display: none;
+}
+
+.sidebar .logo-icon.xl\:block {
+  display: block;
+}
+
+@media (min-width: 1280px) {
+  .sidebar .logo-icon.hidden.xl\:block {
+    display: block !important;
+  }
+}
+
+/* Ensure sidebar is not hidden by default styles */
+#wrapper #left-sidebar.sidebar,
+#wrapper aside#left-sidebar,
+#wrapper aside.sidebar,
+#wrapper .sidebar {
+  display: flex !important;
+}
+
+/* Prevent layout-fullwidth from hiding sidebar */
+.layout-fullwidth #wrapper #left-sidebar.sidebar,
+.layout-fullwidth #wrapper aside#left-sidebar {
+  left: auto !important;
+  position: static !important;
+  transform: translateX(0) !important;
+}
+
+/* Ensure sidebar is static on desktop (xl breakpoint) to match Tailadmin demo */
+@media (min-width: 1280px) {
+  .sidebar.xl\:static,
+  aside.sidebar.xl\:static {
+    position: static !important;
+  }
+}
+
+/* Reduce user-account spacing - Override lucid.css margin: 20px */
+#left-sidebar.sidebar .user-account,
+aside#left-sidebar .user-account,
+.sidebar .user-account {
+  margin: 0 !important;
+  margin-bottom: 1.5rem !important;
+  padding: 0 !important;
+}
+
+/* Override lucid.css user-account hr margin */
+#left-sidebar.sidebar .user-account hr,
+aside#left-sidebar .user-account hr,
+.sidebar .user-account hr {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Exact TailAdmin spacing - Sidebar header */
+#left-sidebar.sidebar .sidebar-header,
+aside#left-sidebar .sidebar-header,
+.sidebar .sidebar-header {
+  padding-top: 32px !important;
+  padding-bottom: 28px !important;
+}
+
+/* Exact TailAdmin spacing - Tab content */
+#left-sidebar.sidebar .tab-content,
+aside#left-sidebar .tab-content,
+.sidebar .tab-content {
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Exact TailAdmin spacing - Menu groups (h3) */
+#left-sidebar.sidebar nav h3,
+aside#left-sidebar nav h3,
+.sidebar nav h3 {
+  font-size: 0.75rem !important; /* 12px - TailAdmin exact */
+  line-height: 1.25rem !important; /* 20px - TailAdmin exact */
+  font-weight: normal !important;
+  margin-bottom: 1rem !important; /* 16px - TailAdmin exact (mb-4) */
+  letter-spacing: normal !important;
+}
+
+/* Exact TailAdmin spacing - Menu lists (ul) */
+#left-sidebar.sidebar nav ul[class*="flex"],
+aside#left-sidebar nav ul[class*="flex"],
+.sidebar nav ul[class*="flex"] {
+  margin-bottom: 24px !important;
+  gap: 4px !important;
+  padding: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Exact TailAdmin spacing - Menu items */
+#left-sidebar.sidebar .menu-item,
+aside#left-sidebar .menu-item,
+.sidebar .menu-item {
+  padding: 8px 12px !important;
+  height: 40px !important;
+  gap: 12px !important;
+}
+
+/* Exact TailAdmin spacing - Menu dropdown lists */
+#left-sidebar.sidebar .menu-dropdown,
+aside#left-sidebar .menu-dropdown,
+.sidebar .menu-dropdown {
+  padding-left: 36px !important;
+  margin-top: 8px !important;
+  gap: 4px !important;
+}
+
+/* Exact TailAdmin spacing - Menu dropdown items */
+#left-sidebar.sidebar .menu-dropdown-item,
+aside#left-sidebar .menu-dropdown-item,
+.sidebar .menu-dropdown-item {
+  padding: 10px 12px !important;
+  height: 40px !important;
+}
+
+/* Remove extra spacing from chat and settings tabs */
+#left-sidebar.sidebar .tab-pane,
+aside#left-sidebar .tab-pane,
+.sidebar .tab-pane {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Main content area - TailAdmin style */
+main {
+  flex: 1;
+  min-width: 0;
+  background-color: rgb(249, 250, 251);
+  transition: all 0.3s ease-in-out;
+}
+
+.dark main {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+}
+
+/* Ensure main content has proper overflow handling */
+main > div {
+  min-height: calc(100vh - 4rem);
+}
+
+/* Override Bootstrap container-fluid in main content */
+main .container-fluid {
+  max-width: 1536px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Ensure smooth layout transition when sidebar collapses */
+@media (min-width: 1280px) {
+  #wrapper > .flex {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  main {
+    width: auto;
+    flex: 1 1 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  main .container-fluid {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  main .container-fluid {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Navbar Search Form Styles - Matching Lucid Design */
+.navbar-form.search-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-form.search-form .form-control {
+  padding-left: 1.25rem;
+  padding-right: 2.5rem;
+  height: 40px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  min-width: 200px;
+  width: 100%;
+}
+
+.navbar-form.search-form .form-control:focus {
+  border-color: #60a5fa;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+.navbar-form.search-form .btn.btn-default {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  padding: 0;
+  border: none;
+  color: #6b7280;
+  background-color: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  min-width: auto;
+}
+
+.navbar-form.search-form .btn.btn-default:hover,
+.navbar-form.search-form .btn.btn-default:focus {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  color: #4b5563;
+}
+
+.navbar-form.search-form .btn.btn-default i {
+  font-size: 0.75rem;
+  color: inherit;
+  line-height: 1;
+}
+
+/* Dark mode styles for navbar form */
+.dark .navbar-form.search-form .form-control {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dark .navbar-form.search-form .form-control::placeholder {
+  color: rgb(156, 163, 175);
+}
+
+.dark .navbar-form.search-form .form-control:focus {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(96, 165, 250);
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+.dark .navbar-form.search-form .btn.btn-default {
+  background-color: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dark .navbar-form.search-form .btn.btn-default:hover,
+.dark .navbar-form.search-form .btn.btn-default:focus {
+  background-color: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.dark .navbar-form.search-form .btn.btn-default i {
+  color: inherit;
 }
