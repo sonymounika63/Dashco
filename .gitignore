@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Cursor editor
+.cursor/
+
+# Reference directories (not part of this project)
+../lucid/
+lucid/
