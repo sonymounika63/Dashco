@@ -1,0 +1,2136 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .duration-300 {
+    --tw-duration: 300ms;
+    -webkit-transition-duration: 300ms;
+    transition-duration: 300ms;
+  }
+
+  .dark\:text-success-500 {
+    &:is(.dark *) {
+      color: var(--color-success-500);
+    }
+  }
+
+  .dark\:bg-success-500\/15 {
+    &:is(.dark *) {
+      background-color: color-mix(in oklab, var(--color-success-500) 15%, transparent);
+    }
+  }
+
+  .dark\:text-orange-500 {
+    &:is(.dark *) {
+      color: var(--color-orange-500);
+    }
+  }
+
+  .dark\:bg-orange-500\/15 {
+    &:is(.dark *) {
+      background-color: color-mix(in oklab, var(--color-orange-500) 15%, transparent);
+    }
+  }
+
+  .dark\:text-blue-500 {
+    &:is(.dark *) {
+      color: var(--color-blue-500);
+    }
+  }
+
+  .dark\:bg-blue-500\/15 {
+    &:is(.dark *) {
+      background-color: color-mix(in oklab, var(--color-blue-500) 15%, transparent);
+    }
+  }
+
+  /* Light mode opacity backgrounds */
+  .bg-success-500\/10 {
+    background-color: color-mix(in oklab, var(--color-success-500) 10%, transparent);
+  }
+
+  .bg-orange-500\/10 {
+    background-color: color-mix(in oklab, var(--color-orange-500) 10%, transparent);
+  }
+
+  .bg-blue-500\/10 {
+    background-color: color-mix(in oklab, var(--color-blue-500) 10%, transparent);
+  }
+}
+
+/* Custom z-index utilities for Tailadmin compatibility */
+.z-99999 {
+  z-index: 99999 !important;
+}
+
+.z-9999 {
+  z-index: 9999 !important;
+}
+
+/* Tailwind CSS - No Bootstrap class overrides */
+/* CSS Loading Order: Bootstrap → Tailwind (this file) → lucid.css */
+/* Components use Tailwind classes directly - Bootstrap classes remain unchanged */
+
+/* CSS Variables - Brand colors (TailAdmin exact colors) */
+:root {
+  --color-brand-500: rgb(59, 130, 246); /* Blue-500 for light mode */
+  --color-success-500: rgb(16, 185, 129); /* Success-500 (green) */
+  --color-orange-500: rgb(249, 115, 22); /* Orange-500 */
+  --color-blue-500: rgb(59, 130, 246); /* Blue-500 */
+}
+
+/* Override CSS variables for dark mode - TailAdmin color scheme */
+.dark {
+  --color-brand-500: #465fff; /* TailAdmin exact brand-500 color for dark mode - used in color-mix for menu-item-active */
+  /* Primary background: #101828 (rgb(16, 24, 40)) */
+  --lucid-background: rgb(16, 24, 40); /* TailAdmin #101828 */
+  --lucid-nav-bg: rgb(16, 24, 40); /* TailAdmin #101828 - matches body and sidebar */
+  --lucid-border: rgb(37, 47, 63); /* Border color based on #101828 */
+  --lucid-text: rgba(255, 255, 255, 0.9);
+  --lucid-muted: rgb(156, 163, 175); /* TailAdmin gray-400 */
+  --sidebar-bg: rgb(16, 24, 40); /* TailAdmin #101828 - matches navbar */
+  --color-gray-400: rgb(156, 163, 175);
+  --color-gray-500: rgb(107, 114, 128);
+  --color-gray-800: rgb(22, 30, 46);
+  /* TailAdmin specific colors - using #101828 */
+  --tailadmin-bg: rgb(16, 24, 40); /* #101828 */
+  --tailadmin-sidebar: rgb(16, 24, 40); /* TailAdmin #101828 */
+  --tailadmin-navbar: rgb(16, 24, 40); /* TailAdmin #101828 */
+  --tailadmin-border: rgb(37, 47, 63); /* Border derived from #101828 */
+  --tailadmin-text: rgba(255, 255, 255, 0.9);
+  --tailadmin-muted: rgb(156, 163, 175);
+  /* Dark mode background colors for Tailwind classes */
+  --dark-bg-primary: #101828; /* Main background */
+  --dark-bg-secondary: #161E2E; /* Input/Secondary background (rgb(22, 30, 46)) */
+  /* Bootstrap overrides for #101828 */
+  --bs-body-bg: rgb(16, 24, 40);
+  --bs-body-bg-rgb: 16, 24, 40;
+  --bs-secondary-bg: rgb(22, 30, 46);
+  --bs-secondary-bg-rgb: 22, 30, 46;
+}
+
+/* Force dark mode backgrounds for login and dashboard containers */
+.dark div.min-h-screen,
+.dark div.flex.h-screen {
+  background-color: var(--dark-bg-primary) !important;
+}
+
+/* Force dark mode for form container in login page */
+.dark div.flex-1.flex.flex-col {
+  background-color: var(--dark-bg-primary) !important;
+}
+
+/* Force dark mode for input fields */
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="text"],
+.dark input[type="search"],
+.dark input.form-control {
+  background-color: var(--dark-bg-primary) !important; /* #101828 - same as container */
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgb(52, 64, 84) !important; /* #344054 - matches TailAdmin */
+}
+
+.dark input[type="email"]::placeholder,
+.dark input[type="password"]::placeholder,
+.dark input[type="text"]::placeholder,
+.dark input[type="search"]::placeholder {
+  color: rgb(107, 114, 128) !important; /* gray-500 */
+}
+
+/* Force dark mode for navbar header */
+.dark header.sticky,
+.dark header {
+  background-color: var(--dark-bg-primary) !important;
+  border-color: rgb(55, 65, 81) !important; /* gray-700 */
+}
+
+/* Force dark mode for cards - matching TailAdmin style with white/[0.03] */
+/* Note: All cards now use dark:bg-white/[0.03] (3% white opacity) for subtle transparency */
+/* This fallback only applies to cards without explicit Tailwind dark mode classes */
+/* Tailwind's dark: classes have higher specificity, so they will override this */
+.dark .card.bg-white:not([class*="dark:bg-"]) {
+  background-color: rgba(255, 255, 255, 0.03); /* white/[0.03] - matches TailAdmin */
+  border-color: rgb(29, 41, 57); /* gray-800 for borders - matches TailAdmin */
+}
+
+/* Force dark mode text colors for headings and text elements - TailAdmin colors */
+.dark h1,
+.dark h1[class*="dark:text-white"] {
+  color: rgba(255, 255, 255, 0.9) !important; /* white/90 - matches TailAdmin */
+}
+
+.dark label,
+.dark label[class*="dark:text"] {
+  color: rgb(152, 162, 179) !important; /* #98A2B3 - matches TailAdmin */
+}
+
+.dark a[class*="dark:text"]:not([class*="text-[#465FFF"]):not([class*="text-[#7592FF"]) {
+  color: rgb(152, 162, 179) !important; /* #98A2B3 - for back link and similar */
+}
+
+/* Force dark mode for "Forgot password?" and "Sign Up" links - TailAdmin #7592FF */
+.dark a[href="/reset-password"],
+.dark a[href="/reset-password"].text-sm,
+.dark a[href="/signup"],
+.dark a[href="/signup"].font-normal,
+.dark a[class*="dark:text-[#7592FF]"],
+.dark form a[href="/reset-password"],
+.dark form a[href="/signup"],
+.dark p a[href="/signup"] {
+  color: rgb(117, 146, 255) !important; /* #7592FF - matches TailAdmin */
+}
+
+.dark a[href="/reset-password"]:hover,
+.dark a[href="/reset-password"].text-sm:hover,
+.dark a[href="/signup"]:hover,
+.dark a[href="/signup"].font-normal:hover,
+.dark a[class*="dark:text-[#7592FF]"]:hover,
+.dark form a[href="/reset-password"]:hover,
+.dark form a[href="/signup"]:hover,
+.dark p a[href="/signup"]:hover {
+  color: rgb(101, 121, 255) !important; /* #6579FF - matches TailAdmin hover */
+}
+
+/* Force dark mode for social login buttons - using color-mix like Tailwind */
+.dark button[class*="dark:bg-white/5"] {
+  background-color: rgba(255, 255, 255, 0.05) !important; /* white/5 - matches Tailwind color-mix */
+  color: rgba(255, 255, 255, 0.9) !important; /* white/90 - matches TailAdmin */
+  border-color: rgb(55, 65, 81) !important; /* gray-700 border */
+}
+
+.dark button[class*="dark:bg-white/5"]:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* white/10 on hover */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Force dark mode for "Or" separator span */
+.dark span[class*="dark:bg-dark-bg-primary"],
+.dark span[class*="dark:bg-[#101828]"] {
+  background-color: var(--dark-bg-primary) !important; /* #101828 */
+  color: rgb(152, 162, 179) !important; /* #98A2B3 - matches TailAdmin */
+}
+
+/* Force dark mode for right div (branding section) - TailAdmin uses gray-900 or white/5 */
+.dark div[class*="lg:w-1/2"][class*="dark:bg-white/5"],
+.dark div.flex-1.flex.flex-col.justify-center.items-center[class*="lg:w-1/2"],
+.dark div[class*="lg:flex"][class*="lg:w-1/2"]:has(img[alt*="Logo"]) {
+  background-color: rgba(255, 255, 255, 0.05) !important; /* white/5 - matches TailAdmin */
+}
+
+/* Force dark mode tagline color in right div - TailAdmin uses white/60 */
+.dark div[class*="lg:w-1/2"] p[class*="dark:text-white/60"],
+.dark div[class*="lg:w-1/2"] p.text-base {
+  color: rgba(255, 255, 255, 0.6) !important; /* white/60 - matches TailAdmin */
+}
+
+/* Force dark mode styles for html, body, navbar, and sidebar - TailAdmin #101828 color scheme */
+.dark html {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+}
+
+.dark body {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Sidebar dark mode - Use #101828 for consistency with body */
+.dark .sidebar,
+.dark #left-sidebar,
+.dark aside,
+.dark [role="complementary"] {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+  border-color: rgb(37, 47, 63) !important; /* Border color */
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Tailadmin exact match - sidebar uses dark:bg-black but with #101828 color */
+/* This rule specifically targets sidebars with dark:bg-black class */
+/* Sidebar component uses: className="sidebar ... dark:bg-black" */
+.dark .sidebar[class*="dark:bg-black"],
+.dark #left-sidebar[class*="dark:bg-black"],
+.dark aside[class*="dark:bg-black"] {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 (rgb(16, 24, 40)) */
+}
+
+/* Navbar Header - Match TailAdmin height and spacing exactly */
+header.sticky {
+  height: auto !important;
+}
+
+/* Navbar container - single row on desktop, ensures 77px total height (76px + 1px border) */
+@media (min-width: 1280px) {
+  header.sticky > div {
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+  }
+}
+
+/* Navbar first row - Match TailAdmin spacing - Override Tailwind padding */
+header.sticky > div > div:first-child {
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+  min-height: 76px !important;
+  gap: 16px !important;
+}
+
+/* On desktop, ensure single row layout with proper alignment */
+@media (min-width: 1280px) {
+  header.sticky > div > div:first-child {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+    height: 76px !important;
+    min-height: 76px !important;
+    gap: 16px !important;
+    align-items: center !important;
+  }
+}
+
+/* Icon menu styling - Match TailAdmin exactly */
+.icon-menu {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  font-size: 18px !important;
+  color: rgb(75, 85, 99) !important; /* gray-600 - TailAdmin light mode */
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out !important;
+  border-radius: 1.5rem !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  border: 1px solid rgb(229, 231, 235) !important; /* gray-200 - TailAdmin light mode border */
+  background-color: transparent !important;
+}
+
+.icon-menu:hover {
+  color: rgb(17, 24, 39) !important; /* gray-900 - TailAdmin light mode hover */
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgb(209, 213, 219) !important; /* gray-300 - slightly darker border on hover */
+}
+
+.icon-menu i {
+  font-size: 18px !important;
+}
+
+.dark .icon-menu {
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgb(55, 65, 81) !important; /* gray-700 - TailAdmin dark mode border */
+}
+
+.dark .icon-menu:hover {
+  color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgb(75, 85, 99) !important; /* gray-600 - slightly lighter border on hover in dark mode */
+}
+
+/* Navbar menu list items - ensure proper spacing */
+#navbar-menu ul.nav.navbar-nav {
+  display: contents;
+  align-items: center !important;
+  gap: 8px !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+#navbar-menu ul.nav.navbar-nav > li {
+  display: flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* Account menu - allow it to expand, don't force width */
+#navbar-menu ul.nav.navbar-nav > li:last-child > a.dropdown-toggle {
+  width: auto !important;
+  min-width: auto !important;
+  height: 44px !important;
+  padding: 8px !important;
+  white-space: nowrap !important;
+}
+
+/* Account dropdown styling - Match TailAdmin exactly */
+.navbar-account-menu {
+  position: absolute !important;
+  right: 0 !important;
+  top: calc(100% + 17px) !important;
+  width: 224px !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  border: 1px solid rgb(228, 231, 236) !important;
+  background-color: rgb(136, 189, 242) !important; /* #88BDF2 - Blue background */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  z-index: 50 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+/* Dark mode account menu - Match TailAdmin navbar background */
+.dark .navbar-account-menu {
+  border-color: rgb(55, 65, 81) !important; /* gray-700 border */
+  background-color: rgb(16, 24, 40) !important; /* #101828 - Match navbar background */
+}
+
+/* Account dropdown header */
+.navbar-account-header {
+  display: flex !important;
+  flex-direction: column !important;
+  padding-bottom: 12px !important;
+  margin-bottom: 12px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important; /* White border with opacity */
+  gap: 4px !important;
+}
+
+.dark .navbar-account-header {
+  border-bottom-color: rgba(255, 255, 255, 0.2) !important; /* White border with opacity */
+}
+
+.navbar-account-name {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  color: rgb(255, 255, 255) !important; /* White text */
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.dark .navbar-account-name {
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.navbar-account-email {
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  color: rgb(255, 255, 255) !important; /* White text */
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.dark .navbar-account-email {
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+/* Account dropdown list */
+.navbar-account-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.navbar-account-list > li {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* Account dropdown menu items */
+.navbar-account-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: rgb(255, 255, 255) !important; /* White text */
+  transition: background-color 0.2s ease-in-out !important;
+  cursor: pointer !important;
+}
+
+.navbar-account-item:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important; /* White with opacity on hover */
+}
+
+.dark .navbar-account-item {
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.dark .navbar-account-item:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important; /* White with opacity on hover */
+}
+
+.navbar-account-item i {
+  width: 16px !important;
+  height: 16px !important;
+  font-size: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  color: rgb(255, 255, 255) !important; /* White icon */
+}
+
+.dark .navbar-account-item i {
+  color: rgb(255, 255, 255) !important; /* White icon */
+}
+
+.navbar-account-item span {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+/* Sign out button */
+.navbar-account-signout {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  padding: 10px 12px !important;
+  margin-top: 8px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important; /* White border with opacity */
+  background-color: rgba(255, 255, 255, 0.2) !important; /* White background with opacity */
+  color: rgb(255, 255, 255) !important; /* White text */
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.navbar-account-signout:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important; /* White with more opacity on hover */
+  border-color: rgba(255, 255, 255, 0.4) !important; /* White border with more opacity */
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.dark .navbar-account-signout {
+  border-color: rgba(255, 255, 255, 0.3) !important; /* White border with opacity */
+  background-color: rgba(255, 255, 255, 0.2) !important; /* White background with opacity */
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.dark .navbar-account-signout:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important; /* White with more opacity on hover */
+  border-color: rgba(255, 255, 255, 0.4) !important; /* White border with more opacity */
+  color: rgb(255, 255, 255) !important; /* White text */
+}
+
+.navbar-account-signout i {
+  width: 16px !important;
+  height: 16px !important;
+  font-size: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  color: rgb(255, 255, 255) !important; /* White icon */
+}
+
+.dark .navbar-account-signout i {
+  color: rgb(255, 255, 255) !important; /* White icon */
+}
+
+/* Mobile account dropdown positioning */
+@media (max-width: 1279px) {
+  .navbar-account-menu {
+    position: absolute !important;
+    right: 0 !important;
+    top: calc(100% + 8px) !important;
+    width: calc(100vw - 2rem) !important;
+    max-width: 224px !important;
+  }
+}
+
+/* Search bar styling - Match TailAdmin exactly */
+#search-input {
+  height: 44px !important;
+  width: 430px !important;
+  padding: 10px 56px 10px 48px !important;
+  border: 1px solid rgb(228, 231, 236) !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  color: rgb(29, 41, 57) !important;
+  background-color: transparent !important;
+}
+
+.dark #search-input {
+  border-color: rgb(55, 65, 81) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+#search-input:focus {
+  border-color: rgb(147, 197, 253) !important; /* blue-300 */
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important; /* blue-500/10 */
+}
+
+.dark #search-input:focus {
+  border-color: rgb(30, 64, 175) !important; /* blue-800 */
+}
+
+#search-button {
+  height: 27px !important;
+  padding: 4.5px 7px !important;
+  border: 1px solid rgb(228, 231, 236) !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+  letter-spacing: -0.2px !important;
+  background-color: rgb(249, 250, 251) !important; /* gray-50 */
+  color: rgb(102, 112, 133) !important; /* gray-600 */
+}
+
+.dark #search-button {
+  border-color: rgb(55, 65, 81) !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  color: rgb(156, 163, 175) !important; /* gray-400 */
+}
+
+/* Search icon positioning - Match TailAdmin exactly */
+form .relative > svg:first-child {
+  position: absolute !important;
+  left: 16px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  color: rgb(0, 0, 0) !important;
+  pointer-events: none !important;
+}
+
+.dark form .relative > svg:first-child {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Notification dropdown styling - Custom class (not Bootstrap) */
+.dashco-notifications-menu {
+  position: absolute !important;
+  right: 0 !important;
+  top: calc(100% + 17px) !important;
+  width: 500px !important;
+  height: 360px !important; /* Fixed height */
+  max-height: 360px !important;
+  padding: 15px !important; /* Reduced from 20px */
+  border-radius: 8px !important;
+  border: 1px solid rgb(255, 255, 255) !important;
+  background-color: rgb(23, 25, 28) !important; /* #17191c - Lucid dark background */
+  box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.2) !important;
+  z-index: 50 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important; /* Hide overflow on container - only inner items scroll */
+  list-style: none !important;
+  margin: 0 !important;
+  box-sizing: border-box !important; /* Include padding in height calculation */
+}
+
+/* Removed conflicting rule - using the one at line 1147 instead */
+
+/* Notification dropdown header - Fixed at top, does not scroll */
+.dashco-notifications-menu > li.header {
+  padding: 0 !important;
+  padding-bottom: 12px !important; /* Reduced from 20px */
+  margin-bottom: 0 !important;
+  border-bottom: none !important;
+  list-style: none !important;
+  flex: 0 0 auto !important; /* Fixed size, no shrinking or growing */
+  flex-shrink: 0 !important; /* Prevent header from shrinking */
+  position: sticky !important; /* Sticky positioning to keep header visible */
+  top: 0 !important;
+  z-index: 2 !important; /* Above scrolled content */
+}
+
+.dashco-notifications-menu > li.header > div {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.dashco-notifications-menu > li.header strong {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: rgb(153, 153, 153) !important; /* #999999 - Lucid grey-500 */
+  line-height: 1.5 !important;
+  flex: 1 1 auto !important;
+}
+
+.dashco-notifications-menu > li.header button {
+  flex-shrink: 0 !important;
+  padding: 4px !important;
+  margin-left: 8px !important;
+  cursor: pointer !important;
+  background: transparent !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: opacity 0.2s ease-in-out !important;
+}
+
+.dashco-notifications-menu > li.header button:hover {
+  opacity: 0.7 !important;
+}
+
+.dashco-notifications-menu > li.header button svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+/* Scrollable container for notification items */
+.dashco-notifications-menu .notifications-scroll-container {
+  flex: 1 1 auto !important; /* Take remaining space and grow/shrink */
+  overflow-y: auto !important; /* Enable scrolling */
+  overflow-x: hidden !important;
+  min-height: 0 !important; /* Allow shrinking below content size */
+  max-height: 100% !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Notification list items inside scrollable container */
+.dashco-notifications-menu .notifications-scroll-container > li {
+  flex: 0 0 auto !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-bottom: 1px solid rgb(31, 33, 37) !important; /* #1f2125 - Lucid dark-line-color */
+}
+
+/* Legacy support for direct li children (if any) */
+.dashco-notifications-menu > li:not(.header):not(.footer) {
+  flex: 0 0 auto !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-bottom: 1px solid rgb(31, 33, 37) !important; /* #1f2125 - Lucid dark-line-color */
+}
+
+/* Notification item links - both in scrollable container and direct children */
+.dashco-notifications-menu .notifications-scroll-container > li > a,
+.dashco-notifications-menu > li:not(.header):not(.footer) > a {
+  display: block !important;
+  padding: 12px 0 !important; /* Reduced from 15px */
+  border-radius: 0 !important;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease-in-out !important;
+  border-bottom: none !important;
+  color: rgb(119, 119, 119) !important; /* #777777 - Lucid grey-600 */
+}
+
+.dashco-notifications-menu .notifications-scroll-container > li > a:hover,
+.dashco-notifications-menu > li:not(.header):not(.footer) > a:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Media layout */
+.dashco-notifications-menu .media {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.dashco-notifications-menu .media-left {
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  margin-right: 15px !important; /* Reduced from 20px */
+}
+
+.dashco-notifications-menu .media-left i {
+  font-size: 24px !important; /* Lucid icon size */
+  line-height: 1 !important;
+}
+
+/* Notification menu icon colors - Tailwind classes handle styling */
+
+.dashco-notifications-menu .media-body {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.dashco-notifications-menu .media-body .text {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: rgb(119, 119, 119) !important; /* #777777 - Lucid grey-600 */
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  width: 88% !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  display: block !important;
+}
+
+.dashco-notifications-menu .media-body .text strong {
+  font-weight: 600 !important;
+}
+
+.dashco-notifications-menu .media-body .timestamp {
+  font-size: 13px !important; /* Lucid timestamp size */
+  line-height: 1.5 !important;
+  color: rgb(102, 102, 102) !important; /* #666666 - Lucid grey-700 */
+  margin-top: 3px !important; /* Reduced from 4px */
+}
+
+/* Scrollable notification items container - Keep scrollbar design */
+/* Note: This is consolidated with the main .dashco-notifications-menu rule above */
+
+/* Custom scrollbar for scrollable notification container - Match Lucid dark theme - Visible on all devices */
+.dashco-notifications-menu .notifications-scroll-container {
+  scrollbar-width: thin !important; /* Firefox */
+  scrollbar-color: rgba(153, 153, 153, 0.6) transparent !important; /* Firefox - thumb and track - More visible */
+  -ms-overflow-style: scrollbar !important; /* IE 10+ - Always show scrollbar */
+}
+
+/* WebKit scrollbar - Always visible on all devices */
+.dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar {
+  width: 5px !important;
+  background-color: transparent !important;
+  display: block !important; /* Ensure scrollbar is always displayed */
+}
+
+.dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar-track {
+  background: transparent !important;
+  border-radius: 5px !important;
+  margin: 5px 0 !important;
+}
+
+.dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(153, 153, 153, 0.6) !important; /* #999999 with opacity - More visible by default */
+  border-radius: 5px !important;
+  transition: background-color 0.2s ease-in-out !important;
+  min-height: 30px !important; /* Ensure minimum thumb height for visibility */
+}
+
+/* More visible on dropdown hover */
+.dashco-notifications-menu:hover .notifications-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(153, 153, 153, 0.8) !important;
+}
+
+/* Even more visible on thumb hover */
+.dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(153, 153, 153, 1) !important; /* Fully opaque on hover */
+}
+
+/* Mobile view - Ensure scrollbar is visible and styled */
+@media (max-width: 1279px) {
+  .dashco-notifications-menu {
+    position: fixed !important;
+    top: 70px !important; /* Position below navbar */
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 15px !important;
+    height: 400px !important; /* Fixed height to enable scrolling */
+    max-height: calc(100vh - 100px) !important; /* Responsive but constrained */
+    min-height: 300px !important;
+    z-index: 99999 !important;
+    display: flex !important; /* Ensure flexbox layout */
+    flex-direction: column !important;
+    overflow: hidden !important; /* Hide overflow on container */
+    box-sizing: border-box !important;
+  }
+
+  .dashco-notifications-menu .notifications-scroll-container {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(153, 153, 153, 0.8) transparent !important; /* More visible on mobile */
+    -ms-overflow-style: scrollbar !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important; /* Smooth scrolling on iOS */
+    flex: 1 1 auto !important; /* Take remaining space */
+    min-height: 0 !important; /* Allow shrinking */
+    max-height: 100% !important;
+    height: 0 !important; /* Force flexbox to constrain height */
+  }
+
+  .dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar {
+    width: 6px !important; /* Slightly wider on mobile for better touch targets */
+    display: block !important;
+    -webkit-appearance: none !important;
+    background-color: transparent !important;
+  }
+
+  .dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar-track {
+    background: transparent !important;
+    border-radius: 6px !important;
+    margin: 5px 0 !important;
+  }
+
+  .dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(153, 153, 153, 0.8) !important; /* More visible on mobile */
+    border-radius: 6px !important;
+    min-height: 40px !important; /* Larger thumb for mobile */
+  }
+
+  .dashco-notifications-menu:hover .notifications-scroll-container::-webkit-scrollbar-thumb,
+  .dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar-thumb:active {
+    background-color: rgba(153, 153, 153, 1) !important; /* Fully visible when active */
+  }
+}
+
+/* Desktop view - Enhanced visibility */
+@media (min-width: 1280px) {
+  .dashco-notifications-menu .notifications-scroll-container {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(153, 153, 153, 0.7) transparent !important; /* Even more visible on desktop */
+  }
+
+  .dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar {
+    width: 5px !important;
+    display: block !important;
+  }
+
+  .dashco-notifications-menu .notifications-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(153, 153, 153, 0.7) !important; /* More visible on desktop */
+  }
+
+  .dashco-notifications-menu:hover .notifications-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(153, 153, 153, 0.9) !important;
+  }
+}
+
+/* Footer - Fixed at bottom, does not scroll */
+.dashco-notifications-menu > li.footer {
+  padding: 0 !important;
+  padding-top: 12px !important; /* Reduced from 20px */
+  padding-bottom: 0 !important; /* Remove bottom padding since container has padding */
+  margin-top: 0 !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  list-style: none !important;
+  flex: 0 0 auto !important; /* Fixed size, no shrinking or growing */
+  flex-shrink: 0 !important; /* Prevent footer from shrinking */
+  position: sticky !important; /* Sticky positioning to keep footer visible */
+  bottom: 0 !important;
+  z-index: 2 !important; /* Above scrolled content */
+}
+
+.dashco-notifications-menu > li.footer .more {
+  display: block !important;
+  padding: 0 !important;
+  padding-top: 0 !important; /* Removed padding-top since footer already has padding-top */
+  padding-bottom: 0 !important;
+  border: none !important;
+  background-color: transparent !important;
+  color: rgb(92, 142, 212) !important; /* #5c8ed4 - Lucid color-accent */
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out !important;
+  box-shadow: none !important;
+  width: auto !important;
+}
+
+.dashco-notifications-menu > li.footer .more:hover,
+.dashco-notifications-menu > li.footer .more:focus {
+  background-color: transparent !important;
+  color: rgb(92, 142, 212) !important;
+}
+
+/* Mobile notification dropdown - Additional mobile-specific styles */
+@media (max-width: 1279px) {
+  .dashco-notifications-menu .media {
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .dashco-notifications-menu .media-left {
+    margin-right: 12px !important;
+    flex-shrink: 0 !important;
+    width: auto !important;
+  }
+
+  .dashco-notifications-menu .media-left i {
+    font-size: 20px !important;
+    line-height: 1 !important;
+  }
+
+  .dashco-notifications-menu .media-body {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    width: auto !important;
+  }
+
+  .dashco-notifications-menu .media-body .text {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    width: 100% !important;
+    line-height: 1.5 !important;
+    display: block !important;
+  }
+
+  .dashco-notifications-menu .media-body .text strong {
+    font-weight: 600 !important;
+  }
+
+  .dashco-notifications-menu .media-body .timestamp {
+    margin-top: 4px !important;
+    font-size: 12px !important;
+    display: block !important;
+  }
+
+  /* Mobile dark mode notification dropdown - Match TailAdmin */
+  .dark .dashco-notifications-menu {
+    background-color: rgb(16, 24, 40) !important; /* #101828 - Match navbar background */
+    border-color: rgb(55, 65, 81) !important; /* gray-700 border */
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
+/* Mobile dark mode account dropdown - Match TailAdmin */
+@media (max-width: 1279px) {
+  .dark .navbar-account-menu {
+    background-color: rgb(16, 24, 40) !important; /* #101828 - Match navbar background */
+    border-color: rgb(55, 65, 81) !important; /* gray-700 border */
+  }
+}
+
+/* Mobile menu dark mode background - Match TailAdmin navbar #101828 */
+@media (max-width: 1279px) {
+  .dark div[class*="xl:hidden"][class*="absolute"][class*="top-full"] {
+    background-color: rgb(16, 24, 40) !important; /* #101828 - Match navbar background */
+  }
+
+  /* Sidebar toggle button (hamburger) in mobile dark mode - Match navbar background #101828 */
+  /* Since we're in mobile media query, target buttons with h-10 w-10 (mobile size) */
+  .dark button[aria-label="Open sidebar"][class*="h-10"],
+  .dark button[aria-label="Close sidebar"][class*="h-10"],
+  .dark button[aria-label="Expand sidebar"][class*="h-10"],
+  .dark button[aria-label="Collapse sidebar"][class*="h-10"] {
+    background-color: rgb(16, 24, 40) !important; /* #101828 - Match navbar background */
+    border-color: transparent !important;
+  }
+
+  .dark button[aria-label="Open sidebar"][class*="h-10"]:hover,
+  .dark button[aria-label="Close sidebar"][class*="h-10"]:hover,
+  .dark button[aria-label="Expand sidebar"][class*="h-10"]:hover,
+  .dark button[aria-label="Collapse sidebar"][class*="h-10"]:hover {
+    background-color: rgb(37, 47, 63) !important; /* Lighter shade for hover - derived from #101828 */
+  }
+
+  /* Override any Tailwind background classes in mobile view */
+  .dark button[aria-label="Open sidebar"][class*="h-10"][class*="dark:bg-gray-800"],
+  .dark button[aria-label="Close sidebar"][class*="h-10"][class*="dark:bg-gray-800"],
+  .dark button[aria-label="Expand sidebar"][class*="h-10"][class*="dark:bg-gray-800"],
+  .dark button[aria-label="Collapse sidebar"][class*="h-10"][class*="dark:bg-gray-800"],
+  .dark button[aria-label="Open sidebar"][class*="h-10"][class*="bg-gray-100"],
+  .dark button[aria-label="Close sidebar"][class*="h-10"][class*="bg-gray-100"],
+  .dark button[aria-label="Expand sidebar"][class*="h-10"][class*="bg-gray-100"],
+  .dark button[aria-label="Collapse sidebar"][class*="h-10"][class*="bg-gray-100"] {
+    background-color: rgb(16, 24, 40) !important; /* #101828 - Match navbar background */
+  }
+}
+
+/* Mobile menu toggle button - Match TailAdmin navbar background in dark mode */
+@media (max-width: 1279px) {
+  /* Target the mobile menu toggle button by aria-label */
+  .dark button[aria-label="Toggle mobile menu"] {
+    background-color: rgb(16, 24, 40) !important; /* #101828 - Match navbar background */
+    border-color: transparent !important;
+  }
+
+  .dark button[aria-label="Toggle mobile menu"]:hover {
+    background-color: rgb(37, 47, 63) !important; /* Lighter shade for hover - derived from #101828 */
+  }
+
+  /* Override Tailwind's dark:bg-gray-800 when button has that class */
+  .dark button[aria-label="Toggle mobile menu"].dark\:bg-gray-800,
+  .dark button[aria-label="Toggle mobile menu"][class*="dark:bg-gray-800"] {
+    background-color: rgb(16, 24, 40) !important; /* #101828 - Match navbar background */
+  }
+
+  .dark button[aria-label="Toggle mobile menu"].dark\:bg-gray-800:hover,
+  .dark button[aria-label="Toggle mobile menu"][class*="dark:bg-gray-800"]:hover {
+    background-color: rgb(37, 47, 63) !important; /* Lighter shade on hover */
+  }
+}
+
+/* No Bootstrap .navbar-btn overrides - components use Tailwind classes */
+
+.dark .user-account strong {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .user-account span {
+  color: rgb(156, 163, 175) !important;
+}
+
+.dark .user-account small {
+  color: rgb(156, 163, 175) !important;
+}
+
+.dark .user-account h6 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .user-account hr {
+  border-top-color: rgb(55, 65, 81) !important;
+}
+
+/* No Bootstrap nav-link, has-arrow, or metismenu overrides - components use Tailwind classes */
+
+/* No Bootstrap .dropdown-menu overrides - components use Tailwind classes directly */
+
+.dark .dashco-notifications-menu .header {
+  color: rgb(156, 163, 175) !important;
+}
+
+.dark .dashco-notifications-menu li {
+  border-bottom-color: rgba(148, 163, 184, 0.25) !important;
+  border-radius: 0 !important; /* No border radius by default */
+}
+
+.dark .dashco-notifications-menu li:hover {
+  border-radius: 0.375rem !important; /* 6px - rounded corners on hover */
+}
+
+.dark .dashco-notifications-menu li > a {
+  color: rgb(148, 163, 184) !important;
+}
+
+.dark .dashco-notifications-menu li > a:hover {
+  background-color: rgb(37, 47, 63) !important; /* Derived from #101828 */
+  border-radius: 0.375rem !important; /* 6px - rounded corners on hover */
+}
+
+.dark .dashco-notifications-menu .media-body {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark .dashco-notifications-menu .more {
+  color: rgb(96, 165, 250) !important;
+}
+
+/* No Bootstrap nav-tabs, nav-link, metismenu, or text utility overrides - components use Tailwind classes */
+
+/* Notification dot dark mode */
+.dark .notification-dot {
+  background-color: rgb(239, 68, 68) !important;
+  border-color: rgb(31, 41, 55) !important;
+}
+
+/* No Bootstrap class overrides - components use Tailwind classes directly */
+
+/* Custom scrollbar for notification dropdown - TailAdmin style */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(203, 213, 225) transparent; /* gray-300 */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(203, 213, 225); /* gray-300 */
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(148, 163, 184); /* gray-400 */
+}
+
+/* Dark mode scrollbar */
+.dark .custom-scrollbar {
+  scrollbar-color: rgb(75, 85, 99) transparent; /* gray-600 */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(75, 85, 99); /* gray-600 */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(107, 114, 128); /* gray-500 */
+}
+
+/* Notification dropdown styling */
+.notification-dropdown {
+  z-index: 1000;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .notification-dropdown {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  background-color: rgb(26, 34, 49) !important; /* #1a2231 */
+}
+
+/* Notification dropdown list items styling */
+.notification-dropdown .custom-scrollbar li {
+  border-radius: 0 !important;
+  margin-bottom: 0;
+}
+
+.notification-dropdown .custom-scrollbar li a {
+  padding: 12px 15px;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark .notification-dropdown .custom-scrollbar li a {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.notification-dropdown .custom-scrollbar li:last-child a {
+  border-bottom: none;
+}
+
+.notification-dropdown .custom-scrollbar li:hover {
+  border-radius: 0.375rem !important;
+}
+
+.dark .notification-dropdown .custom-scrollbar li:hover {
+  background-color: rgb(37, 47, 63) !important;
+}
+
+.notification-dropdown .custom-scrollbar .media {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.notification-dropdown .custom-scrollbar .media-left {
+  flex-shrink: 0;
+}
+
+.notification-dropdown .custom-scrollbar .media-left i {
+  font-size: 18px;
+}
+
+.notification-dropdown .custom-scrollbar .media-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-dropdown .custom-scrollbar .media-body .text {
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.notification-dropdown .custom-scrollbar .media-body .timestamp {
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+}
+
+/* Remove padding-left for lists in notification dropdown */
+.notification-dropdown ul,
+.notification-dropdown ol {
+  padding-left: 0 !important;
+}
+
+.notification-dropdown .custom-scrollbar {
+  padding-left: 0 !important;
+}
+
+/* View All Notification button styling in dark mode */
+.dark .notification-dropdown a[href="dashboard"]:last-child {
+  background-color: rgb(31, 41, 55) !important; /* gray-800 */
+  border-color: rgb(55, 65, 81) !important; /* gray-700 */
+  color: rgb(156, 163, 175) !important; /* gray-400 */
+}
+
+.dark .notification-dropdown a[href="dashboard"]:last-child:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  color: rgb(229, 231, 235) !important; /* gray-200 */
+}
+
+/* Dark mode toggle button - ensure it's always visible above all other elements */
+.dark-mode-toggle-container {
+  z-index: 9999 !important;
+  position: fixed !important;
+  right: 1.5rem !important;
+  bottom: 1.5rem !important;
+  pointer-events: auto !important;
+  transform: translateZ(0) !important; /* Force hardware acceleration and create stacking context */
+}
+
+.dark-mode-toggle-btn {
+  position: relative !important;
+  z-index: 9999 !important;
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  border-radius: 9999px !important;
+}
+
+/* Fallback selectors for compatibility */
+div[class*="fixed"][class*="right-6"][class*="bottom-6"],
+div[class*="fixed"].right-6.bottom-6 {
+  z-index: 9999 !important;
+  position: fixed !important;
+  pointer-events: auto !important;
+}
+
+button[aria-label*="Switch"][aria-label*="mode"],
+button[aria-label*="Switch to light"],
+button[aria-label*="Switch to dark"] {
+  position: relative !important;
+  z-index: 9999 !important;
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  border-radius: 9999px !important;
+}
+
+/* Specific Bootstrap overrides for Tailwind classes */
+button[aria-label*="Switch"][class*="rounded-full"] {
+  border-radius: 9999px !important;
+}
+
+/* Ensure rounded-full buttons have perfect circle border radius - Match TailAdmin */
+button[class*="rounded-full"][class*="h-11"][class*="w-11"],
+button.rounded-full.h-11.w-11,
+button[class*="rounded-full"].h-11.w-11 {
+  border-radius: 9999px !important; /* Perfect circle for h-11 w-11 buttons */
+}
+
+h1.text-\[36px\] { font-size: 36px !important; }
+h1.leading-\[44px\] { line-height: 44px !important; }
+h1[class*="text-[#1d2939]"] { color: #1d2939 !important; }
+h1.font-semibold { font-weight: 600 !important; }
+
+label.group.flex { display: flex !important; }
+label.group.flex[class*="text-[#667085]"],
+label.group.flex[class*="text-[#667085]"] span.font-medium { color: #667085 !important; }
+
+a[href*="password"][class*="text-[#465FFF]"],
+a[href*="signup"][class*="text-[#465FFF]"] { color: #465FFF !important; }
+a[href*="password"]:hover[class*="hover:text-[#3641F5]"],
+a[href*="signup"]:hover[class*="hover:text-[#3641F5]"] { color: #3641F5 !important; }
+
+a[href*="dashboard"][class*="text-slate-500"] { color: rgb(100, 116, 139) !important; }
+a[href*="dashboard"]:hover[class*="hover:text-slate-600"] { color: rgb(71, 85, 105) !important; }
+
+input[type="email"].text-sm,
+input[type="password"].text-sm,
+input[type="text"].text-sm#password {
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+
+div.py-3.sm\:py-5 {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+@media (min-width: 640px) {
+  div.py-3.sm\:py-5 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
+
+button[type="submit"][class*="bg-[#465FFF]"][class*="px-4"][class*="py-3"] {
+  padding: 12px 16px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* Decorative borders for body and wrapper/root */
+/* These create blue accent borders around the page - matching Lucid template */
+/* z-index: 100000 ensures borders are above navbar (navbar z-index: 99999) and sidebar (sidebar z-index: 9999) */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  z-index: 100000 !important;
+  pointer-events: none;
+  background-color: #88BDF2 !important;
+  left: 0;
+  width: 100%;
+  height: 5px;
+}
+
+body::before { 
+  top: 0; 
+}
+
+body::after { 
+  bottom: 0; 
+}
+
+/* Vertical borders (left and right) - using #wrapper if available, fallback to #root */
+#wrapper::before, #wrapper::after, #root::before, #root::after {
+  content: "";
+  position: fixed;
+  z-index: 100000 !important;
+  pointer-events: none;
+  background-color: #88BDF2 !important;
+  top: 0;
+  height: 100vh;
+  width: 5px;
+}
+
+/* Left border - always at left: 0 to match Lucid template */
+#wrapper::before, #root::before { 
+  left: 0 !important;
+}
+
+/* Right border */
+#wrapper::after, #root::after { 
+  right: 0; 
+}
+
+/* On mobile (max-width: 992px), reduce border width to 2px - matching Lucid */
+@media (max-width: 992px) {
+  body::before, body::after {
+    height: 2px;
+  }
+  
+  #wrapper::before, #wrapper::after, #root::before, #root::after {
+    width: 2px;
+  }
+}
+
+
+/* TailAdmin Sidebar Styles */
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 3px;
+}
+
+.sidebar:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(203, 213, 225);
+}
+
+.dark .sidebar:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(75, 85, 99);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Menu Item Styles - Exact TailAdmin spacing */
+.menu-item {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 12px;
+  height: 40px;
+  border-radius: 0.5rem;
+  width: 100%;
+  text-align: left;
+  font-size: 0.875rem; /* 14px - TailAdmin exact */
+  line-height: 1.25rem; /* 20px - TailAdmin exact */
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Menu item active state - set color and background on parent (TailAdmin pattern) */
+.menu-item-active,
+a.menu-item-active,
+button.menu-item-active,
+.menu-item.menu-item-active {
+  color: rgb(59, 130, 246) !important; /* Blue color for active state - text inherits this */
+  background-color: rgba(59, 130, 246, 0.1) !important; /* Light blue background for active state */
+}
+
+/* Menu item inactive state - set color on parent so text inherits (TailAdmin pattern) */
+.menu-item-inactive,
+a.menu-item-inactive,
+button.menu-item-inactive,
+.menu-item.menu-item-inactive {
+  color: rgb(107, 114, 128) !important; /* Gray color for inactive state - text inherits this */
+  background-color: transparent !important; /* No background for inactive state */
+}
+
+/* Menu item hover state - light mode */
+.menu-item:hover:not(.menu-item-active),
+a.menu-item:hover:not(.menu-item-active),
+button.menu-item:hover:not(.menu-item-active),
+.menu-item-inactive:hover {
+  background-color: rgba(107, 114, 128, 0.1) !important; /* Light gray background on hover */
+  color: rgb(59, 130, 246) !important; /* Change to blue on hover */
+}
+
+.menu-item-active:hover {
+  background-color: rgba(59, 130, 246, 0.15) !important; /* Slightly darker blue on hover for active */
+}
+
+/* Dark mode - active state */
+.dark .menu-item-active,
+.dark a.menu-item-active,
+.dark button.menu-item-active,
+.dark .menu-item.menu-item-active {
+  color: rgb(117, 146, 255) !important; /* TailAdmin brand-400 (#7592ff) for dark mode active - text inherits this */
+  background-color: color-mix(in oklab, var(--color-brand-500, #465fff) 12%, transparent) !important; /* TailAdmin pattern: oklab color-mix with 12% opacity */
+}
+
+/* Dark mode - inactive state */
+.dark .menu-item-inactive,
+.dark a.menu-item-inactive,
+.dark button.menu-item-inactive,
+.dark .menu-item.menu-item-inactive {
+  color: rgb(156, 163, 175) !important; /* Lighter gray for dark mode inactive - text inherits this */
+  background-color: transparent !important; /* No background for inactive state */
+}
+
+/* Dark mode - hover state */
+.dark .menu-item:hover:not(.menu-item-active),
+.dark a.menu-item:hover:not(.menu-item-active),
+.dark button.menu-item:hover:not(.menu-item-active),
+.dark .menu-item-inactive:hover {
+  background-color: rgba(156, 163, 175, 0.1) !important; /* Light gray background on hover in dark mode */
+  color: rgb(117, 146, 255) !important; /* Change to TailAdmin brand-400 on hover */
+}
+
+.dark .menu-item-active:hover {
+  background-color: rgba(117, 146, 255, 0.15) !important; /* Slightly darker blue on hover for active in dark mode - TailAdmin brand-400 */
+}
+
+/* Menu item icon styles - works with Tailwind text-xl class */
+.menu-item-icon,
+.menu-item-icon-active,
+.menu-item-icon-inactive {
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+}
+
+/* Ensure icons maintain proper sizing with text-xl */
+.menu-item i.menu-item-icon-active,
+.menu-item i.menu-item-icon-inactive,
+i.menu-item-icon-active,
+i.menu-item-icon-inactive {
+  line-height: 1 !important;
+}
+
+/* Active icon color - Light mode */
+.menu-item-icon-active,
+.menu-item i.menu-item-icon-active,
+i.menu-item-icon-active,
+.menu-item i.fa-solid.menu-item-icon-active,
+.menu-item i.fa-regular.menu-item-icon-active,
+i.fa-solid.menu-item-icon-active,
+i.fa-regular.menu-item-icon-active {
+  color: rgb(59, 130, 246) !important; /* Blue color for active icons */
+}
+
+/* Inactive icon color - Light mode */
+.menu-item-icon-inactive,
+.menu-item i.menu-item-icon-inactive,
+i.menu-item-icon-inactive,
+.menu-item i.fa-solid.menu-item-icon-inactive,
+.menu-item i.fa-regular.menu-item-icon-inactive,
+i.fa-solid.menu-item-icon-inactive,
+i.fa-regular.menu-item-icon-inactive {
+  color: rgb(107, 114, 128) !important; /* Gray color for inactive icons */
+}
+
+/* Dark mode - inactive icons */
+.dark .menu-item-icon-inactive,
+.dark .menu-item i.menu-item-icon-inactive,
+.dark i.menu-item-icon-inactive,
+.dark .menu-item i.fa-solid.menu-item-icon-inactive,
+.dark .menu-item i.fa-regular.menu-item-icon-inactive,
+.dark i.fa-solid.menu-item-icon-inactive,
+.dark i.fa-regular.menu-item-icon-inactive {
+  color: rgb(156, 163, 175) !important; /* Lighter gray for dark mode */
+}
+
+/* Dark mode - active icons */
+.dark .menu-item-icon-active,
+.dark .menu-item i.menu-item-icon-active,
+.dark i.menu-item-icon-active,
+.dark .menu-item i.fa-solid.menu-item-icon-active,
+.dark .menu-item i.fa-regular.menu-item-icon-active,
+.dark i.fa-solid.menu-item-icon-active,
+.dark i.fa-regular.menu-item-icon-active {
+  color: rgb(117, 146, 255) !important; /* TailAdmin brand-400 (#7592ff) for dark mode active icons */
+}
+
+.menu-item-text {
+  flex: 1;
+  font-size: 0.875rem; /* 14px - TailAdmin exact */
+  line-height: 1.25rem; /* 20px - TailAdmin exact */
+  font-weight: 500 !important; /* Font weight 500 for menu items */
+  margin-left: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease-in-out;
+}
+
+/* Menu item text - Active state (Light mode) */
+.menu-item-active .menu-item-text,
+.menu-item-active > .menu-item-text,
+.menu-item.menu-item-active .menu-item-text,
+a.menu-item-active .menu-item-text,
+button.menu-item-active .menu-item-text,
+.menu-item-active span.menu-item-text {
+  color: rgb(59, 130, 246) !important; /* Blue color for active text - matches icon */
+}
+
+/* Menu item text - Inactive state (Light mode) */
+.menu-item-inactive .menu-item-text,
+.menu-item-inactive > .menu-item-text,
+.menu-item.menu-item-inactive .menu-item-text,
+a.menu-item-inactive .menu-item-text,
+button.menu-item-inactive .menu-item-text,
+.menu-item-inactive span.menu-item-text {
+  color: rgb(107, 114, 128) !important; /* Gray color for inactive text - matches icon */
+}
+
+/* Menu item text - Active state (Dark mode) */
+.dark .menu-item-active .menu-item-text,
+.dark .menu-item-active > .menu-item-text,
+.dark .menu-item.menu-item-active .menu-item-text,
+.dark a.menu-item-active .menu-item-text,
+.dark button.menu-item-active .menu-item-text,
+.dark .menu-item-active span.menu-item-text {
+  color: rgb(117, 146, 255) !important; /* TailAdmin brand-400 (#7592ff) for dark mode active text - matches icon */
+}
+
+/* Menu item text - Inactive state (Dark mode) */
+.dark .menu-item-inactive .menu-item-text,
+.dark .menu-item-inactive > .menu-item-text,
+.dark .menu-item.menu-item-inactive .menu-item-text,
+.dark a.menu-item-inactive .menu-item-text,
+.dark button.menu-item-inactive .menu-item-text,
+.dark .menu-item-inactive span.menu-item-text {
+  color: rgb(156, 163, 175) !important; /* Lighter gray for dark mode inactive text - matches icon */
+}
+
+.menu-item-arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.menu-item-arrow-active {
+  transform: rotate(180deg);
+}
+
+.menu-item-arrow-inactive {
+  transform: rotate(0deg);
+}
+
+/* Menu Dropdown Styles - Exact TailAdmin spacing */
+.menu-dropdown,
+ul.menu-dropdown,
+#left-sidebar.sidebar nav ul.menu-dropdown,
+aside#left-sidebar nav ul.menu-dropdown,
+.sidebar nav ul.menu-dropdown {
+  margin-top: 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  padding-left: 36px !important; /* Match TailAdmin pl-9 (36px) */
+  padding-right: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  list-style: none !important; /* Remove default ul list style */
+  margin-bottom: 8px !important; /* Override the 24px margin from parent rule */
+}
+
+.menu-dropdown-item {
+  display: block;
+  padding: 10px 12px;
+  height: 40px;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500 !important; /* Font weight 500 for dropdown items */
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.menu-dropdown-item-active {
+  color: rgb(17, 24, 39);
+  font-weight: 500 !important; /* Font weight 500 for active dropdown items */
+  background-color: rgb(243, 244, 246);
+}
+
+.dark .menu-dropdown-item-active {
+  color: rgb(255, 255, 255);
+  background-color: rgba(55, 65, 81, 0.5);
+}
+
+.menu-dropdown-item-inactive {
+  color: rgb(75, 85, 99);
+}
+
+.dark .menu-dropdown-item-inactive {
+  color: rgb(156, 163, 175);
+}
+
+.menu-dropdown-item:hover {
+  background-color: rgb(243, 244, 246);
+}
+
+.dark .menu-dropdown-item:hover {
+  background-color: rgb(55, 65, 81);
+}
+
+/* Menu Dropdown Badge Styles - Exact TailAdmin */
+.menu-dropdown-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.menu-dropdown-badge-active {
+  color: rgb(3, 152, 85);
+  background-color: rgb(209, 250, 223);
+}
+
+.dark .menu-dropdown-badge-active {
+  color: rgb(34, 197, 94);
+  background-color: rgba(34, 197, 94, 0.2);
+}
+
+.menu-dropdown-badge-inactive {
+  color: rgb(3, 152, 85);
+  background-color: rgb(236, 253, 243);
+}
+
+.dark .menu-dropdown-badge-inactive {
+  color: rgb(34, 197, 94);
+  background-color: rgba(34, 197, 94, 0.15);
+}
+
+/* Menu Group Styles - Exact TailAdmin spacing */
+.menu-group-title {
+  display: block;
+  font-size: 0.75rem !important; /* 12px - TailAdmin exact */
+  line-height: 1.25rem !important; /* 20px - TailAdmin exact */
+  font-weight: normal !important;
+  letter-spacing: normal;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-group-icon {
+  display: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1280px) {
+  .sidebar[class*="xl:w-\[90px\]"] .menu-group-icon {
+    display: block;
+  }
+  
+  .sidebar[class*="xl:w-\[90px\]"] .menu-group-title {
+    display: none;
+  }
+}
+
+/* Sidebar Header Toggle Button */
+.sidebar-header button {
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Promo Box Styles */
+.sidebar .rounded-2xl {
+  border-radius: 1rem;
+}
+
+/* Ensure sidebar transitions smoothly - Match TailAdmin exactly */
+/* Note: Transition is now set in the .sidebar rule below with !important */
+
+/* Logo transitions - smooth fade in/out during sidebar collapse */
+.sidebar-header img {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Menu item arrow transitions - smooth hide/show during collapse */
+.menu-item-arrow {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease-in-out;
+}
+
+/* Menu item badge transitions - smooth hide/show during collapse */
+.menu-dropdown-badge {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Override ALL lucid.css sidebar styles - MUST be after lucid.css import */
+#left-sidebar.sidebar,
+aside#left-sidebar,
+aside.sidebar,
+.sidebar {
+  /* Reset all lucid.css properties */
+  /* Override lucid.css width variable - Tailwind classes will control width */
+  /* Set CSS variable to undefined to prevent it from overriding Tailwind */
+  --sidebar-width: unset;
+  /* CRITICAL: Don't set width here at all - let Tailwind !w-[290px] and !w-[90px] classes control it */
+  /* Removing width completely allows Tailwind's !important classes to work and enables smooth transitions */
+  /* The --sidebar-width: unset above prevents lucid.css from applying its width via CSS variable */
+  min-width: 0 !important;
+  max-width: none !important;
+  top: 0 !important;
+  background-color: white !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  /* Override lucid.css position and left - allow Tailwind classes to control */
+  /* position and left are handled by Tailwind classes (fixed/static, left-0) */
+  /* Ensure sidebar padding is exactly 20px (px-5 = 1.25rem = 20px) */
+  padding-left: 1.25rem !important; /* 20px - TailAdmin exact */
+  padding-right: 1.25rem !important; /* 20px - TailAdmin exact */
+  /* Smooth transition for sidebar - Match TailAdmin exactly */
+  /* Transition all properties that change during collapse/expand (width, padding, etc.) */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.dark #left-sidebar.sidebar,
+.dark aside#left-sidebar,
+.dark aside.sidebar,
+.dark .sidebar {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+}
+
+/* Fix wrapper layout - navbar on top, sidebar and content below */
+/* Apply flex column layout only when wrapper contains dashboard structure */
+#wrapper > .flex.h-screen {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh !important;
+}
+
+/* Dashboard pages with sidebar structure - ensure row layout on desktop */
+@media (min-width: 1280px) {
+  #wrapper > .flex.h-screen {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+  }
+  
+  #wrapper > .flex.h-screen > .flex {
+    display: flex !important;
+    flex: 1 !important;
+    position: relative !important;
+  }
+}
+
+/* Login page - wrapper should not interfere with its layout */
+#wrapper > .min-h-screen.flex {
+  display: flex !important;
+  min-height: 100vh !important;
+}
+
+/* Fix sidebar positioning on desktop - Match Tailadmin demo: static on desktop, fixed on mobile */
+@media (min-width: 1280px) {
+  #wrapper > .flex.h-screen > #left-sidebar.sidebar,
+  #wrapper > .flex.h-screen > aside#left-sidebar,
+  #wrapper > .flex.h-screen > aside.sidebar,
+  #wrapper > .flex.h-screen > .sidebar {
+    /* Allow static positioning on desktop for automatic layout shift */
+    position: static !important;
+    transform: translateX(0) !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: 100vh !important;
+    /* Remove fixed positioning offsets - sidebar should start at left: 0 in flex layout */
+    left: auto !important;
+    top: auto !important;
+    /* Prevent sidebar from flexing - maintain fixed width from Tailwind classes */
+    flex: 0 0 auto !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: auto !important;
+    /* Ensure CSS variable doesn't override Tailwind width classes */
+    --sidebar-width: unset;
+    /* Allow Tailwind width classes to work - xl:w-[290px] or xl:w-[90px] */
+    /* Don't force width: auto - let Tailwind classes control width for smooth transitions */
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+}
+
+/* Mobile sidebar positioning */
+/* Mobile Sidebar Styles - Match TailAdmin mobile behavior */
+@media (max-width: 1279px) {
+  #left-sidebar.sidebar,
+  aside#left-sidebar,
+  aside.sidebar,
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    height: 100vh !important;
+    /* Smooth transition for mobile sidebar slide - only transform for mobile */
+    /* Override the desktop "all" transition with transform-only for mobile */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  /* Sidebar hidden (default on mobile) */
+  aside.sidebar.-translate-x-full,
+  .sidebar.-translate-x-full,
+  #left-sidebar.sidebar.-translate-x-full,
+  aside#left-sidebar.-translate-x-full {
+    transform: translateX(-100%) !important;
+    left: 0 !important;
+  }
+  
+  /* Sidebar visible (when opened on mobile) */
+  aside.sidebar.translate-x-0,
+  .sidebar.translate-x-0,
+  #left-sidebar.sidebar.translate-x-0,
+  aside#left-sidebar.translate-x-0 {
+    transform: translateX(0) !important;
+    left: 0 !important;
+  }
+  
+  /* Default state: sidebar hidden on mobile */
+  aside.sidebar:not(.translate-x-0):not(.-translate-x-full),
+  .sidebar:not(.translate-x-0):not(.-translate-x-full),
+  #left-sidebar.sidebar:not(.translate-x-0):not(.-translate-x-full),
+  aside#left-sidebar:not(.translate-x-0):not(.-translate-x-full) {
+    transform: translateX(-100%) !important;
+    left: 0 !important;
+  }
+  
+  /* Override lucid.css mobile styles */
+  @media (max-width: 1200px) {
+    #left-sidebar.sidebar,
+    aside#left-sidebar {
+      left: 0 !important;
+      top: 0 !important;
+    }
+    
+    .offcanvas-active #left-sidebar.sidebar,
+    .offcanvas-active aside#left-sidebar {
+      left: 0 !important;
+      top: 0 !important;
+      transform: translateX(0) !important;
+    }
+  }
+}
+
+/* Override lucid.css sidebar styles that might conflict */
+#left-sidebar.sidebar,
+aside#left-sidebar,
+aside.sidebar,
+.sidebar[class*="sidebar"] {
+  display: flex !important;
+}
+
+/* Tailadmin Logo Styles - Match exact CSS from Tailadmin demo */
+.sidebar-header {
+  margin-bottom: 0;
+}
+
+/* Sidebar favicon logo styling - white background */
+.sidebar-header img[src="/favicon.png"] {
+  background-color: white !important;
+  border-radius: 0.5rem !important; /* rounded-lg */
+  padding: 0.375rem !important; /* p-1.5 */
+}
+
+.dark .sidebar-header img[src="/favicon.png"] {
+  background-color: white !important;
+}
+
+/* Remove old logo CSS rules that might interfere */
+
+/* Ensure sidebar is not hidden by default styles */
+#wrapper #left-sidebar.sidebar,
+#wrapper aside#left-sidebar,
+#wrapper aside.sidebar,
+#wrapper .sidebar {
+  display: flex !important;
+}
+
+/* Prevent layout-fullwidth from hiding sidebar */
+.layout-fullwidth #wrapper #left-sidebar.sidebar,
+.layout-fullwidth #wrapper aside#left-sidebar {
+  left: auto !important;
+  position: static !important;
+  transform: translateX(0) !important;
+}
+
+/* Ensure sidebar is static on desktop (xl breakpoint) to match Tailadmin demo */
+@media (min-width: 1280px) {
+  .sidebar.xl\:static,
+  aside.sidebar.xl\:static {
+    position: static !important;
+  }
+}
+
+/* Reduce user-account spacing - Override lucid.css margin: 20px */
+#left-sidebar.sidebar .user-account,
+aside#left-sidebar .user-account,
+.sidebar .user-account {
+  margin: 0 !important;
+  margin-bottom: 1.5rem !important;
+  padding: 0 !important;
+}
+
+/* Override lucid.css user-account hr margin */
+#left-sidebar.sidebar .user-account hr,
+aside#left-sidebar .user-account hr,
+.sidebar .user-account hr {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Exact TailAdmin spacing - Sidebar header */
+#left-sidebar.sidebar .sidebar-header,
+aside#left-sidebar .sidebar-header,
+.sidebar .sidebar-header {
+  padding-top: 32px !important;
+  padding-bottom: 28px !important;
+}
+
+/* Exact TailAdmin spacing - Tab content */
+#left-sidebar.sidebar .tab-content,
+aside#left-sidebar .tab-content,
+.sidebar .tab-content {
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Exact TailAdmin spacing - Menu groups (h3) */
+#left-sidebar.sidebar nav h3,
+aside#left-sidebar nav h3,
+.sidebar nav h3 {
+  font-size: 0.75rem !important; /* 12px - TailAdmin exact */
+  line-height: 1.25rem !important; /* 20px - TailAdmin exact */
+  font-weight: normal !important;
+  margin-bottom: 1rem !important; /* 16px - TailAdmin exact (mb-4) */
+  letter-spacing: normal !important;
+}
+
+/* Exact TailAdmin spacing - Menu lists (ul) */
+#left-sidebar.sidebar nav ul[class*="flex"]:not(.menu-dropdown),
+aside#left-sidebar nav ul[class*="flex"]:not(.menu-dropdown),
+.sidebar nav ul[class*="flex"]:not(.menu-dropdown) {
+  margin-bottom: 24px !important;
+  gap: 4px !important;
+  padding: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Exact TailAdmin spacing - Menu items */
+#left-sidebar.sidebar .menu-item,
+aside#left-sidebar .menu-item,
+.sidebar .menu-item {
+  padding: 8px 12px !important;
+  height: 40px !important;
+  gap: 12px !important;
+}
+
+/* Exact TailAdmin spacing - Menu dropdown lists */
+#left-sidebar.sidebar .menu-dropdown,
+aside#left-sidebar .menu-dropdown,
+.sidebar .menu-dropdown {
+  padding-left: 36px !important;
+  margin-top: 8px !important;
+  gap: 4px !important;
+}
+
+/* Exact TailAdmin spacing - Menu dropdown items */
+#left-sidebar.sidebar .menu-dropdown-item,
+aside#left-sidebar .menu-dropdown-item,
+.sidebar .menu-dropdown-item {
+  padding: 10px 12px !important;
+  height: 40px !important;
+}
+
+/* Remove extra spacing from chat and settings tabs */
+#left-sidebar.sidebar .tab-pane,
+aside#left-sidebar .tab-pane,
+.sidebar .tab-pane {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Main content area - TailAdmin style */
+main {
+  flex: 1;
+  min-width: 0;
+  background-color: rgb(249, 250, 251);
+  transition: all 0.3s ease-in-out;
+}
+
+.dark main {
+  background-color: rgb(16, 24, 40) !important; /* TailAdmin #101828 */
+}
+
+/* Ensure main content has proper overflow handling */
+main > div {
+  min-height: calc(100vh - 4rem);
+}
+
+/* No Bootstrap container-fluid override - components use Tailwind classes */
+
+/* Ensure smooth layout transition when sidebar collapses */
+@media (min-width: 1280px) {
+  #wrapper > .flex {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  main {
+    width: auto;
+    flex: 1 1 auto;
+  }
+}
+
+/* No Bootstrap container-fluid overrides - components use Tailwind classes */
+
+/* Navbar Search Form Styles - Matching Lucid Design */
+.navbar-form.search-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+/* Navbar search form - Uses Tailwind classes, no Bootstrap form-control or btn overrides */

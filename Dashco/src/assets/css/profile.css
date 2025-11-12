@@ -1,0 +1,562 @@
+/* Profile Components CSS - Styles from Lucid template */
+
+/* Helper Classes */
+.align-center {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.displayblock {
+  display: block;
+}
+
+.inlineblock {
+  display: inline-block;
+}
+
+.padding-0 {
+  padding: 0 !important;
+}
+
+.margin-0 {
+  margin: 0 !important;
+}
+
+/* Margin Classes */
+.m-b-0 { margin-bottom: 0px; }
+.m-b-5 { margin-bottom: 5px; }
+.m-b-10 { margin-bottom: 10px; }
+.m-b-15 { margin-bottom: 15px; }
+.m-b-20 { margin-bottom: 20px; }
+.m-b-25 { margin-bottom: 25px; }
+.m-b-30 { margin-bottom: 30px; }
+
+.m-t-0 { margin-top: 0px; }
+.m-t-5 { margin-top: 5px; }
+.m-t-10 { margin-top: 10px; }
+.m-t-15 { margin-top: 15px; }
+.m-t-20 { margin-top: 20px; }
+
+.m-l-5 { margin-left: 5px; }
+.m-l-10 { margin-left: 10px; }
+.m-r-5 { margin-right: 5px; }
+.m-r-10 { margin-right: 10px; }
+.m-r-15 { margin-right: 15px; }
+.m-r-20 { margin-right: 20px; }
+
+/* Padding Classes */
+.p-15 { padding: 15px !important; }
+.p-20 { padding: 20px !important; }
+.p-t-15 { padding-top: 15px; }
+.p-r-15 { padding-right: 15px; }
+
+/* Card Styles */
+.card {
+  background: #ffffff;
+  transition: 0.5s;
+  border: 0;
+  margin-bottom: 30px;
+  display: inline-block;
+  border-radius: 0.55rem;
+  position: relative;
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card .header {
+  color: #212529;
+  padding: 20px;
+  position: relative;
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+.card .header .header-dropdown {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card .header .header-dropdown li {
+  display: inline-block;
+}
+
+.card .header .header-dropdown li a {
+  padding: 5px 10px;
+  display: block;
+}
+
+.card .header h2 {
+  margin: 0 !important;
+  font-size: 2rem !important;
+  color: #212529 !important;
+  position: relative;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+}
+
+.card .header h2 small {
+  display: block;
+  font-size: 13px;
+  margin-top: 5px;
+  color: #6c757d;
+  line-height: 15px;
+  font-weight: 700;
+}
+
+.card .body {
+  color: #212529;
+  padding: 20px;
+  font-weight: 400;
+}
+
+/* Profile Header */
+.profile-header {
+  text-align: center;
+}
+
+.profile-header .profile-image {
+  margin-bottom: 20px;
+}
+
+/* Profile Image Widget */
+.w_profile {
+  position: relative;
+}
+
+.w_profile .profile-image img {
+  border-radius: 50%;
+  width: 180px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.w_profile .job_post {
+  display: block;
+}
+
+.w_profile .social-icon a {
+  margin: 0 5px;
+}
+
+@media (max-width: 576px) {
+  .w_profile {
+    text-align: center;
+  }
+  
+  .w_profile .profile-image {
+    margin-bottom: 20px;
+  }
+}
+
+/* Profile State/Icon Card */
+.profile_state {
+  text-align: center !important;
+  margin: 0;
+  padding: 0;
+}
+
+.profile_state li {
+  list-style: none !important;
+  padding: 0;
+}
+
+.profile_state .body {
+  text-align: center !important;
+  padding: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.profile_state i {
+  font-size: 25px !important;
+  display: inline-block !important;
+  margin: 0 auto 10px auto !important;
+  color: #5b7dfa;
+  text-align: center !important;
+  width: auto !important;
+  line-height: 1 !important;
+}
+
+/* Font Awesome 7 icon support */
+.profile_state i.fa-solid {
+  font-family: 'Font Awesome 7 Free' !important;
+  font-weight: 900 !important;
+}
+
+.profile_state i.fa-regular {
+  font-family: 'Font Awesome 7 Free' !important;
+  font-weight: 400 !important;
+}
+
+.profile_state i.fa-brands {
+  font-family: 'Font Awesome 7 Brands' !important;
+  font-weight: 400 !important;
+}
+
+.profile_state h5 {
+  margin: 0 !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: #212529;
+}
+
+.profile_state small {
+  display: block !important;
+  color: #8892a0 !important;
+  font-size: 13px !important;
+  margin-top: 5px !important;
+}
+
+/* Dark mode for profile state */
+.dark .profile_state h5 {
+  color: #f9fafb !important;
+}
+
+.dark .profile_state i {
+  color: #60a5fa !important;
+}
+
+/* Followers/Right Chat List - Exact Lucid Styling */
+.right_chat li {
+  position: relative;
+  list-style: none;
+}
+
+.right_chat li.offline .status {
+  background: #FF9800;
+}
+
+.right_chat li.online .status {
+  background: #8BC34A;
+}
+
+.right_chat li.me .status {
+  background: #0498bd;
+}
+
+.right_chat .media {
+  margin-bottom: 20px;
+}
+
+.right_chat .media .media-object {
+  margin-right: 10px;
+  width: 40px;
+  border-radius: 40px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.right_chat .media .name {
+  color: #212529;
+  margin: 0px;
+  display: block;
+  font-size: 15px;
+}
+
+.right_chat .media .message {
+  color: #6c757d;
+  display: inline-block;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+}
+
+.right_chat .media .status {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  position: absolute;
+  right: 0;
+  top: 5px;
+  border: 2px solid #fff;
+}
+
+.right_chat li a:hover .media-object {
+  border-color: #5b7dfa;
+}
+
+/* Media Object */
+.media {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.media-body {
+  flex: 1;
+  color: #495057;
+  font-size: 14px;
+  position: relative;
+}
+
+.media-body .media-heading {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #212529;
+}
+
+/* Input Group Styling */
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+
+.input-group-prepend {
+  display: flex;
+}
+
+.input-group-text {
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group-prepend + .form-control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Badge Styling */
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+.badge-outline {
+  background: transparent;
+  border: 2px solid;
+}
+
+/* Status badge override - for circular status indicators */
+.badge-outline.status {
+  padding: 0 !important;
+  font-size: 0 !important;
+  width: 11px !important;
+  height: 11px !important;
+  border-radius: 50% !important;
+  border: 2px solid #fff !important;
+}
+
+/* Simple Line Icons support */
+.icon-magnifier:before {
+  content: "\e090";
+  font-family: 'simple-line-icons';
+  font-size: 14px;
+}
+
+/* Dark mode input */
+.dark .input-group-text {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+.dark .form-control {
+  background-color: #1f2937;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+.dark .form-control:focus {
+  background-color: #1f2937;
+  border-color: #60a5fa;
+  color: #f9fafb;
+}
+
+/* Dark mode */
+.dark .right_chat .media .name {
+  color: #f9fafb;
+}
+
+.dark .right_chat .media .message {
+  color: #9ca3af;
+}
+
+.dark .media-body {
+  color: #e5e7eb;
+}
+
+.dark .media-body .media-heading {
+  color: #f9fafb;
+}
+
+/* Profile Page Specific */
+.profilepage_1 .tab-content {
+  padding: 0;
+}
+
+.profilepage_1 .profile-heading {
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.profilepage_1 .user-photo {
+  width: 90px;
+  border: 2px solid #e2e2e2;
+}
+
+.profilepage_1 .profile-section {
+  margin-bottom: 70px;
+}
+
+.profilepage_2 .profile-header {
+  text-align: center;
+}
+
+.profilepage_2 .profile-header .profile-image {
+  margin-bottom: 20px;
+}
+
+/* Dark Mode Support */
+.dark .card {
+  background: #171f2e !important;
+  border-color: #171f2e !important;
+}
+
+/* Dark mode for rounded metric cards */
+.dark .rounded-2xl.bg-white {
+  background: #171f2e !important;
+  border-color: #171f2e !important;
+}
+
+/* Dark mode for summary/info cards */
+.dark .bg-gray-50 {
+  background: #171f2e !important;
+}
+
+.dark .bg-gray-100 {
+  background: #171f2e !important;
+}
+
+.dark .bg-gray-800 {
+  background: #171f2e !important;
+}
+
+.dark .rounded-lg.bg-gray-50 {
+  background: #171f2e !important;
+}
+
+.dark .rounded-lg.bg-gray-100 {
+  background: #171f2e !important;
+}
+
+.dark .rounded-lg.bg-gray-800 {
+  background: #171f2e !important;
+}
+
+/* Dark mode for table badges and elements */
+.dark .bg-gray-200 {
+  background: #2d3748 !important;
+}
+
+.dark .bg-gray-700 {
+  background: #2d3748 !important;
+}
+
+/* Dark mode table borders */
+.dark .border-gray-200 {
+  border-color: #2d3748 !important;
+}
+
+.dark .border-gray-800 {
+  border-color: #2d3748 !important;
+}
+
+/* Dark mode table hover */
+.dark tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Dark mode table headers - fully white */
+.dark th {
+  color: #ffffff !important;
+}
+
+/* Dark mode table cells - fully white */
+.dark td {
+  color: #ffffff !important;
+}
+
+.dark .card .header {
+  color: #f9fafb;
+}
+
+.dark .card .header h2 {
+  color: #f9fafb !important;
+}
+
+.dark .card .header h2 small {
+  color: #9ca3af;
+}
+
+.dark .card .body {
+  color: #e5e7eb;
+  background: transparent;
+}
+
+.dark .w_profile .profile-image img {
+  border-color: #374151;
+}
